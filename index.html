@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf7f3">
+<meta name="color-scheme" content="light">
+<title>Springis · Floristería y decoración de eventos</title>
+<meta name="description" content="Ramilletes, arreglos florales y decoración para bodas, bautizos y eventos. Pide fácil por WhatsApp o solicita la cotización de tu evento.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&display=swap">
+<style>
+/* Colores provisionales: se cambian aquí cuando tengamos los de la marca */
+:root{
+  --bg:#fbf7f3;--surface:#fff;--ink:#2b2a27;--muted:#76716a;--line:#ece3da;
+  --accent:#b8476a;--accent-ink:#fff;--accent-dark:#943556;--soft:#f8e7ec;
+  --leaf:#3f6b4f;--leaf-soft:#e7efe8;--err:#b3261e;
+  --r:18px;--sombra:0 6px 24px rgba(60,35,30,.08);
+  --t:"Fraunces",Georgia,serif;--b:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--b);overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--t);font-weight:500;line-height:1.15;margin:0}
+
+/* Barra superior */
+.top{position:sticky;top:0;z-index:20;background:rgba(251,247,243,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.borde{border-bottom-color:var(--line)}
+.top-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
+.logo{border:0;background:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--t);font-size:1.55rem;font-weight:700;color:var(--accent);letter-spacing:-.01em}
+.logo img{height:38px;width:auto}
+.top-acc{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);padding:12px 20px;font-weight:700;cursor:pointer;text-decoration:none;transition:background .15s,transform .15s}
+.btn:hover{background:var(--accent-dark)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.ghost:hover{background:var(--soft)}
+.btn.leaf{background:var(--leaf)}
+.btn.leaf:hover{background:#30553e}
+.btn.chico{padding:8px 14px;font-size:.9rem}
+.btn.ancho{width:100%}
+.btn[disabled]{opacity:.55;cursor:wait}
+.icono{width:42px;height:42px;padding:0;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--line);border:0;cursor:pointer;display:grid;place-items:center;position:relative;color:var(--ink)}
+.icono svg{width:20px;height:20px}
+[hidden]{display:none!important}
+.icono .n{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;display:grid;place-items:center;padding:0 5px}
+
+main{max-width:1100px;margin:0 auto;padding:0 16px 120px}
+
+/* Portada */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:28px 0 18px}
+.kick{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf);margin:0 0 10px}
+.hero h1{font-size:clamp(2.1rem,6vw,3.6rem);letter-spacing:-.02em}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p.sub{color:var(--muted);font-size:1.05rem;max-width:34em;margin:14px 0 22px}
+.hero .acc{display:flex;gap:10px;flex-wrap:wrap}
+.hero .foto{aspect-ratio:4/3.4;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 30% 30%,#fbd9e2,transparent 60%),radial-gradient(circle at 75% 70%,#dbe8dc,transparent 55%),var(--soft);display:grid;place-items:center;font-size:5.5rem}
+.hero .foto img{width:100%;height:100%;object-fit:cover}
+.sellos{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0;padding:0;list-style:none;font-size:.86rem;color:var(--muted)}
+.sellos li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+
+/* Pestañas de secciones (pegadas arriba al bajar) */
+.tabs-wrap{position:sticky;top:62px;z-index:15;background:var(--bg);margin:0 -16px;padding:8px 16px 10px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:0;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.tab[aria-current="true"]{background:var(--ink);color:#fff;box-shadow:none}
+.tab.ev{background:var(--leaf-soft);box-shadow:inset 0 0 0 1.5px #cfe0d2;color:var(--leaf)}
+.tab.ev[aria-current="true"]{background:var(--leaf);color:#fff}
+.buscar{position:relative;margin:12px 0 0}
+.buscar input[type=search]{width:100%;border:0;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--line);border-radius:999px;padding:11px 42px;min-height:44px}
+.buscar input[type=search]:focus{box-shadow:inset 0 0 0 2px var(--accent)}
+.buscar input::-webkit-search-cancel-button{display:none}
+.buscar svg{position:absolute;left:14px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--muted)}
+.buscar .limpiar{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem;color:var(--muted)}
+
+/* Catálogo estilo app de pedidos */
+.sec{padding-top:26px;scroll-margin-top:170px}
+.sec > h2{font-size:1.55rem;display:flex;align-items:center;gap:10px;margin:0 0 4px}
+.sec > p.sd{color:var(--muted);margin:0 0 14px;font-size:.95rem}
+.lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.prod{display:grid;grid-template-columns:1fr 116px;gap:14px;background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--sombra);cursor:pointer;text-align:left;border:0;width:100%;transition:transform .15s,box-shadow .15s;position:relative}
+.prod:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(60,35,30,.12)}
+.prod h3{font-family:var(--b);font-weight:700;font-size:1rem;margin:0 0 4px}
+.prod .d{color:var(--muted);font-size:.88rem;margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.precio{font-weight:700;font-size:1.02rem}
+.precio s{color:var(--muted);font-weight:400;font-size:.88rem;margin-right:6px}
+.precio.consulta{color:var(--leaf);font-size:.92rem}
+.etq{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:2px 7px;margin-bottom:6px;margin-right:4px;background:var(--soft);color:var(--accent-dark)}
+.etq.verde{background:var(--leaf-soft);color:var(--leaf)}
+.ph{position:relative;width:116px;height:116px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--soft),var(--leaf-soft));display:grid;place-items:center;font-size:2.6rem}
+.ph img{width:100%;height:100%;object-fit:cover}
+.mas{position:absolute;right:6px;bottom:6px;width:36px;height:36px;border-radius:50%;border:0;background:var(--surface);color:var(--accent);font-size:1.4rem;font-weight:700;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:grid;place-items:center}
+.paso{position:absolute;left:6px;right:6px;bottom:6px;display:flex;align-items:center;justify-content:space-between;background:var(--accent);color:#fff;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.paso button{border:0;background:none;color:#fff;width:34px;height:34px;font-size:1.2rem;font-weight:700;cursor:pointer}
+.paso b{font-size:.95rem}
+.vacio{text-align:center;color:var(--muted);padding:30px 10px}
+
+/* Eventos */
+.eventos{margin-top:48px;background:var(--leaf);color:#f3f7f2;border-radius:30px;padding:clamp(22px,4vw,44px);scroll-margin-top:140px;position:relative;overflow:hidden}
+.eventos::after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06)}
+.eventos .kick{color:#cfe3d3}
+.eventos h2{font-size:clamp(1.8rem,4.5vw,2.6rem);max-width:16em}
+.eventos > p{color:#dfeadf;max-width:40em;margin:12px 0 22px}
+.tipos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:0 0 26px}
+.tipo{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px;color:inherit;text-align:left;cursor:pointer;transition:background .15s}
+.tipo:hover{background:rgba(255,255,255,.18)}
+.tipo span{font-size:1.6rem;display:block;margin-bottom:6px}
+.tipo b{display:block}
+.tipo small{color:#d3e2d5;font-size:.84rem;line-height:1.35;display:block;margin-top:2px}
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 26px;padding:0;list-style:none;counter-reset:p}
+.pasos li{counter-increment:p;background:#f3f7f2;color:var(--ink);border-radius:16px;padding:16px}
+.pasos li::before{content:counter(p);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--leaf-soft);color:var(--leaf);font-weight:700;margin-bottom:8px}
+.pasos b{display:block}
+.pasos small{color:var(--muted)}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:0 0 24px}
+.gal{position:relative;border:0;padding:0;border-radius:16px;overflow:hidden;aspect-ratio:1;background:rgba(255,255,255,.1);cursor:pointer;color:#fff}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.gal:hover img{transform:scale(1.04)}
+.gal span{position:absolute;inset:auto 0 0;padding:28px 10px 10px;background:linear-gradient(transparent,rgba(0,0,0,.6));font-weight:700;font-size:.88rem;text-align:left}
+.eventos .btn{background:#fff;color:var(--leaf)}
+.eventos .btn:hover{background:#eef4ef}
+
+/* Preguntas y contacto */
+.faq{background:var(--surface);border-radius:14px;padding:4px 16px;margin:0 0 8px;box-shadow:var(--sombra)}
+.faq summary{cursor:pointer;font-weight:700;padding:12px 0;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.faq summary::after{content:"+";color:var(--accent);font-size:1.3rem;line-height:1}
+.faq[open] summary::after{content:"−"}
+.faq p{margin:0 0 14px;color:var(--muted)}
+.contacto{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.contacto div{background:var(--surface);border-radius:14px;padding:14px 16px;box-shadow:var(--sombra)}
+.contacto b{display:block;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.pie{text-align:center;color:var(--muted);font-size:.86rem;padding:40px 0 0}
+.pie .logo{margin:0 auto 6px;justify-content:center}
+
+/* Barra flotante del carrito */
+.barra{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translate(-50%,140%);z-index:30;width:min(560px,calc(100% - 24px));display:flex;align-items:center;gap:12px;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:10px 10px 10px 18px;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:transform .3s cubic-bezier(.2,.9,.3,1.2)}
+.barra.ver{transform:translate(-50%,0)}
+.barra .c{background:var(--accent);border-radius:999px;min-width:30px;height:30px;display:grid;place-items:center;font-weight:700;font-size:.9rem;padding:0 8px}
+.barra .t{font-weight:700;margin-left:auto;background:#fff;color:var(--ink);border-radius:999px;padding:8px 16px}
+.barra.pop{animation:pop .35s}
+@keyframes pop{40%{transform:translate(-50%,0) scale(1.04)}}
+
+/* Pantallas de pedido y cotización */
+.panel{max-width:640px;margin:0 auto;padding:22px 0 0}
+.volver{border:0;background:none;padding:6px 0;margin:0 0 6px;cursor:pointer;color:var(--muted);font-weight:700;display:inline-flex;gap:6px;align-items:center}
+.panel h1{font-size:clamp(1.8rem,5vw,2.4rem);margin:0 0 6px}
+.panel > p.sd{color:var(--muted);margin:0 0 18px}
+.caja{background:var(--surface);border-radius:var(--r);padding:16px;box-shadow:var(--sombra);margin:0 0 12px}
+.caja h2{font-family:var(--b);font-weight:700;font-size:1rem;margin:0 0 4px}
+.linea{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.linea:last-child{border-bottom:0}
+.linea .ph{width:56px;height:56px;border-radius:12px;font-size:1.5rem}
+.linea .paso{position:static;background:var(--soft);color:var(--accent-dark);box-shadow:none;width:108px}
+.linea .paso button{color:var(--accent-dark)}
+.linea small{color:var(--muted)}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:1.15rem;padding:12px 0 0}
+.nota{color:var(--muted);font-size:.86rem;margin:6px 0 0}
+label{display:block;font-weight:700;font-size:.9rem;margin:14px 0 6px}
+label:first-child{margin-top:4px}
+label small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=tel],input[type=date],input[type=time],input[type=number],input[type=search],select,textarea{width:100%;border:0;background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--line);border-radius:12px;padding:12px 14px;min-height:46px}
+input:focus,select:focus,textarea:focus{box-shadow:inset 0 0 0 2px var(--accent);outline:0}
+textarea{resize:vertical}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.ops{display:flex;flex-wrap:wrap;gap:8px}
+.op{position:relative;margin:0;font-weight:400}
+.op input{position:absolute;opacity:0;pointer-events:none}
+.op span{display:inline-block;border-radius:999px;padding:9px 14px;background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--line);cursor:pointer;font-size:.92rem;font-weight:500}
+.op input:checked + span{background:var(--accent);color:#fff;box-shadow:none}
+.op input:focus-visible + span{outline:3px solid var(--accent);outline-offset:2px}
+.err{color:var(--err);font-weight:700;min-height:1.4em;margin:8px 0}
+.listo{text-align:center;padding:40px 0}
+.listo .ok{width:76px;height:76px;border-radius:50%;background:var(--leaf-soft);color:var(--leaf);display:grid;place-items:center;margin:0 auto 16px;font-size:2.2rem}
+.listo .num{font-family:var(--t);font-size:2.6rem;color:var(--accent);margin:4px 0 12px}
+.listo p{color:var(--muted);max-width:30em;margin:0 auto 18px}
+.listo .acc{display:flex;flex-direction:column;gap:10px;align-items:center}
+.ref{display:flex;gap:10px;align-items:center;background:var(--leaf-soft);border-radius:12px;padding:8px 12px;margin:0 0 4px}
+.ref img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+.ref button{margin-left:auto;border:0;background:none;cursor:pointer;color:var(--leaf);font-weight:700}
+
+/* Ficha del producto */
+dialog.ficha{border:0;padding:0;margin:auto;width:min(520px,100%);max-width:100%;max-height:min(92vh,860px);border-radius:24px;background:var(--surface);color:var(--ink);overflow:hidden}
+dialog.ficha::backdrop{background:rgba(30,20,18,.5)}
+.ficha-in{display:flex;flex-direction:column;max-height:inherit}
+.fotos{position:relative;flex:none}
+.car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;aspect-ratio:1;max-height:52vh;background:linear-gradient(135deg,var(--soft),var(--leaf-soft))}
+.car::-webkit-scrollbar{display:none}
+.car > *{flex:none;width:100%;height:100%;scroll-snap-align:center;object-fit:cover}
+.car .emo{display:grid;place-items:center;font-size:6rem}
+.puntos{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.puntos i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6)}
+.puntos i.on{background:#fff;width:18px;border-radius:4px}
+.cerrar{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.95);cursor:pointer;font-size:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.ficha-tx{padding:18px 20px 8px;overflow-y:auto}
+.ficha-tx h2{font-size:1.6rem;margin:0 0 6px}
+.ficha-tx p{color:var(--muted);margin:8px 0 0;white-space:pre-line}
+.ficha-pie{display:flex;gap:10px;align-items:center;padding:14px 20px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.ficha-pie .paso{position:static;background:var(--soft);color:var(--accent-dark);box-shadow:none;width:120px;flex:none}
+.ficha-pie .paso button{color:var(--accent-dark)}
+.ficha-pie .btn{flex:1}
+
+/* Animaciones suaves */
+.ap{animation:sube .5s both}
+@keyframes sube{from{opacity:0;transform:translateY(12px)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;gap:18px;padding-top:16px}
+  .hero .foto{order:-1;aspect-ratio:16/10;font-size:4rem;border-radius:22px}
+  .lista{grid-template-columns:1fr}
+  .pasos{grid-template-columns:1fr}
+  .tipos{grid-template-columns:1fr 1fr;gap:8px}
+  .tipo{padding:12px}
+  .tipo small{display:none}
+  .tabs-wrap{top:60px}
+  dialog.ficha{margin:auto 0 0;width:100%;border-radius:24px 24px 0 0;max-height:94vh}
+  .galeria{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:400px){
+  .prod{grid-template-columns:1fr 100px}
+  .ph{width:100px;height:100px}
+  .dos{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="top-in">
+    <button class="logo" id="inicio" aria-label="Springis, ir al inicio"></button>
+    <div class="top-acc">
+      <a class="btn leaf chico" href="#cotizar" id="topCot">Cotizar evento</a>
+      <button class="icono" id="cartBtn" aria-label="Ver mi pedido"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="n" id="cartN" hidden>0</span></button>
+    </div>
+  </div>
+</header>
+<main id="app"></main>
+<button class="barra" id="barra" aria-label="Ver mi pedido"><span class="c" id="barraN">0</span><span>Ver mi pedido</span><span class="t" id="barraT">$0.00</span></button>
+
+<dialog class="ficha" id="ficha" aria-labelledby="fichaTit">
+  <div class="ficha-in" id="fichaIn"></div>
+</dialog>
+
+<script src="compartido.js?v=1"></script>
+<script>
+/* ===== CONFIGURACIÓN: edita aquí ===== */
+const CONFIG = {
+  tienda: "Springis",
+  logo: "",                    // ruta del logo, ej. "imagenes/logo.png" (vacío = nombre en letras)
+  fotoPortada: "",             // foto grande de la portada, ej. "imagenes/portada.jpg"
+  resena: "Ramilletes armados a mano, arreglos para regalar y decoración floral para tus eventos. Elige, pide y nosotros nos encargamos del resto.",
+  whatsapp: "",                // número con código de país, sin + ni espacios (ej. 584241234567)
+  instagram: "",               // ej. "@springis"
+  ciudad: "",                  // ej. "Valencia, Carabobo"
+  horario: "",                 // ej. "Lunes a sábado, 9:00 a. m. a 6:00 p. m."
+  anticipacion: "Te recomendamos pedir con al menos 24 horas de anticipación.",
+  delivery: "El costo del delivery depende de la zona. Te lo confirmamos por WhatsApp.",
+  pagos: ["Pago móvil", "Transferencia", "Zelle", "Binance", "Efectivo"]
+};
+
+// Tipos de evento que se muestran en la sección de cotizaciones
+const EVENTOS = [
+  {e:"💍", n:"Bodas", d:"Ramo de novia, arcos florales, iglesia, salón y centros de mesa."},
+  {e:"🕊️", n:"Bautizos y comuniones", d:"Decoración delicada para la iglesia y la celebración."},
+  {e:"🎂", n:"Cumpleaños y 15 años", d:"Mesa principal, centros de mesa y detalles florales."},
+  {e:"🍼", n:"Baby showers", d:"Flores en tonos suaves y decoración de mesas."},
+  {e:"🏢", n:"Eventos corporativos", d:"Recepciones, lanzamientos y arreglos para oficinas."},
+  {e:"✨", n:"Otro evento", d:"Cuéntanos tu idea y la armamos contigo."}
+];
+const SERVICIOS = ["Centros de mesa", "Ramo de novia", "Arco o pared floral", "Mesa principal", "Iglesia o ceremonia", "Flores para la torta", "Boutonnieres y corsages", "Recuerdos o detalles"];
+const PRESUPUESTOS = ["Menos de $100", "$100 a $300", "$300 a $600", "Más de $600", "Aún no lo sé"];
+
+const FAQ = [
+  ["¿Con cuánta anticipación debo pedir?", "Para ramilletes y arreglos, idealmente 24 horas antes. Para eventos, escríbenos con al menos 2 o 3 semanas para apartar la fecha."],
+  ["¿Hacen entregas a domicilio?", "Sí. El costo depende de la zona y te lo confirmamos por WhatsApp antes de cerrar el pedido. También puedes retirarlo."],
+  ["¿Puedo personalizar un ramillete?", "Claro. Escríbenos los colores o flores que prefieres en las notas del pedido y te confirmamos disponibilidad."],
+  ["¿Cómo se cotiza un evento?", "Llena el formulario de cotización con la fecha, el lugar y lo que necesitas. Te escribimos por WhatsApp con una propuesta y el precio."],
+  ["¿Las flores son naturales?", "Sí, trabajamos con flores naturales de temporada. Si alguna no está disponible, te proponemos una opción parecida."]
+];
+
+// Lista de respaldo: los productos reales se cargan desde Supabase (panel de admin).
+// Precios de ejemplo hasta tener los reales. c = sección · p = precio (null = por confirmar) · e = emoji si no hay foto
+let PRODUCTOS = [
+  {id:1, c:"ramilletes", n:"Ramillete de rosas rojas", d:"Doce rosas rojas con follaje y envoltura de papel coreano.", p:35, imgs:[], e:"🌹", nuevo:false},
+  {id:2, c:"ramilletes", n:"Ramillete primaveral", d:"Mezcla de flores de temporada en tonos pastel.", p:28, imgs:[], e:"💐", nuevo:true},
+  {id:3, c:"ramilletes", n:"Ramillete de girasoles", d:"Girasoles con margaritas y lazo de tela.", p:25, imgs:[], e:"🌻", nuevo:false},
+  {id:4, c:"ramilletes", n:"Mini ramillete", d:"Un detalle pequeño para cualquier ocasión.", p:12, imgs:[], e:"🌸", nuevo:false},
+  {id:5, c:"arreglos", n:"Arreglo en base de cerámica", d:"Rosas, hortensias y follaje en base decorativa.", p:40, imgs:[], e:"🌷", nuevo:false},
+  {id:6, c:"arreglos", n:"Arreglo de condolencia", d:"Flores blancas en arreglo sobrio.", p:null, imgs:[], e:"🤍", nuevo:false},
+  {id:7, c:"cajas", n:"Caja de rosas", d:"Rosas en caja redonda con tapa y tarjeta.", p:30, imgs:[], e:"🎁", nuevo:false},
+  {id:8, c:"cajas", n:"Caja de flores y chocolates", d:"Flores de temporada con bombones.", p:38, imgs:[], e:"🍫", nuevo:false},
+  {id:9, c:"centros", n:"Centro de mesa clásico", d:"Arreglo bajo para mesas de 8 a 10 personas. Precio por unidad.", p:18, imgs:[], e:"🕯️", nuevo:false},
+  {id:10, c:"centros", n:"Centro de mesa alto", d:"Base de cristal alta con flores colgantes. Precio por unidad.", p:null, imgs:[], e:"🥂", nuevo:false}
+];
+/* ===== fin de la configuración ===== */
+
+const $ = s => document.querySelector(s);
+const usd = n => "$" + Number(n).toFixed(2);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm = t => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const conSB = () => !!(SUPABASE.url && SUPABASE.key);
+const wa = txt => "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(txt);
+const lee = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k) || "null"); return v ?? d; } catch (e) { return d; } };
+const guarda = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+
+let cart = lee("springis-cart", {});
+const f = Object.assign({nombre:"", tel:"", entrega:"delivery", dir:"", fecha:"", hora:"", metodo:"", tarjeta:"", nota:""}, lee("springis-datos", {}));
+const q = {tipo:"", fecha:"", lugar:"", invitados:"", servicios:[], estilo:"", presupuesto:"", ref:"", refImg:"", detalles:""};
+let busqueda = "", ultimo = {url:"", num:null};
+
+const emoji = p => p.e || (CATS.find(c => c.id === p.c) || {}).e || "🌸";
+const vendibles = () => PRODUCTOS.filter(p => p.c !== "eventos");
+const items = () => vendibles().filter(p => cart[p.id] && p.p != null).map(p => ({...p, q: cart[p.id]}));
+const total = () => items().reduce((s, i) => s + i.p * i.q, 0);
+const cuenta = () => items().reduce((s, i) => s + i.q, 0);
+const fotoHTML = (p, cls = "") => p.imgs && p.imgs.length ? `<img src="${esc(p.imgs[0])}" alt="" loading="lazy"${cls}>` : `<span aria-hidden="true">${esc(emoji(p))}</span>`;
+const hoy = () => new Date().toLocaleDateString("en-CA");
+
+/* ===== Carrito ===== */
+function cambiar(id, d){
+  const p = PRODUCTOS.find(x => x.id == id); if (!p || p.p == null) return;
+  const n = Math.max(0, Math.min(99, (cart[id] || 0) + d));
+  if (n) cart[id] = n; else delete cart[id];
+  guarda("springis-cart", cart);
+  actualizarCarrito(d > 0);
+}
+function actualizarCarrito(pop){
+  const n = cuenta();
+  $("#cartN").textContent = n; $("#cartN").hidden = !n;
+  $("#barraN").textContent = n; $("#barraT").textContent = usd(total());
+  const b = $("#barra"); b.classList.toggle("ver", n > 0 && ruta() === "");
+  if (pop){ b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); }
+  // refresca los botones de cantidad sin redibujar toda la página
+  document.querySelectorAll("[data-ctl]").forEach(el => { el.innerHTML = control(el.dataset.ctl); });
+  if (ruta() === "carrito") pintar();
+}
+function control(id){
+  const p = PRODUCTOS.find(x => x.id == id), n = cart[id] || 0;
+  if (!p || p.p == null) return "";
+  return n ? `<span class="paso"><button data-menos="${p.id}" aria-label="Quitar uno">−</button><b>${n}</b><button data-mas="${p.id}" aria-label="Agregar otro">+</button></span>`
+           : `<button class="mas" data-mas="${p.id}" aria-label="Agregar ${esc(p.n)}">+</button>`;
+}
+
+/* ===== Catálogo ===== */
+function precioHTML(p){
+  if (p.p == null) return `<span class="precio consulta">Precio por confirmar</span>`;
+  return `<span class="precio">${p.antes != null ? `<s>${usd(p.antes)}</s>` : ""}${usd(p.p)}</span>`;
+}
+function tarjeta(p){
+  const etq = (p.antes != null ? '<span class="etq">Oferta</span>' : "") + (p.nuevo ? '<span class="etq verde">Nuevo</span>' : "");
+  return `<article class="prod ap" data-abrir="${p.id}" role="button" tabindex="0" aria-label="${esc(p.n)}">
+    <div>${etq ? `<div>${etq}</div>` : ""}<h3>${esc(p.n)}</h3>${p.d ? `<p class="d">${esc(p.d)}</p>` : ""}${precioHTML(p)}</div>
+    <div class="ph">${fotoHTML(p)}<span data-ctl="${p.id}">${control(p.id)}</span></div>
+  </article>`;
+}
+function secciones(){
+  const base = vendibles();
+  const filtrados = busqueda ? base.filter(p => norm(p.n + " " + p.d + " " + ((CATS.find(c => c.id === p.c) || {}).n || "")).includes(norm(busqueda))) : base;
+  const out = [];
+  const ofertas = filtrados.filter(p => p.antes != null);
+  if (ofertas.length && !busqueda) out.push({id:"ofertas", n:"Ofertas", e:"🏷️", items:ofertas});
+  CATS.filter(c => c.id !== "eventos").forEach(c => { const it = filtrados.filter(p => p.c === c.id); if (it.length) out.push({...c, items:it}); });
+  return out;
+}
+function zona(){
+  const secs = secciones();
+  if (!secs.length) return `<p class="vacio">${busqueda ? `No encontramos «${esc(busqueda)}». <a href="${wa("Hola, estoy buscando: " + busqueda)}" target="_blank" rel="noopener">Pregúntanos por WhatsApp</a>` : "Pronto verás aquí nuestro catálogo."}</p>`;
+  return secs.map(s => `<section class="sec" id="sec-${esc(s.id)}" data-sec="${esc(s.id)}"><h2><span aria-hidden="true">${esc(s.e)}</span> ${esc(s.n)}</h2><div class="lista">${s.items.map(tarjeta).join("")}</div></section>`).join("");
+}
+function tabs(){
+  return secciones().map(s => `<button class="tab" data-ir="sec-${esc(s.id)}">${esc(s.e)} ${esc(s.n)}</button>`).join("")
+    + `<button class="tab ev" data-ir="eventos">🎉 Eventos</button>`;
+}
+function galeria(){
+  const fotos = PRODUCTOS.filter(p => p.c === "eventos" && p.imgs && p.imgs.length);
+  if (!fotos.length) return "";
+  return `<h3 style="font-family:var(--b);font-weight:700;font-size:1.05rem;margin:0 0 10px">Algunos eventos que hemos decorado</h3>
+  <div class="galeria">${fotos.map(p => `<button class="gal" data-gal="${p.id}" aria-label="${esc(p.n)}: quiero algo así"><img src="${esc(p.imgs[0])}" alt="" loading="lazy"><span>${esc(p.n)}</span></button>`).join("")}</div>`;
+}
+function vistaCatalogo(){
+  const foto = CONFIG.fotoPortada ? `<img src="${esc(CONFIG.fotoPortada)}" alt="Arreglos de ${esc(CONFIG.tienda)}">` : `<span aria-hidden="true">💐</span>`;
+  return `<section class="hero">
+    <div><p class="kick">Floristería y decoración de eventos</p>
+      <h1>Flores que dicen <em>lo que sientes</em></h1>
+      <p class="sub">${esc(CONFIG.resena)}</p>
+      <div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo</button><a class="btn ghost" href="#cotizar">Cotizar mi evento</a></div>
+      <ul class="sellos"><li>🌿 Flores naturales</li><li>🛵 Delivery</li><li>💬 Pedido por WhatsApp</li></ul>
+    </div>
+    <div class="foto">${foto}</div>
+  </section>
+  <div class="tabs-wrap" id="catalogo"><nav class="tabs" id="tabs" aria-label="Secciones del catálogo">${tabs()}</nav>
+    <div class="buscar" role="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="buscar" placeholder="Buscar ramilletes, rosas, centros de mesa…" aria-label="Buscar en el catálogo" value="${esc(busqueda)}" autocomplete="off" enterkeyhint="search">${busqueda ? '<button class="limpiar" id="limpiar" aria-label="Borrar búsqueda">×</button>' : ""}</div>
+  </div>
+  <div id="zona">${zona()}</div>
+  <section class="eventos ap" id="eventos" data-sec="eventos">
+    <p class="kick">Decoración de eventos</p>
+    <h2>Llevamos flores a tus momentos más importantes</h2>
+    <p>Bodas, bautizos, cumpleaños y celebraciones. Cuéntanos qué necesitas y te enviamos una propuesta con precio, sin compromiso.</p>
+    <div class="tipos">${EVENTOS.map(e => `<button class="tipo" data-tipo="${esc(e.n)}"><span aria-hidden="true">${e.e}</span><b>${esc(e.n)}</b><small>${esc(e.d)}</small></button>`).join("")}</div>
+    <ol class="pasos"><li><b>Cuéntanos tu evento</b><small>Fecha, lugar, invitados y lo que te imaginas.</small></li><li><b>Recibe tu propuesta</b><small>Te escribimos por WhatsApp con ideas y precio.</small></li><li><b>Aparta tu fecha</b><small>Confirmamos los detalles y nos encargamos del resto.</small></li></ol>
+    ${galeria()}
+    <a class="btn" href="#cotizar">Solicitar cotización</a>
+  </section>
+  <section class="sec" id="preguntas"><h2>Preguntas frecuentes</h2><div style="margin-top:12px">${FAQ.map(x => `<details class="faq"><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join("")}</div></section>
+  <section class="sec" id="contacto"><h2>Contacto</h2><div class="contacto" style="margin-top:12px">
+    <div><b>WhatsApp</b>${CONFIG.whatsapp ? `<a href="${wa("Hola, quiero información.")}" target="_blank" rel="noopener">Escríbenos</a>` : "Próximamente"}</div>
+    ${CONFIG.instagram ? `<div><b>Instagram</b><a href="https://instagram.com/${esc(CONFIG.instagram.replace("@", ""))}" target="_blank" rel="noopener">${esc(CONFIG.instagram)}</a></div>` : ""}
+    ${CONFIG.ciudad ? `<div><b>Ubicación</b>${esc(CONFIG.ciudad)}</div>` : ""}
+    ${CONFIG.horario ? `<div><b>Horario</b>${esc(CONFIG.horario)}</div>` : ""}
+  </div></section>
+  <footer class="pie"><div class="logo">${logoHTML()}</div>Floristería y decoración de eventos</footer>`;
+}
+const logoHTML = () => CONFIG.logo ? `<img src="${esc(CONFIG.logo)}" alt="${esc(CONFIG.tienda)}">` : esc(CONFIG.tienda);
+
+/* ===== Ficha del producto ===== */
+let fichaId = null;
+function abrirFicha(id){
+  const p = PRODUCTOS.find(x => x.id == id); if (!p) return;
+  fichaId = p.id;
+  const imgs = p.imgs && p.imgs.length ? p.imgs : null;
+  $("#fichaIn").innerHTML = `<div class="fotos"><div class="car" id="fCar">${imgs ? imgs.map((u, i) => `<img src="${esc(u)}" alt="${esc(p.n)}, foto ${i + 1}">`).join("") : `<div class="emo" aria-hidden="true">${esc(emoji(p))}</div>`}</div>
+    ${imgs && imgs.length > 1 ? `<div class="puntos" id="fPuntos">${imgs.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}
+    <button class="cerrar" id="fCerrar" aria-label="Cerrar">×</button></div>
+  <div class="ficha-tx"><h2 id="fichaTit">${esc(p.n)}</h2>${precioHTML(p)}${p.d ? `<p>${esc(p.d)}</p>` : ""}<p class="nota">${esc(CONFIG.anticipacion)}</p></div>
+  <div class="ficha-pie" id="fPie">${piesFicha(p)}</div>`;
+  const d = $("#ficha"); if (!d.open) d.showModal();
+  const car = $("#fCar"); car.onscroll = () => { const i = Math.round(car.scrollLeft / car.clientWidth); document.querySelectorAll("#fPuntos i").forEach((el, k) => el.classList.toggle("on", k === i)); };
+}
+function piesFicha(p){
+  if (p.p == null) return `<a class="btn ancho" href="${wa("Hola, quiero consultar el precio de: " + p.n)}" target="_blank" rel="noopener">Consultar precio por WhatsApp</a>`;
+  const n = cart[p.id] || 0;
+  return n ? `<span class="paso"><button data-menos="${p.id}" aria-label="Quitar uno">−</button><b>${n}</b><button data-mas="${p.id}" aria-label="Agregar otro">+</button></span><button class="btn" data-cerrar-ficha="1">Listo · ${usd(p.p * n)}</button>`
+           : `<button class="btn ancho" data-mas="${p.id}">Agregar · ${usd(p.p)}</button>`;
+}
+$("#ficha").addEventListener("click", ev => { if (ev.target === ev.currentTarget || ev.target.closest("#fCerrar,[data-cerrar-ficha]")) $("#ficha").close(); });
+
+/* ===== Pedido ===== */
+function vistaCarrito(){
+  const it = items();
+  if (!it.length) return `<div class="panel listo"><div class="ok" aria-hidden="true">🌷</div><h1>Tu pedido está vacío</h1><p>Agrega ramilletes o arreglos desde el catálogo.</p><div class="acc"><a class="btn" href="#">Ver catálogo</a></div></div>`;
+  return `<div class="panel"><button class="volver" data-volver="1">← Seguir comprando</button><h1>Tu pedido</h1><p class="sd">${esc(CONFIG.delivery)}</p>
+  <div class="caja">${it.map(i => `<div class="linea"><div class="ph">${fotoHTML(i)}</div><div><b>${esc(i.n)}</b><br><small>${usd(i.p)} c/u</small></div><span data-ctl="${i.id}">${control(i.id)}</span></div>`).join("")}
+    <div class="tot"><span>Total</span><span>${usd(total())}</span></div><p class="nota">El delivery se suma aparte según la zona.</p></div>
+  <a class="btn ancho" href="#datos">Continuar</a></div>`;
+}
+const opt = (name, val, txt, sel) => `<label class="op"><input type="radio" name="${name}" value="${esc(val)}" ${sel === val ? "checked" : ""}><span>${esc(txt)}</span></label>`;
+function vistaDatos(){
+  if (!items().length){ location.hash = "carrito"; return ""; }
+  if (!f.metodo) f.metodo = CONFIG.pagos[0] || "";
+  return `<div class="panel"><a class="volver" href="#carrito">← Volver al pedido</a><h1>Datos de entrega</h1><p class="sd">Total: <b>${usd(total())}</b> · ${cuenta()} producto${cuenta() === 1 ? "" : "s"}</p>
+  <form id="formPedido" novalidate>
+  <div class="caja"><h2>¿Quién pide?</h2>
+    <label for="nombre">Nombre y apellido</label><input type="text" id="nombre" data-f="nombre" value="${esc(f.nombre)}" autocomplete="name" required>
+    <label for="tel">Teléfono / WhatsApp</label><input type="tel" id="tel" data-f="tel" value="${esc(f.tel)}" autocomplete="tel" placeholder="0424-1234567" required></div>
+  <div class="caja"><h2>Entrega</h2>
+    <div class="ops" style="margin-top:8px">${opt("entrega", "delivery", "🛵 Delivery", f.entrega)}${opt("entrega", "pickup", "🏪 Lo retiro", f.entrega)}</div>
+    ${f.entrega === "delivery" ? `<label for="dir">Dirección de entrega</label><input type="text" id="dir" data-f="dir" value="${esc(f.dir)}" placeholder="Zona, calle, casa o edificio y referencia">` : ""}
+    <div class="dos"><div><label for="fecha">Fecha</label><input type="date" id="fecha" data-f="fecha" min="${hoy()}" value="${esc(f.fecha)}"></div><div><label for="hora">Hora aproximada</label><input type="time" id="hora" data-f="hora" value="${esc(f.hora)}"></div></div>
+    <p class="nota">${esc(CONFIG.anticipacion)}</p></div>
+  <div class="caja"><h2>Detalles</h2>
+    <label for="tarjeta">Mensaje para la tarjeta <small>(opcional)</small></label><textarea id="tarjeta" data-f="tarjeta" rows="2" maxlength="500" placeholder="Ej.: Feliz aniversario, mi amor. Con cariño, Ana">${esc(f.tarjeta)}</textarea>
+    <label for="nota">Notas del pedido <small>(colores, flores, a quién se entrega)</small></label><textarea id="nota" data-f="nota" rows="2" maxlength="1000">${esc(f.nota)}</textarea>
+    <label>¿Cómo prefieres pagar?</label><div class="ops">${CONFIG.pagos.map(m => opt("metodo", m, m, f.metodo)).join("")}</div>
+    <p class="nota">Te enviamos los datos de pago por WhatsApp junto con el costo del delivery.</p></div>
+  <p class="err" id="err" role="alert"></p>
+  <button class="btn ancho" id="enviar">Enviar pedido por WhatsApp</button></form></div>`;
+}
+function mensajePedido(num){
+  const L = [`Hola, soy ${f.nombre.trim()}. ${num ? `Mi pedido es el *N° ${num}*.` : "Quiero hacer este pedido:"}`, "", `*Pedido${num ? " N° " + num : ""} · ${CONFIG.tienda}*`];
+  items().forEach(i => L.push(`• ${i.q} × ${i.n} — ${usd(i.p * i.q)}`));
+  L.push("", `*Total:* ${usd(total())} + delivery`, `*Entrega:* ${f.entrega === "delivery" ? "Delivery — " + f.dir.trim() : "Retiro"}`, `*Fecha:* ${f.fecha.split("-").reverse().join("/")}${f.hora ? " · " + f.hora : ""}`, `*Pago:* ${f.metodo}`, `*Teléfono:* ${f.tel.trim()}`);
+  if (f.tarjeta.trim()) L.push(`*Tarjeta:* ${f.tarjeta.trim()}`);
+  if (f.nota.trim()) L.push(`*Notas:* ${f.nota.trim()}`);
+  return L.join("\n");
+}
+async function rpc(fn, p){
+  if (!conSB()) return null;
+  try {
+    const r = await fetch(SUPABASE.url + "/rest/v1/rpc/" + fn, {method:"POST", headers:{apikey:SUPABASE.key, "Content-Type":"application/json"}, body: JSON.stringify({p})});
+    if (!r.ok) throw new Error(await r.text());
+    return await r.json();
+  } catch (e){ console.warn("No se pudo registrar en Supabase:", e.message); return null; }
+}
+async function enviarPedido(){
+  const falta = !f.nombre.trim() ? "Escribe tu nombre." : !f.tel.trim() ? "Escribe tu teléfono." :
+    (f.entrega === "delivery" && !f.dir.trim()) ? "Escribe la dirección de entrega." : !f.fecha ? "Elige la fecha de entrega." : "";
+  if (falta){ $("#err").textContent = falta; return; }
+  const b = $("#enviar"); b.disabled = true; b.textContent = "Enviando…"; $("#err").textContent = "";
+  let w = null; try { w = window.open("", "_blank"); } catch (e) {}   // se abre antes de esperar para que no la bloqueen
+  const num = await rpc("crear_pedido", {cliente:f.nombre, telefono:f.tel, entrega:f.entrega, direccion: f.entrega === "delivery" ? f.dir : "", fecha:f.fecha, hora:f.hora, metodo:f.metodo, tarjeta:f.tarjeta, nota:f.nota, items: items().map(i => ({id:i.id, q:i.q}))});
+  ultimo = {url: wa(mensajePedido(num)), num, tipo:"pedido"};
+  if (w && !w.closed) w.location.href = ultimo.url; else window.open(ultimo.url, "_blank");
+  cart = {}; guarda("springis-cart", cart); f.tarjeta = ""; f.nota = ""; guardarDatos();
+  location.hash = "listo";
+}
+const guardarDatos = () => guarda("springis-datos", {nombre:f.nombre, tel:f.tel, entrega:f.entrega, dir:f.dir});
+
+/* ===== Cotización ===== */
+function vistaCotizar(){
+  const ref = q.ref ? `<div class="ref">${q.refImg ? `<img src="${esc(q.refImg)}" alt="">` : ""}<span>Te gustó: <b>${esc(q.ref)}</b></span><button type="button" id="quitarRef">Quitar</button></div>` : "";
+  return `<div class="panel"><button class="volver" data-volver="eventos">← Volver</button><h1>Cotiza tu evento</h1><p class="sd">Responde lo que sepas; lo demás lo conversamos por WhatsApp. Te enviamos una propuesta sin compromiso.</p>
+  <form id="formCot" novalidate>
+  <div class="caja"><h2>Tu evento</h2>
+    ${ref}
+    <label>Tipo de evento</label><div class="ops">${EVENTOS.map(e => opt("tipo", e.n, e.e + " " + e.n, q.tipo)).join("")}</div>
+    <div class="dos"><div><label for="qfecha">Fecha</label><input type="date" id="qfecha" data-q="fecha" min="${hoy()}" value="${esc(q.fecha)}"></div>
+    <div><label for="qinv">Invitados <small>(aprox.)</small></label><input type="number" id="qinv" data-q="invitados" min="0" max="100000" inputmode="numeric" value="${esc(q.invitados)}"></div></div>
+    <label for="qlugar">Lugar o ciudad</label><input type="text" id="qlugar" data-q="lugar" value="${esc(q.lugar)}" placeholder="Ej.: Salón de fiestas en Valencia"></div>
+  <div class="caja"><h2>¿Qué necesitas?</h2><p class="nota" style="margin:0 0 10px">Puedes marcar varias opciones.</p>
+    <div class="ops">${SERVICIOS.map(s => `<label class="op"><input type="checkbox" name="servicios" value="${esc(s)}" ${q.servicios.includes(s) ? "checked" : ""}><span>${esc(s)}</span></label>`).join("")}</div>
+    <label for="qestilo">Colores o estilo</label><input type="text" id="qestilo" data-q="estilo" value="${esc(q.estilo)}" placeholder="Ej.: blanco y verde, estilo rústico">
+    <label>Presupuesto aproximado</label><div class="ops">${PRESUPUESTOS.map(x => opt("presupuesto", x, x, q.presupuesto)).join("")}</div>
+    <label for="qdet">Cuéntanos más <small>(opcional)</small></label><textarea id="qdet" data-q="detalles" rows="3" maxlength="1500" placeholder="Lo que te imaginas, cantidad de mesas, horario…">${esc(q.detalles)}</textarea>
+    <p class="nota">Si tienes fotos de referencia, envíalas en el chat de WhatsApp.</p></div>
+  <div class="caja"><h2>Tus datos</h2>
+    <label for="qnombre">Nombre y apellido</label><input type="text" id="qnombre" data-f="nombre" value="${esc(f.nombre)}" autocomplete="name">
+    <label for="qtel">Teléfono / WhatsApp</label><input type="tel" id="qtel" data-f="tel" value="${esc(f.tel)}" autocomplete="tel" placeholder="0424-1234567"></div>
+  <p class="err" id="err" role="alert"></p>
+  <button class="btn leaf ancho" id="enviarCot">Enviar solicitud por WhatsApp</button></form></div>`;
+}
+function mensajeCot(num){
+  const L = [`Hola, soy ${f.nombre.trim()}. Quiero cotizar un evento.${num ? ` Mi solicitud es la *N° ${num}*.` : ""}`, "", `*Cotización${num ? " N° " + num : ""} · ${CONFIG.tienda}*`, `*Evento:* ${q.tipo}`];
+  if (q.fecha) L.push(`*Fecha:* ${q.fecha.split("-").reverse().join("/")}`);
+  if (q.lugar.trim()) L.push(`*Lugar:* ${q.lugar.trim()}`);
+  if (q.invitados) L.push(`*Invitados:* ${q.invitados}`);
+  if (q.servicios.length) L.push(`*Necesito:* ${q.servicios.join(", ")}`);
+  if (q.estilo.trim()) L.push(`*Colores o estilo:* ${q.estilo.trim()}`);
+  if (q.presupuesto) L.push(`*Presupuesto:* ${q.presupuesto}`);
+  if (q.ref) L.push(`*Me gustó:* ${q.ref}`);
+  if (q.detalles.trim()) L.push(`*Detalles:* ${q.detalles.trim()}`);
+  L.push(`*Teléfono:* ${f.tel.trim()}`);
+  return L.join("\n");
+}
+async function enviarCot(){
+  const falta = !q.tipo ? "Elige el tipo de evento." : !f.nombre.trim() ? "Escribe tu nombre." : !f.tel.trim() ? "Escribe tu teléfono." : "";
+  if (falta){ $("#err").textContent = falta; return; }
+  const b = $("#enviarCot"); b.disabled = true; b.textContent = "Enviando…"; $("#err").textContent = "";
+  let w = null; try { w = window.open("", "_blank"); } catch (e) {}
+  const num = await rpc("crear_cotizacion", {cliente:f.nombre, telefono:f.tel, tipo:q.tipo, fecha:q.fecha, lugar:q.lugar, invitados:q.invitados, servicios:q.servicios, estilo:q.estilo, presupuesto:q.presupuesto, referencia:q.ref, detalles:q.detalles});
+  ultimo = {url: wa(mensajeCot(num)), num, tipo:"cot"};
+  if (w && !w.closed) w.location.href = ultimo.url; else window.open(ultimo.url, "_blank");
+  guardarDatos();
+  Object.assign(q, {tipo:"", fecha:"", lugar:"", invitados:"", servicios:[], estilo:"", presupuesto:"", ref:"", refImg:"", detalles:""});
+  location.hash = "listo";
+}
+function vistaListo(){
+  if (!ultimo.url) { location.hash = ""; return ""; }
+  const cot = ultimo.tipo === "cot";
+  return `<div class="panel listo"><div class="ok" aria-hidden="true">${cot ? "🎉" : "💐"}</div><h1>${cot ? "¡Solicitud lista!" : "¡Pedido listo!"}</h1>
+  ${ultimo.num ? `<div class="num">N° ${ultimo.num}</div>` : ""}
+  <p>Se abrió WhatsApp con ${cot ? "los datos de tu evento" : "el detalle de tu pedido"}. Presiona enviar en el chat para que te respondamos. Si no se abrió, usa este botón.</p>
+  <div class="acc"><a class="btn" href="${esc(ultimo.url)}" target="_blank" rel="noopener">Abrir WhatsApp</a><a class="btn ghost" href="#">Volver al inicio</a></div></div>`;
+}
+
+/* ===== Navegación ===== */
+const ruta = () => location.hash.replace(/^#/, "");
+let destino = null;
+function pintar(){
+  const r = ruta();
+  const html = r === "carrito" ? vistaCarrito() : r === "datos" ? vistaDatos() : r === "cotizar" ? vistaCotizar() : r === "listo" ? vistaListo() : vistaCatalogo();
+  if (html === "") return;
+  $("#app").innerHTML = html;
+  $("#topCot").hidden = r === "cotizar";
+  actualizarBarra();
+  if (r === "") espiar();
+}
+function actualizarBarra(){ $("#barra").classList.toggle("ver", cuenta() > 0 && ruta() === ""); }
+let ultimaRuta = null;
+window.addEventListener("hashchange", () => {
+  const r = ruta(), antes = ultimaRuta; ultimaRuta = r;
+  pintar();
+  if (r === "" && destino){ const el = document.getElementById(destino); destino = null; if (el) requestAnimationFrame(() => el.scrollIntoView({block:"start"})); }
+  else if (!(r === "" && antes === null)) window.scrollTo(0, 0);
+});
+function irA(id){
+  if (ruta() !== ""){ destino = id; location.hash = ""; return; }
+  const el = document.getElementById(id); if (el) el.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+// Marca la pestaña de la sección que se está viendo
+let espia = null;
+function espiar(){
+  if (espia) espia.disconnect();
+  if (!("IntersectionObserver" in window)) return;
+  espia = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) marcarTab(e.target.id); });
+  }, {rootMargin:"-180px 0px -60% 0px"});
+  document.querySelectorAll("[data-sec]").forEach(s => espia.observe(s));
+}
+function marcarTab(id){
+  document.querySelectorAll(".tab").forEach(t => {
+    const on = t.dataset.ir === id; t.setAttribute("aria-current", on);
+    if (on){ const n = $("#tabs"); n.scrollTo({left: t.offsetLeft - n.clientWidth / 2 + t.clientWidth / 2, behavior:"smooth"}); }
+  });
+}
+
+/* ===== Eventos de la página ===== */
+document.addEventListener("click", ev => {
+  const t = ev.target.closest("[data-mas],[data-menos],[data-abrir],[data-ir],[data-tipo],[data-gal],[data-volver],#limpiar,#quitarRef,#inicio,#cartBtn,#barra");
+  if (!t) return;
+  if (t.dataset.mas){ ev.stopPropagation(); cambiar(t.dataset.mas, 1); if ($("#ficha").open) $("#fPie").innerHTML = piesFicha(PRODUCTOS.find(p => p.id == t.dataset.mas)); return; }
+  if (t.dataset.menos){ ev.stopPropagation(); cambiar(t.dataset.menos, -1); if ($("#ficha").open) $("#fPie").innerHTML = piesFicha(PRODUCTOS.find(p => p.id == t.dataset.menos)); return; }
+  if (t.dataset.abrir) return abrirFicha(t.dataset.abrir);
+  if (t.dataset.ir) return irA(t.dataset.ir);
+  if (t.dataset.tipo){ q.tipo = t.dataset.tipo; location.hash = "cotizar"; return; }
+  if (t.dataset.gal){ const p = PRODUCTOS.find(x => x.id == t.dataset.gal); q.ref = p.n; q.refImg = p.imgs[0] || ""; location.hash = "cotizar"; return; }
+  if (t.dataset.volver){ if (t.dataset.volver === "eventos") irA("eventos"); else history.length > 1 ? history.back() : (location.hash = ""); return; }
+  if (t.id === "limpiar"){ busqueda = ""; pintarZona(); $("#buscar").focus(); return; }
+  if (t.id === "quitarRef"){ q.ref = ""; q.refImg = ""; pintar(); return; }
+  if (t.id === "inicio"){ if (ruta() === "") window.scrollTo({top:0, behavior:"smooth"}); else location.hash = ""; return; }
+  if (t.id === "cartBtn" || t.id === "barra"){ location.hash = "carrito"; return; }
+});
+document.addEventListener("keydown", ev => {
+  const t = ev.target.closest && ev.target.closest("[data-abrir]");
+  if (t && (ev.key === "Enter" || ev.key === " ") && ev.target === t){ ev.preventDefault(); abrirFicha(t.dataset.abrir); }
+});
+document.addEventListener("input", ev => {
+  const t = ev.target;
+  if (t.id === "buscar"){ busqueda = t.value; pintarZona(); return; }
+  if (t.dataset.f){ f[t.dataset.f] = t.value; return; }
+  if (t.dataset.q){ q[t.dataset.q] = t.value; return; }
+});
+document.addEventListener("change", ev => {
+  const t = ev.target;
+  if (t.name === "entrega"){ f.entrega = t.value; const y = window.scrollY; pintar(); window.scrollTo(0, y); }
+  else if (t.name === "metodo") f.metodo = t.value;
+  else if (t.name === "tipo") q.tipo = t.value;
+  else if (t.name === "presupuesto") q.presupuesto = t.value;
+  else if (t.name === "servicios") q.servicios = [...document.querySelectorAll('input[name="servicios"]:checked')].map(x => x.value);
+});
+document.addEventListener("submit", ev => {
+  ev.preventDefault();
+  if (ev.target.id === "formPedido") enviarPedido();
+  if (ev.target.id === "formCot") enviarCot();
+});
+function pintarZona(){
+  $("#zona").innerHTML = zona(); $("#tabs").innerHTML = tabs();
+  const b = $(".buscar"), l = $("#limpiar");
+  if (busqueda && !l) b.insertAdjacentHTML("beforeend", '<button class="limpiar" id="limpiar" aria-label="Borrar búsqueda">×</button>');
+  if (!busqueda && l) l.remove();
+  espiar();
+}
+window.addEventListener("scroll", () => $("#top").classList.toggle("borde", window.scrollY > 8), {passive:true});
+
+/* ===== Datos desde Supabase ===== */
+const desdeFila = r => {
+  const precio = r.precio == null ? null : Number(r.precio), oferta = r.precio_oferta == null ? null : Number(r.precio_oferta);
+  return {id:r.id, c:r.categoria, n:r.nombre, d:r.descripcion || "", p: oferta ?? precio, antes: oferta != null ? precio : null, imgs:r.imagenes || [], nuevo:r.nuevo};
+};
+if (conSB()){
+  const g = lee("springis-productos", null), s = lee("springis-secciones", null);
+  if (Array.isArray(g)) PRODUCTOS = g;
+  if (Array.isArray(s) && s.length) CATS = s;
+}
+async function cargarProductos(){
+  if (!conSB()) return;
+  try {
+    const pedir = async r => { const x = await fetch(SUPABASE.url + "/rest/v1/" + r, {headers:{apikey:SUPABASE.key}, cache:"no-store"}); if (!x.ok) throw new Error("HTTP " + x.status); return x.json(); };
+    const [filas, secs] = await Promise.all([
+      pedir("productos?select=id,categoria,nombre,descripcion,precio,precio_oferta,imagenes,nuevo&visible=eq.true&order=orden.asc,id.asc"),
+      pedir("secciones?select=id,nombre,emoji&order=orden.asc,nombre.asc")
+    ]);
+    PRODUCTOS = filas.map(desdeFila);
+    CATS = secs.map(x => ({id:x.id, n:x.nombre, e:x.emoji || "🌸"}));
+    guarda("springis-productos", PRODUCTOS); guarda("springis-secciones", CATS);
+    // quita del carrito lo que ya no existe
+    Object.keys(cart).forEach(id => { if (!PRODUCTOS.some(p => p.id == id && p.p != null)) delete cart[id]; });
+    guarda("springis-cart", cart);
+    if (ruta() === "" ){ const y = window.scrollY; pintar(); window.scrollTo(0, y); }
+    else if (ruta() === "carrito") pintar();
+    actualizarCarrito(false);
+  } catch (e){ console.warn("No se pudieron cargar los productos:", e.message); }
+}
+
+$("#inicio").innerHTML = logoHTML();
+if (ruta() === "listo") history.replaceState(null, "", location.pathname);
+ultimaRuta = ruta();
+pintar(); actualizarCarrito(false);
+cargarProductos();
+</script>
+</body>
+</html>

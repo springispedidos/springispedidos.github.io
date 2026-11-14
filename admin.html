@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#fbf7f3">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Springis · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap">
+<style>
+:root{--bg:#fbf7f3;--surface:#fff;--ink:#2b2a27;--muted:#76716a;--line:#ece3da;--accent:#b8476a;--accent-ink:#fff;--soft:#f8e7ec;--leaf:#3f6b4f;--leaf-soft:#e7efe8;--ok:#2f7a4c;--err:#b3261e;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;flex-wrap:wrap}
+.marca{font-family:Fraunces,Georgia,serif;font-size:1.6rem;color:var(--accent);margin:0}
+.marca small{font-family:"DM Sans",sans-serif;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;margin-left:6px;color:var(--muted)}
+.acc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:2rem;margin:6px 0 14px}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:10px 16px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.peligro{background:transparent;color:var(--err);border:1px solid var(--err)}
+.btn.chico{padding:6px 12px;font-size:.88rem}
+.btn[disabled]{opacity:.5;cursor:wait}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.login{max-width:380px;margin:40px auto}
+label{display:block;font-weight:600;font-size:.9rem;margin:14px 0 4px}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.ayuda{color:var(--muted);font-size:.82rem;margin:4px 0 0}
+.msg{margin:12px 0 0;font-weight:600}
+.msg.err{color:var(--err)}.msg.ok{color:var(--ok)}
+.barra{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:600;font-size:.88rem}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.lista{display:flex;flex-direction:column;gap:8px}
+.item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+.item.oculto{opacity:.6}
+.mini{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.6rem;overflow:hidden}
+.mini img{width:100%;height:100%;object-fit:cover}
+.item h3{margin:0;font-size:1rem;line-height:1.25}
+.meta{color:var(--muted);font-size:.84rem;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tag{background:var(--soft);color:var(--ink);border-radius:999px;padding:1px 8px;font-size:.74rem;font-weight:700}
+.botones{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.vacio{text-align:center;color:var(--muted);padding:30px 10px}
+dialog{border:0;border-radius:16px;padding:0;width:min(560px,calc(100% - 24px));max-height:calc(100% - 24px);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(30,20,18,.5)}
+.dlg{padding:20px}
+.dlg h2{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:1.6rem;margin:0 0 6px}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.ft{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--soft);border:2px solid var(--line)}
+.ft:first-child{border-color:var(--accent)}
+.ft img{width:100%;height:100%;object-fit:cover;display:block}
+.ft .princ{position:absolute;top:4px;left:4px;background:var(--accent);color:var(--accent-ink);font-size:.66rem;font-weight:700;border-radius:999px;padding:1px 7px}
+.ft .acc-ft{position:absolute;inset:auto 0 0;display:flex;justify-content:space-between;padding:4px;gap:4px;background:linear-gradient(transparent,rgba(30,20,18,.6))}
+.ft button{width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#2b2a27;font-weight:800;cursor:pointer;line-height:1;padding:0}
+.ft button[disabled]{opacity:.35;cursor:default}
+.mas{aspect-ratio:1;border:2px dashed var(--line);border-radius:12px;background:transparent;cursor:pointer;color:var(--muted);font-weight:600;font-size:.85rem;display:grid;place-items:center;text-align:center;padding:6px}
+.mas:hover{background:var(--soft)}
+.tachado{text-decoration:line-through;font-weight:400}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.check{display:flex;gap:8px;align-items:center;font-weight:400;margin:14px 0 0}
+.pie{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:20px}
+.pie div{display:flex;gap:8px;flex-wrap:wrap}
+.oculta{display:none}
+.resumen{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:0 0 14px}
+.resumen div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.resumen b{display:block;font-size:1.5rem;line-height:1.1;color:var(--accent)}
+.resumen span{font-size:.8rem;color:var(--muted)}
+.ped{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c,var(--line));border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.ped-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ped-top h3{margin:0;font-size:1.1rem}
+.ped-top select{width:auto;padding:6px 10px;font-weight:700;border-color:var(--c,var(--line))}
+.ped ul{margin:0;padding-left:18px}
+.ped .meta a{color:var(--accent);font-weight:600}
+.ped .fila{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:.9rem}
+.ped .fila b{color:var(--muted);font-weight:600}
+.ped .saldo{color:var(--accent);font-weight:700}
+.pestanas{display:flex;gap:2px;margin:0 0 16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.pestanas::-webkit-scrollbar{display:none}
+.pestanas button{flex:none}
+@media (max-width:560px){.resumen{grid-template-columns:1fr 1fr}.resumen b{font-size:1.25rem}.pestanas button{padding:10px 10px}}
+.pestanas button{border:0;background:none;padding:10px 14px;font-weight:700;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.pestanas button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.sec-emoji{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.7rem}
+.flechas{display:flex;gap:4px}
+.flechas .btn{min-width:38px}
+.oferta-caja{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px}
+.aviso-oferta{background:var(--soft);border-radius:10px;padding:8px 12px;font-size:.88rem;margin:10px 0 0}
+.aviso-oferta b{color:var(--accent)}
+#emoji{font-size:1.4rem;width:5.5rem;text-align:center}
+@media (max-width:560px){
+  .item{grid-template-columns:48px 1fr}
+  .mini{width:48px;height:48px}
+  .botones{grid-column:1/-1;justify-content:stretch}
+  .botones .btn{flex:1}
+  .dos{grid-template-columns:1fr}
+  .pie,.pie div{flex-direction:column-reverse;width:100%}
+  .pie .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<header>
+  <p class="marca">Springis<small>Admin</small></p>
+  <div class="acc"><a class="btn ghost chico" href="index.html" target="_blank" rel="noopener">Ver tienda</a><span id="quien"></span><button class="btn ghost chico oculta" id="salir">Cerrar sesión</button></div>
+</header>
+<main id="app"><p class="vacio">Cargando…</p></main>
+
+<dialog id="dlg" aria-labelledby="dlgTitulo">
+  <form class="dlg" id="form" novalidate>
+    <h2 id="dlgTitulo">Producto</h2>
+    <label>Fotos</label>
+    <div class="galeria" id="galeria"></div>
+    <input type="file" id="archivo" accept="image/jpeg,image/png,image/webp,image/*" multiple class="oculta">
+    <p class="ayuda">La primera es la principal; usa las flechas para cambiar el orden. Se recortan en cuadrado desde el centro. Máximo 8.</p>
+    <label for="nombre">Nombre</label><input type="text" id="nombre" required maxlength="120">
+    <label for="descripcion">Descripción</label><textarea id="descripcion" rows="3" maxlength="400"></textarea>
+    <label for="categoria">Sección</label><select id="categoria"></select>
+    <p class="aviso-oferta oculta" id="avisoEventos">📸 Esta sección es la <b>galería de eventos</b>: la foto se muestra en la parte de Eventos de la web, sin precio, con el botón «Quiero algo así» para pedir cotización.</p>
+    <div id="bloquePrecio">
+    <label for="precio">Precio en USD</label><input type="text" id="precio" inputmode="decimal" placeholder="Vacío = por confirmar">
+    <div class="oferta-caja">
+      <label class="check" style="margin:0"><input type="checkbox" id="enOferta"> <b>🏷️ Etiquetar como oferta</b></label>
+      <div id="bloqueOferta" class="oculta">
+        <label for="oferta">Precio en oferta (USD)</label><input type="text" id="oferta" inputmode="decimal" placeholder="Ej.: 20">
+        <p class="ayuda">La tienda mostrará «Antes» con el precio normal tachado y «Hoy» con este precio.</p>
+        <p class="aviso-oferta oculta" id="avisoOferta"></p>
+      </div>
+    </div>
+    </div>
+    <label class="check"><input type="checkbox" id="visible"> Mostrar en la tienda</label>
+    <label class="check"><input type="checkbox" id="nuevo"> Etiqueta NEW</label>
+    <p class="msg" id="dlgMsg" role="alert"></p>
+    <div class="pie">
+      <button type="button" class="btn peligro" id="borrar">Borrar producto</button>
+      <div><button type="button" class="btn ghost" id="cancelar">Cancelar</button><button type="submit" class="btn" id="guardar">Guardar</button></div>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgSec" aria-labelledby="secTitulo">
+  <form class="dlg" id="formSec" novalidate>
+    <h2 id="secTitulo">Sección</h2>
+    <label for="secNombre">Nombre</label><input type="text" id="secNombre" required maxlength="40" placeholder="Ej.: Tazas personalizadas">
+    <label for="emoji">Emoji</label><input type="text" id="emoji" maxlength="8" placeholder="🎁">
+    <p class="ayuda">Aparece junto al nombre en la tienda y cuando un producto no tiene foto. En el teléfono, usa el teclado de emojis.</p>
+    <p class="msg" id="secMsg" role="alert"></p>
+    <div class="pie">
+      <button type="button" class="btn peligro" id="secBorrar">Borrar sección</button>
+      <div><button type="button" class="btn ghost" id="secCancelar">Cancelar</button><button type="submit" class="btn" id="secGuardar">Guardar</button></div>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="compartido.js?v=2"></script>
+<script>
+if (!SUPABASE.url || !SUPABASE.key){
+  document.getElementById("app").innerHTML = `<div class="box login"><h1>Falta conectar</h1><p>El panel todavía no está conectado a la base de datos. Hay que crear el proyecto de Springis en Supabase y poner su dirección y clave en <b>compartido.js</b>.</p></div>`;
+  throw new Error("Supabase sin configurar");
+}
+const sb = supabase.createClient(SUPABASE.url, SUPABASE.key);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const usd = n => "$" + Number(n).toFixed(2);
+const PREFIJO = SUPABASE.url + "/storage/v1/object/public/" + SUPABASE.bucket + "/";
+const cat = id => CATS.find(c => c.id === id) || {n:id, e:"🎁"};
+
+const MAX_FOTOS = 8;
+// fotos del editor: {url} ya guardada, o {blob, url} nueva (url = vista previa local)
+let lista = [], secciones = [], filtro = "todas", actual = null, fotos = [], vista = "productos", secActual = null;
+const precioTxt = p => p.categoria === "eventos" ? "Galería de eventos" : p.precio == null ? "Precio por confirmar"
+  : p.precio_oferta != null ? `<span class="tachado">${usd(p.precio)}</span> ${usd(p.precio_oferta)}` : usd(p.precio);
+
+/* ===== Sesión ===== */
+function vistaLogin(msg){
+  $("#salir").classList.add("oculta"); $("#quien").textContent = "";
+  $("#app").innerHTML = `<form class="box login" id="login"><h1>Entrar</h1>
+  <label for="email">Correo</label><input type="email" id="email" autocomplete="username" required>
+  <label for="clave">Contraseña</label><input type="password" id="clave" autocomplete="current-password" required>
+  <p class="msg err" id="loginMsg" role="alert">${esc(msg || "")}</p>
+  <button class="btn" style="width:100%;margin-top:14px" id="entrar">Entrar</button></form>`;
+}
+async function entrar(session){
+  const email = session.user.email;
+  $("#quien").textContent = email; $("#salir").classList.remove("oculta");
+  const { data, error } = await sb.from("admins").select("email").maybeSingle();
+  if (error){ $("#app").innerHTML = `<p class="vacio">No pude comprobar tu acceso: ${esc(error.message)}</p>`; return; }
+  if (!data){ $("#app").innerHTML = `<div class="box login"><h1>Sin permiso</h1><p>La cuenta ${esc(email)} no está en la lista de administradores. Pide que la agreguen en Supabase (tabla <b>admins</b>).</p></div>`; return; }
+  await cargar();
+}
+document.addEventListener("submit", async ev => {
+  if (ev.target.id !== "login") return;
+  ev.preventDefault();
+  const b = $("#entrar"), m = $("#loginMsg");
+  b.disabled = true; m.textContent = "";
+  const { data, error } = await sb.auth.signInWithPassword({ email: $("#email").value.trim(), password: $("#clave").value });
+  b.disabled = false;
+  if (error){ m.textContent = error.message === "Invalid login credentials" ? "Correo o contraseña incorrectos." : error.message; return; }
+  entrar(data.session);
+});
+$("#salir").onclick = async () => { await sb.auth.signOut(); vistaLogin(); };
+
+/* ===== Lista ===== */
+async function cargar(){
+  const [pr, se] = await Promise.all([
+    sb.from("productos").select("*").order("orden").order("id"),
+    sb.from("secciones").select("*").order("orden").order("nombre")
+  ]);
+  const error = pr.error || se.error;
+  if (error){ $("#app").innerHTML = `<p class="vacio">No pude cargar los datos: ${esc(error.message)}</p>`; return; }
+  lista = pr.data; secciones = se.data; usarSecciones(); dibujar();
+}
+// Las secciones de Supabase pasan a CATS, que usan los filtros y el selector del editor.
+function usarSecciones(){
+  CATS = secciones.map(x => ({id: x.id, n: x.nombre, e: x.emoji || "🎁"}));
+  if (filtro !== "todas" && !CATS.some(c => c.id === filtro)) filtro = "todas";
+  $("#categoria").innerHTML = CATS.map(c => `<option value="${c.id}">${esc(c.e)} ${esc(c.n)}</option>`).join("");
+}
+const dibujar = () => vista === "secciones" ? pintarSecciones() : vista === "pedidos" ? (pedidos ? pintarPedidos() : cargarPedidos())
+  : vista === "cotizaciones" ? (cotizaciones ? pintarCot() : cargarCot()) : pintar();
+const pestana = (id, n) => `<button role="tab" data-vista="${id}" aria-selected="${vista === id}">${n}</button>`;
+const pestanas = () => `<nav class="pestanas" role="tablist">${pestana("productos", "Productos")}${pestana("secciones", "Secciones")}${pestana("pedidos", "Pedidos")}${pestana("cotizaciones", "Cotizaciones")}</nav>`;
+function pintar(){
+  const ver = lista.filter(p => filtro === "todas" || p.categoria === filtro);
+  const chip = (id, n) => `<button class="chip" data-filtro="${id}" aria-pressed="${filtro === id}">${n}</button>`;
+  $("#app").innerHTML = pestanas() + `<div class="barra"><h1 style="margin:0">Productos</h1><button class="btn" data-nuevo="1">+ Nuevo producto</button></div>
+  <nav class="chips" aria-label="Filtrar por sección">${chip("todas", "Todas (" + lista.length + ")")}${CATS.map(c => chip(c.id, esc(c.e) + " " + esc(c.n) + " (" + lista.filter(p => p.categoria === c.id).length + ")")).join("")}</nav>
+  <div class="lista">${ver.length ? ver.map(p => `<article class="item${p.visible ? "" : " oculto"}">
+    <div class="mini">${p.imagenes.length ? `<img src="${esc(p.imagenes[0])}" alt="" loading="lazy">` : `<span aria-hidden="true">${esc(cat(p.categoria).e)}</span>`}</div>
+    <div><h3>${esc(p.nombre)}</h3><div class="meta"><span>${esc(cat(p.categoria).n)}</span><span>·</span><b>${precioTxt(p)}</b>${p.imagenes.length > 1 ? `<span>· ${p.imagenes.length} fotos</span>` : ""}${p.precio_oferta != null ? '<span class="tag">Oferta</span>' : ""}${p.nuevo ? '<span class="tag">NEW</span>' : ""}${p.visible ? "" : '<span class="tag">Oculto</span>'}</div></div>
+    <div class="botones"><button class="btn ghost chico" data-ver="${p.id}">${p.visible ? "Ocultar" : "Mostrar"}</button><button class="btn chico" data-editar="${p.id}">Editar</button></div>
+  </article>`).join("") : `<p class="vacio">No hay productos en esta sección.</p>`}</div>`;
+}
+document.addEventListener("click", async ev => {
+  const t = ev.target.closest("[data-filtro],[data-nuevo],[data-editar],[data-ver],[data-vista],[data-sec-nueva],[data-sec-editar],[data-sec-mover],[data-fped],[data-recargar-ped],[data-fcot],[data-recargar-cot],[data-guardar-cot]"); if (!t) return;
+  if (t.dataset.fcot){ filtroCot = t.dataset.fcot; pintarCot(); return; }
+  if (t.dataset.recargarCot){ cargarCot(); return; }
+  if (t.dataset.guardarCot){ guardarCot(t); return; }
+  if (t.dataset.fped){ filtroPed = t.dataset.fped; pintarPedidos(); return; }
+  if (t.dataset.recargarPed){ cargarPedidos(); return; }
+  if (t.dataset.vista){ vista = t.dataset.vista; dibujar(); }
+  else if (t.dataset.secNueva) abrirSeccion(null);
+  else if (t.dataset.secEditar) abrirSeccion(secciones.find(x => x.id === t.dataset.secEditar));
+  else if (t.dataset.secMover) moverSeccion(t);
+  else if (t.dataset.filtro){ filtro = t.dataset.filtro; pintar(); }
+  else if (t.dataset.nuevo) abrir(null);
+  else if (t.dataset.editar) abrir(lista.find(p => p.id == t.dataset.editar));
+  else if (t.dataset.ver){
+    const p = lista.find(x => x.id == t.dataset.ver); t.disabled = true;
+    const { error } = await sb.from("productos").update({ visible: !p.visible }).eq("id", p.id);
+    if (error){ alert("No se pudo cambiar: " + error.message); t.disabled = false; return; }
+    p.visible = !p.visible; pintar();
+  }
+});
+
+/* ===== Editor ===== */
+function pintarFotos(){
+  $("#galeria").innerHTML = fotos.map((f, i) => `<div class="ft">${i === 0 ? '<span class="princ">Principal</span>' : ""}<img src="${esc(f.url)}" alt="Foto ${i + 1}">
+    <div class="acc-ft"><button type="button" data-mover="${i}:-1" aria-label="Mover a la izquierda" ${i === 0 ? "disabled" : ""}>‹</button>
+    <button type="button" data-quitar="${i}" aria-label="Quitar foto">×</button>
+    <button type="button" data-mover="${i}:1" aria-label="Mover a la derecha" ${i === fotos.length - 1 ? "disabled" : ""}>›</button></div></div>`).join("")
+    + (fotos.length < MAX_FOTOS ? `<button type="button" class="mas" id="masFotos">+ Agregar fotos</button>` : "");
+}
+function soltarVistas(){ fotos.forEach(f => f.blob && URL.revokeObjectURL(f.url)); }
+function abrir(p){
+  actual = p; soltarVistas(); fotos = p ? p.imagenes.map(url => ({url})) : [];
+  $("#dlgTitulo").textContent = p ? "Editar producto" : "Nuevo producto";
+  $("#nombre").value = p ? p.nombre : "";
+  $("#descripcion").value = p ? p.descripcion : "";
+  $("#categoria").value = p ? p.categoria : (filtro !== "todas" ? filtro : CATS[0].id);
+  $("#precio").value = p && p.precio != null ? String(p.precio) : "";
+  $("#oferta").value = p && p.precio_oferta != null ? String(p.precio_oferta) : "";
+  $("#enOferta").checked = !!(p && p.precio_oferta != null); mostrarOferta();
+  $("#visible").checked = p ? p.visible : true;
+  $("#nuevo").checked = p ? p.nuevo : false;
+  $("#borrar").classList.toggle("oculta", !p);
+  aviso(""); avisoOferta(); modoEventos();
+  pintarFotos(); $("#dlg").showModal();
+}
+// En la galería de eventos no hay precio ni oferta
+function modoEventos(){
+  const ev = $("#categoria").value === "eventos";
+  $("#bloquePrecio").classList.toggle("oculta", ev);
+  $("#avisoEventos").classList.toggle("oculta", !ev);
+}
+$("#categoria").addEventListener("change", modoEventos);
+$("#cancelar").onclick = () => $("#dlg").close();
+$("#galeria").onclick = ev => {
+  const t = ev.target.closest("button"); if (!t) return;
+  if (t.id === "masFotos") return $("#archivo").click();
+  if (t.dataset.quitar != null){ const [f] = fotos.splice(+t.dataset.quitar, 1); if (f.blob) URL.revokeObjectURL(f.url); }
+  else if (t.dataset.mover){ const [i, d] = t.dataset.mover.split(":").map(Number); [fotos[i], fotos[i + d]] = [fotos[i + d], fotos[i]]; }
+  pintarFotos();
+};
+$("#archivo").onchange = async ev => {
+  const files = [...ev.target.files]; ev.target.value = "";
+  const libres = MAX_FOTOS - fotos.length;
+  let malas = 0;
+  for (const file of files.slice(0, libres)){
+    try { const blob = await cuadrar(file); fotos.push({blob, url: URL.createObjectURL(blob)}); }
+    catch (e){ malas++; }
+  }
+  pintarFotos();
+  const avisos = [];
+  if (malas) avisos.push(malas === 1 ? "No pude abrir una de las imágenes; prueba con JPG o PNG." : `No pude abrir ${malas} imágenes; prueba con JPG o PNG.`);
+  if (files.length > libres) avisos.push(`Solo se permiten ${MAX_FOTOS} fotos por producto.`);
+  aviso(avisos.join(" "), avisos.length > 0);
+};
+function avisoOferta(){
+  const precio = numero($("#precio").value), oferta = numero($("#oferta").value), a = $("#avisoOferta");
+  const ok = $("#enOferta").checked && precio > 0 && oferta !== null && oferta >= 0 && oferta < precio;
+  a.classList.toggle("oculta", !ok);
+  if (ok) a.innerHTML = `🏷️ Se mostrará con la etiqueta <b>OFERTA</b> (${Math.round((1 - oferta / precio) * 100)} % de descuento) y aparecerá también en la sección <b>Ofertas</b> de la tienda.`;
+}
+function mostrarOferta(){ $("#bloqueOferta").classList.toggle("oculta", !$("#enOferta").checked); }
+$("#enOferta").onchange = () => { mostrarOferta(); if ($("#enOferta").checked) $("#oferta").focus(); avisoOferta(); };
+$("#precio").addEventListener("input", avisoOferta);
+$("#oferta").addEventListener("input", avisoOferta);
+const numero = txt => { const t = txt.trim().replace(/\s|\$/g, "").replace(",", "."); return t === "" ? null : Number(t); };
+// Recorta al centro en cuadrado y la reduce a 800 px como máximo.
+async function cuadrar(file){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image(); img.src = url; await img.decode();
+    const lado = Math.min(img.naturalWidth, img.naturalHeight), T = Math.min(800, lado);
+    const c = document.createElement("canvas"); c.width = c.height = T;
+    const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, T, T);
+    ctx.drawImage(img, (img.naturalWidth - lado) / 2, (img.naturalHeight - lado) / 2, lado, lado, 0, 0, T, T);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.85));
+    if (!blob) throw new Error("sin imagen");
+    return blob;
+  } finally { URL.revokeObjectURL(url); }
+}
+function aviso(txt, error){ const m = $("#dlgMsg"); m.textContent = txt; m.className = "msg" + (txt ? (error ? " err" : " ok") : ""); }
+// Borra del almacenamiento las fotos subidas desde el panel (las de imagenes/ quedan en la web).
+async function borrarArchivos(urls){
+  const rutas = urls.filter(u => u && u.startsWith(PREFIJO)).map(u => decodeURIComponent(u.slice(PREFIJO.length)));
+  if (rutas.length) await sb.storage.from(SUPABASE.bucket).remove(rutas);
+}
+
+$("#form").onsubmit = async ev => {
+  ev.preventDefault();
+  const nombre = $("#nombre").value.trim();
+  if ($("#categoria").value === "eventos"){ $("#precio").value = ""; $("#enOferta").checked = false; }
+  if ($("#categoria").value === "eventos" && !fotos.length) return aviso("Agrega al menos una foto del evento.", true);
+  const precio = numero($("#precio").value), oferta = $("#enOferta").checked ? numero($("#oferta").value) : null;
+  if ($("#enOferta").checked && oferta === null) return aviso("Escribe el precio en oferta, o desmarca «Etiquetar como oferta».", true);
+  if (!nombre) return aviso("Escribe el nombre del producto.", true);
+  if (precio !== null && !(precio >= 0)) return aviso("El precio debe ser un número, por ejemplo 25 o 25.50.", true);
+  if (oferta !== null && !(oferta >= 0)) return aviso("El precio en oferta debe ser un número, por ejemplo 20 o 19.99.", true);
+  if (oferta !== null && precio === null) return aviso("Para poner una oferta, escribe primero el precio normal.", true);
+  if (oferta !== null && oferta >= precio) return aviso("El precio en oferta debe ser menor que el precio normal.", true);
+  const b = $("#guardar"); b.disabled = true; aviso("Guardando…");
+  const subidas = [];
+  try {
+    const imagenes = [];
+    for (const f of fotos){
+      if (!f.blob){ imagenes.push(f.url); continue; }
+      aviso(`Subiendo fotos… (${subidas.length + 1} de ${fotos.filter(x => x.blob).length})`);
+      const ruta = Date.now() + "-" + Math.random().toString(36).slice(2, 8) + ".jpg";
+      const { error } = await sb.storage.from(SUPABASE.bucket).upload(ruta, f.blob, { contentType: "image/jpeg", cacheControl: "31536000" });
+      if (error) throw error;
+      const url = sb.storage.from(SUPABASE.bucket).getPublicUrl(ruta).data.publicUrl;
+      subidas.push(url); imagenes.push(url);
+    }
+    aviso("Guardando…");
+    const fila = { nombre, descripcion: $("#descripcion").value.trim(), categoria: $("#categoria").value, precio, precio_oferta: oferta, imagenes, visible: $("#visible").checked, nuevo: $("#nuevo").checked };
+    let res;
+    if (actual) res = await sb.from("productos").update(fila).eq("id", actual.id).select().single();
+    else {
+      fila.orden = Math.max(0, ...lista.map(p => p.orden)) + 10;
+      res = await sb.from("productos").insert(fila).select().single();
+    }
+    if (res.error) throw res.error;
+    if (actual) await borrarArchivos(actual.imagenes.filter(u => !imagenes.includes(u)));
+    soltarVistas(); fotos = imagenes.map(url => ({url}));
+    if (actual) Object.assign(actual, res.data); else lista.push(res.data);
+    $("#dlg").close(); pintar();
+  } catch (e){
+    await borrarArchivos(subidas).catch(() => {});
+    aviso("No se pudo guardar: " + e.message, true);
+  }
+  finally { b.disabled = false; }
+};
+$("#borrar").onclick = async () => {
+  if (!actual || !confirm("¿Borrar «" + actual.nombre + "»? Esto no se puede deshacer. Si solo quieres quitarlo un tiempo, usa «Ocultar».")) return;
+  const { error } = await sb.from("productos").delete().eq("id", actual.id);
+  if (error) return aviso("No se pudo borrar: " + error.message, true);
+  await borrarArchivos(actual.imagenes);
+  lista = lista.filter(p => p !== actual); $("#dlg").close(); pintar();
+};
+
+/* ===== Secciones ===== */
+function pintarSecciones(){
+  const n = id => lista.filter(p => p.categoria === id).length;
+  $("#app").innerHTML = pestanas() + `<div class="barra"><h1 style="margin:0">Secciones</h1><button class="btn" data-sec-nueva="1">+ Nueva sección</button></div>
+  <p class="ayuda" style="margin:0 0 12px">El orden de esta lista es el orden del catálogo. Las secciones sin productos visibles no se muestran en la tienda. La sección «Ofertas» aparece sola cuando algún producto tiene precio en oferta. «Galería de eventos» es especial: sus fotos salen en la parte de Eventos, no en el catálogo.</p>
+  <div class="lista">${secciones.length ? secciones.map((x, i) => `<article class="item">
+    <div class="sec-emoji" aria-hidden="true">${esc(x.emoji || "🎁")}</div>
+    <div><h3>${esc(x.nombre)}</h3><div class="meta"><span>${n(x.id)} producto${n(x.id) === 1 ? "" : "s"}</span></div></div>
+    <div class="botones"><span class="flechas"><button class="btn ghost chico" data-sec-mover="${i}:-1" aria-label="Subir" ${i === 0 ? "disabled" : ""}>↑</button><button class="btn ghost chico" data-sec-mover="${i}:1" aria-label="Bajar" ${i === secciones.length - 1 ? "disabled" : ""}>↓</button></span><button class="btn chico" data-sec-editar="${esc(x.id)}">Editar</button></div>
+  </article>`).join("") : `<p class="vacio">Todavía no hay secciones.</p>`}</div>`;
+}
+async function moverSeccion(t){
+  const [i, d] = t.dataset.secMover.split(":").map(Number), j = i + d;
+  if (j < 0 || j >= secciones.length) return;
+  const nuevo = secciones.slice(); [nuevo[i], nuevo[j]] = [nuevo[j], nuevo[i]];
+  t.closest(".lista").querySelectorAll("button").forEach(b => b.disabled = true);
+  const cambios = nuevo.map((x, k) => ({x, orden: (k + 1) * 10})).filter(c => c.x.orden !== c.orden);
+  const res = await Promise.all(cambios.map(c => sb.from("secciones").update({orden: c.orden}).eq("id", c.x.id)));
+  const fallo = res.find(r => r.error);
+  if (fallo) alert("No se pudo cambiar el orden: " + fallo.error.message);
+  else { cambios.forEach(c => c.x.orden = c.orden); secciones = nuevo; usarSecciones(); }
+  pintarSecciones();
+}
+function avisoSec(txt, error){ const m = $("#secMsg"); m.textContent = txt; m.className = "msg" + (txt ? (error ? " err" : " ok") : ""); }
+function abrirSeccion(x){
+  secActual = x;
+  $("#secTitulo").textContent = x ? "Editar sección" : "Nueva sección";
+  $("#secNombre").value = x ? x.nombre : "";
+  $("#emoji").value = x ? x.emoji : "";
+  $("#secBorrar").classList.toggle("oculta", !x);
+  avisoSec(""); $("#dlgSec").showModal();
+}
+const aSlug = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "seccion";
+$("#secCancelar").onclick = () => $("#dlgSec").close();
+$("#formSec").onsubmit = async ev => {
+  ev.preventDefault();
+  const nombre = $("#secNombre").value.trim(), emoji = $("#emoji").value.trim() || "🎁";
+  if (!nombre) return avisoSec("Escribe el nombre de la sección.", true);
+  if (secciones.some(x => x !== secActual && x.nombre.toLowerCase() === nombre.toLowerCase())) return avisoSec("Ya existe una sección con ese nombre.", true);
+  const b = $("#secGuardar"); b.disabled = true; avisoSec("Guardando…");
+  let res;
+  if (secActual) res = await sb.from("secciones").update({nombre, emoji}).eq("id", secActual.id).select().single();
+  else {
+    const base = aSlug(nombre); let id = base, k = 2;
+    while (id === "ofertas" || secciones.some(x => x.id === id)) id = base + "-" + k++;
+    res = await sb.from("secciones").insert({id, nombre, emoji, orden: Math.max(0, ...secciones.map(x => x.orden)) + 10}).select().single();
+  }
+  b.disabled = false;
+  if (res.error) return avisoSec("No se pudo guardar: " + res.error.message, true);
+  if (secActual) Object.assign(secActual, res.data); else secciones.push(res.data);
+  usarSecciones(); $("#dlgSec").close(); pintarSecciones();
+};
+$("#secBorrar").onclick = async () => {
+  const x = secActual; if (!x) return;
+  const n = lista.filter(p => p.categoria === x.id).length;
+  if (n) return avisoSec(`Esta sección tiene ${n} producto${n === 1 ? "" : "s"}. Muévelos a otra sección o bórralos antes de borrarla.`, true);
+  if (!confirm("¿Borrar la sección «" + x.nombre + "»? Esto no se puede deshacer.")) return;
+  const { error } = await sb.from("secciones").delete().eq("id", x.id);
+  if (error) return avisoSec("No se pudo borrar: " + error.message, true);
+  secciones = secciones.filter(s => s !== x); usarSecciones(); $("#dlgSec").close(); pintarSecciones();
+};
+
+/* ===== Pedidos ===== */
+const ESTADOS = [
+  ["pendiente",      "Pendiente",           "#e0a100"],  // recién llegado: falta confirmar pago y delivery
+  ["confirmado",     "Confirmado",          "#4a90d9"],  // pago confirmado, en cola
+  ["en_preparacion", "En preparación",      "#8e6cd9"],
+  ["listo",          "Listo para entregar", "#2fa36b"],
+  ["entregado",      "Entregado",           "#7a7a7a"],
+  ["cancelado",      "Cancelado",           "#c0392b"]
+];
+const estado = id => ESTADOS.find(e => e[0] === id) || ESTADOS[0];
+const ACTIVOS = ["pendiente", "confirmado", "en_preparacion", "listo"];
+let pedidos = null, filtroPed = "activos";
+async function cargarPedidos(){
+  $("#app").innerHTML = pestanas() + `<p class="vacio">Cargando pedidos…</p>`;
+  const { data, error } = await sb.from("pedidos").select("*").order("numero", { ascending: false }).limit(1000);
+  if (error){ $("#app").innerHTML = pestanas() + `<p class="vacio">No pude cargar los pedidos: ${esc(error.message)}</p>`; return; }
+  pedidos = data; if (vista === "pedidos") pintarPedidos();
+}
+const fechaHora = iso => new Date(iso).toLocaleString("es-VE", { timeZone: "America/Caracas", day: "2-digit", month: "2-digit", year: "numeric", hour: "numeric", minute: "2-digit" });
+const fechaCorta = d => d ? d.split("-").reverse().join("/") : "";
+// 0424-1234567 → 584241234567 para abrir el chat del cliente
+const waCliente = t => { let d = String(t).replace(/\D/g, ""); if (d.length === 11 && d[0] === "0") d = "58" + d.slice(1); return "https://wa.me/" + d; };
+function pintarPedidos(){
+  const ahora = new Date(), mes = ahora.toLocaleDateString("en-CA", { timeZone: "America/Caracas" }).slice(0, 7);
+  const delMes = pedidos.filter(p => new Date(p.creado).toLocaleDateString("en-CA", { timeZone: "America/Caracas" }).slice(0, 7) === mes && p.estado !== "cancelado");
+  const cuenta = id => pedidos.filter(p => p.estado === id).length;
+  const ver = pedidos.filter(p => filtroPed === "todos" || (filtroPed === "activos" ? ACTIVOS.includes(p.estado) : p.estado === filtroPed));
+  const chip = (id, n) => `<button class="chip" data-fped="${id}" aria-pressed="${filtroPed === id}">${n}</button>`;
+  $("#app").innerHTML = pestanas() + `<div class="barra"><h1 style="margin:0">Pedidos</h1><button class="btn ghost" data-recargar-ped="1">↻ Actualizar</button></div>
+  <div class="resumen">
+    <div><b>${pedidos.length}</b><span>pedidos en total</span></div>
+    <div><b>${delMes.length}</b><span>este mes</span></div>
+    <div><b>${usd(delMes.reduce((a, p) => a + Number(p.total), 0))}</b><span>vendido este mes</span></div>
+    <div><b>${cuenta("pendiente")}</b><span>pendientes por revisar</span></div>
+  </div>
+  <nav class="chips" aria-label="Filtrar por estado">${chip("activos", "Activos (" + pedidos.filter(p => ACTIVOS.includes(p.estado)).length + ")")}${ESTADOS.map(e => chip(e[0], e[1] + " (" + cuenta(e[0]) + ")")).join("")}${chip("todos", "Todos (" + pedidos.length + ")")}</nav>
+  <div class="lista">${ver.length ? ver.map(p => {
+    const e = estado(p.estado);
+    return `<article class="ped" style="--c:${e[2]}">
+    <div class="ped-top"><h3>Pedido N° ${p.numero}</h3>
+      <select data-estado="${p.numero}" aria-label="Estado del pedido ${p.numero}">${ESTADOS.map(x => `<option value="${x[0]}" ${x[0] === p.estado ? "selected" : ""}>${x[1]}</option>`).join("")}</select></div>
+    <div class="meta"><span>${fechaHora(p.creado)}</span><span>·</span><b>${esc(p.cliente)}</b><span>·</span><a href="${waCliente(p.telefono)}" target="_blank" rel="noopener">${esc(p.telefono)}</a></div>
+    <ul>${(p.items || []).map(i => `<li>${i.q} × ${esc(i.nombre)} — ${usd(i.precio * i.q)}</li>`).join("")}</ul>
+    <div class="fila"><span><b>Total:</b> ${usd(p.total)} + delivery</span><span><b>Pago:</b> ${esc(p.metodo || "—")}</span></div>
+    <div class="fila"><span><b>Entrega:</b> ${p.entrega === "delivery" ? "Delivery — " + esc(p.direccion || "") : "Retiro"}</span><span><b>Para:</b> ${fechaCorta(p.fecha)} ${esc(p.hora || "")}</span></div>
+    ${p.tarjeta ? `<div class="fila"><span><b>Tarjeta:</b> ${esc(p.tarjeta)}</span></div>` : ""}
+    ${p.nota ? `<div class="fila"><span><b>Notas:</b> ${esc(p.nota)}</span></div>` : ""}
+  </article>`; }).join("") : `<p class="vacio">${pedidos.length ? "No hay pedidos con este estado." : "Todavía no hay pedidos. Aparecerán aquí cuando un cliente envíe uno desde la tienda."}</p>`}</div>`;
+}
+document.addEventListener("change", async ev => {
+  const sel = ev.target.closest("[data-estado]"); if (!sel) return;
+  const p = pedidos.find(x => x.numero == sel.dataset.estado), antes = p.estado;
+  sel.disabled = true;
+  const { error } = await sb.from("pedidos").update({ estado: sel.value }).eq("numero", p.numero);
+  if (error){ alert("No se pudo cambiar el estado: " + error.message); sel.value = antes; sel.disabled = false; return; }
+  p.estado = sel.value; pintarPedidos();
+});
+
+/* ===== Cotizaciones de eventos ===== */
+const EST_COT = [
+  ["nueva",       "Nueva",          "#e0a100"],  // recién llegada: hay que escribirle
+  ["conversando", "Conversando",    "#d9822b"],  // afinando detalles con el cliente
+  ["cotizada",    "Cotizada",       "#4a90d9"],  // ya se le envió el precio
+  ["confirmada",  "Confirmada",     "#2fa36b"],  // apartó la fecha
+  ["realizada",   "Realizada",      "#7a7a7a"],
+  ["descartada",  "Descartada",     "#c0392b"]
+];
+const estCot = id => EST_COT.find(e => e[0] === id) || EST_COT[0];
+const COT_ACTIVAS = ["nueva", "conversando", "cotizada", "confirmada"];
+let cotizaciones = null, filtroCot = "activas";
+async function cargarCot(){
+  $("#app").innerHTML = pestanas() + `<p class="vacio">Cargando cotizaciones…</p>`;
+  const { data, error } = await sb.from("cotizaciones").select("*").order("numero", { ascending: false }).limit(1000);
+  if (error){ $("#app").innerHTML = pestanas() + `<p class="vacio">No pude cargar las cotizaciones: ${esc(error.message)}</p>`; return; }
+  cotizaciones = data; if (vista === "cotizaciones") pintarCot();
+}
+function pintarCot(){
+  const mes = new Date().toLocaleDateString("en-CA", { timeZone: "America/Caracas" }).slice(0, 7);
+  const delMes = cotizaciones.filter(c => new Date(c.creado).toLocaleDateString("en-CA", { timeZone: "America/Caracas" }).slice(0, 7) === mes);
+  const cuenta = id => cotizaciones.filter(c => c.estado === id).length;
+  const confirmado = cotizaciones.filter(c => ["confirmada", "realizada"].includes(c.estado)).reduce((a, c) => a + Number(c.monto || 0), 0);
+  const ver = cotizaciones.filter(c => filtroCot === "todas" || (filtroCot === "activas" ? COT_ACTIVAS.includes(c.estado) : c.estado === filtroCot));
+  const chip = (id, n) => `<button class="chip" data-fcot="${id}" aria-pressed="${filtroCot === id}">${n}</button>`;
+  $("#app").innerHTML = pestanas() + `<div class="barra"><h1 style="margin:0">Cotizaciones</h1><button class="btn ghost" data-recargar-cot="1">↻ Actualizar</button></div>
+  <div class="resumen">
+    <div><b>${cuenta("nueva")}</b><span>nuevas por responder</span></div>
+    <div><b>${delMes.length}</b><span>recibidas este mes</span></div>
+    <div><b>${cuenta("confirmada")}</b><span>eventos confirmados</span></div>
+    <div><b>${usd(confirmado)}</b><span>en eventos confirmados</span></div>
+  </div>
+  <nav class="chips" aria-label="Filtrar por estado">${chip("activas", "Activas (" + cotizaciones.filter(c => COT_ACTIVAS.includes(c.estado)).length + ")")}${EST_COT.map(e => chip(e[0], e[1] + " (" + cuenta(e[0]) + ")")).join("")}${chip("todas", "Todas (" + cotizaciones.length + ")")}</nav>
+  <div class="lista">${ver.length ? ver.map(c => {
+    const e = estCot(c.estado);
+    return `<article class="ped" style="--c:${e[2]}">
+    <div class="ped-top"><h3>N° ${c.numero} · ${esc(c.tipo)}</h3>
+      <select data-estado-cot="${c.numero}" aria-label="Estado de la cotización ${c.numero}">${EST_COT.map(x => `<option value="${x[0]}" ${x[0] === c.estado ? "selected" : ""}>${x[1]}</option>`).join("")}</select></div>
+    <div class="meta"><span>${fechaHora(c.creado)}</span><span>·</span><b>${esc(c.cliente)}</b><span>·</span><a href="${waCliente(c.telefono)}" target="_blank" rel="noopener">${esc(c.telefono)}</a></div>
+    <div class="fila"><span><b>Fecha del evento:</b> ${c.fecha_evento ? fechaCorta(c.fecha_evento) : "—"}</span><span><b>Invitados:</b> ${c.invitados ?? "—"}</span><span><b>Lugar:</b> ${esc(c.lugar || "—")}</span></div>
+    ${c.servicios && c.servicios.length ? `<div class="fila"><span><b>Necesita:</b> ${c.servicios.map(esc).join(", ")}</span></div>` : ""}
+    <div class="fila"><span><b>Estilo:</b> ${esc(c.estilo || "—")}</span><span><b>Presupuesto:</b> ${esc(c.presupuesto || "—")}</span></div>
+    ${c.referencia ? `<div class="fila"><span><b>Le gustó:</b> ${esc(c.referencia)}</span></div>` : ""}
+    ${c.detalles ? `<div class="fila"><span><b>Detalles:</b> ${esc(c.detalles)}</span></div>` : ""}
+    <div class="dos" style="margin-top:4px"><div><label for="monto${c.numero}" style="margin-top:4px">Monto cotizado (USD)</label><input type="text" id="monto${c.numero}" inputmode="decimal" value="${c.monto != null ? c.monto : ""}" placeholder="Ej.: 350"></div>
+    <div><label for="notas${c.numero}" style="margin-top:4px">Notas internas</label><input type="text" id="notas${c.numero}" value="${esc(c.notas_admin || "")}" placeholder="Solo las ves tú"></div></div>
+    <div class="botones"><button class="btn chico" data-guardar-cot="${c.numero}">Guardar</button></div>
+  </article>`; }).join("") : `<p class="vacio">${cotizaciones.length ? "No hay cotizaciones con este estado." : "Todavía no hay solicitudes. Aparecerán aquí cuando alguien pida una cotización desde la web."}</p>`}</div>`;
+}
+async function guardarCot(t){
+  const c = cotizaciones.find(x => x.numero == t.dataset.guardarCot);
+  const monto = numero($("#monto" + c.numero).value), notas = $("#notas" + c.numero).value.trim();
+  if (monto !== null && !(monto >= 0)) return alert("El monto debe ser un número, por ejemplo 350 o 350.50.");
+  t.disabled = true; t.textContent = "Guardando…";
+  const { error } = await sb.from("cotizaciones").update({ monto, notas_admin: notas || null }).eq("numero", c.numero);
+  t.disabled = false;
+  if (error){ t.textContent = "Guardar"; return alert("No se pudo guardar: " + error.message); }
+  c.monto = monto; c.notas_admin = notas || null; t.textContent = "✓ Guardado";
+  setTimeout(() => { t.textContent = "Guardar"; }, 1800);
+}
+document.addEventListener("change", async ev => {
+  const sel = ev.target.closest("[data-estado-cot]"); if (!sel) return;
+  const c = cotizaciones.find(x => x.numero == sel.dataset.estadoCot), antes = c.estado;
+  sel.disabled = true;
+  const { error } = await sb.from("cotizaciones").update({ estado: sel.value }).eq("numero", c.numero);
+  if (error){ alert("No se pudo cambiar el estado: " + error.message); sel.value = antes; sel.disabled = false; return; }
+  c.estado = sel.value; pintarCot();
+});
+
+/* ===== Inicio ===== */
+sb.auth.onAuthStateChange(ev => { if (ev === "SIGNED_OUT") vistaLogin(); });
+sb.auth.getSession().then(({ data }) => data.session ? entrar(data.session) : vistaLogin());
+</script>
+</body>
+</html>
