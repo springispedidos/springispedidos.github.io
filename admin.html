@@ -178,20 +178,25 @@ const precioTxt = p => p.categoria === "eventos" ? "Galería de eventos" : p.pre
   : p.precio_oferta != null ? `<span class="tachado">${usd(p.precio)}</span> ${usd(p.precio_oferta)}` : usd(p.precio);
 
 /* ===== Sesión ===== */
+// Se entra con usuario y contraseña. Por dentro, Supabase guarda cada usuario como
+// «usuario@springis.invalid» (dominio reservado que no recibe correos).
+const DOMINIO = "springis.invalid";
+const aCorreo = u => { u = u.trim().toLowerCase(); return u.includes("@") ? u : u + "@" + DOMINIO; };
+const nombreUsuario = e => String(e || "").toLowerCase().endsWith("@" + DOMINIO) ? e.slice(0, -DOMINIO.length - 1) : e;
 function vistaLogin(msg){
   $("#salir").classList.add("oculta"); $("#quien").textContent = "";
   $("#app").innerHTML = `<form class="box login" id="login"><h1>Entrar</h1>
-  <label for="email">Correo</label><input type="email" id="email" autocomplete="username" required>
+  <label for="usuario">Usuario</label><input type="text" id="usuario" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required>
   <label for="clave">Contraseña</label><input type="password" id="clave" autocomplete="current-password" required>
   <p class="msg err" id="loginMsg" role="alert">${esc(msg || "")}</p>
   <button class="btn" style="width:100%;margin-top:14px" id="entrar">Entrar</button></form>`;
 }
 async function entrar(session){
   const email = session.user.email;
-  $("#quien").textContent = email; $("#salir").classList.remove("oculta");
+  $("#quien").textContent = nombreUsuario(email); $("#salir").classList.remove("oculta");
   const { data, error } = await sb.from("admins").select("email").maybeSingle();
   if (error){ $("#app").innerHTML = `<p class="vacio">No pude comprobar tu acceso: ${esc(error.message)}</p>`; return; }
-  if (!data){ $("#app").innerHTML = `<div class="box login"><h1>Sin permiso</h1><p>La cuenta ${esc(email)} no está en la lista de administradores. Pide que la agreguen en Supabase (tabla <b>admins</b>).</p></div>`; return; }
+  if (!data){ $("#app").innerHTML = `<div class="box login"><h1>Sin permiso</h1><p>El usuario <b>${esc(nombreUsuario(email))}</b> no está en la lista de administradores. Pide que lo agreguen en Supabase (tabla <b>admins</b>).</p></div>`; return; }
   await cargar();
 }
 document.addEventListener("submit", async ev => {
@@ -199,9 +204,9 @@ document.addEventListener("submit", async ev => {
   ev.preventDefault();
   const b = $("#entrar"), m = $("#loginMsg");
   b.disabled = true; m.textContent = "";
-  const { data, error } = await sb.auth.signInWithPassword({ email: $("#email").value.trim(), password: $("#clave").value });
+  const { data, error } = await sb.auth.signInWithPassword({ email: aCorreo($("#usuario").value), password: $("#clave").value });
   b.disabled = false;
-  if (error){ m.textContent = error.message === "Invalid login credentials" ? "Correo o contraseña incorrectos." : error.message; return; }
+  if (error){ m.textContent = error.message === "Invalid login credentials" ? "Usuario o contraseña incorrectos." : error.message; return; }
   entrar(data.session);
 });
 $("#salir").onclick = async () => { await sb.auth.signOut(); vistaLogin(); };

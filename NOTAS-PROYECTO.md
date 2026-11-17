@@ -23,6 +23,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - El pedido incluye mensaje para la tarjeta y notas.
 - La sección `eventos` («Galería de eventos») es especial: sus fotos no se venden, salen en la parte de Eventos con el botón «Quiero algo así», que abre la cotización con esa foto como referencia.
 - Cotizaciones: estados Nueva, Conversando, Cotizada, Confirmada, Realizada, Descartada. El admin anota el monto cotizado y notas internas.
+- Panel: se entra con usuario y contraseña. Por dentro cada usuario es «usuario@springis.invalid» (dominio reservado, no recibe correos). Para crear uno: Supabase → Authentication → Users → Add user con ese correo y Auto Confirm, y luego `insert into public.admins (email) values ('usuario@springis.invalid');`. La contraseña olvidada se cambia desde Supabase (no hay correo de recuperación).
 - Si Supabase falla o no está configurado, pedidos y cotizaciones igual llegan por WhatsApp, solo que sin número.
 
 ## Pendiente
