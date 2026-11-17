@@ -31,7 +31,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - Usuario de Instagram, colores y tipografías de la marca.
 - Número de WhatsApp (sin él, el chat se abre sin destinatario).
 - Ciudad, horario, métodos de pago reales.
-- Supabase conectado (proyecto «Springis», https://zierdhzzdmankvgcyfjs.supabase.co, esquema ya ejecutado). Falta: crear la cuenta de admin, agregarla a la tabla `admins` y desactivar el registro público.
+- Supabase conectado (proyecto «Springis», https://zierdhzzdmankvgcyfjs.supabase.co, esquema ya ejecutado). Admin «sophia» creada y con permiso; registro público desactivado.
 - Mientras no haya productos cargados en el panel, la web muestra los de ejemplo de `index.html`.
 - Fotos, nombres y precios reales (se cargan desde el panel cuando esté conectado).
 - Fotos de eventos ya decorados para la galería.
