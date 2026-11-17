@@ -6,9 +6,9 @@ Resumen para retomar el trabajo en otra conversación.
 Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de mesa y decoración de eventos (bodas, bautizos, cumpleaños, etc.). La web es un catálogo estilo app de pedidos («pide fácil»): fotos, precios, botón + para agregar, barra flotante con el total y pedido por WhatsApp. Tiene una sección de Eventos con formulario de cotización.
 
 ## Enlaces
-- Web: https://viphydetails.github.io/springis/
-- Panel de admin (no aparece enlazado en la web): https://viphydetails.github.io/springis/admin.html
-- Repositorio: https://github.com/Viphydetails/springis (cuenta de GitHub de Viphy, repositorio aparte)
+- Web: https://springispedidos.github.io/
+- Panel de admin (no aparece enlazado en la web): https://springispedidos.github.io/admin.html
+- Repositorio: https://github.com/springispedidos/springispedidos.github.io (organización «springispedidos», administrada desde la cuenta Viphydetails)
 - Regla: Springis vive en su propio repositorio y su propio Supabase. Nunca se toca el repositorio `viphydetails.github.io` ni el Supabase de Viphy desde este proyecto.
 
 ## Archivos
