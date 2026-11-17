@@ -28,7 +28,7 @@ grant execute on function public.es_admin() to anon, authenticated;
 create table if not exists public.secciones (
   id     text primary key check (id ~ '^[a-z0-9-]+$' and id <> 'ofertas'),
   nombre text not null,
-  emoji  text not null default '🌸',
+  emoji  text not null default '',
   orden  integer not null default 0,
   creado timestamptz not null default now()
 );
@@ -46,11 +46,11 @@ grant select on public.secciones to anon, authenticated;
 grant insert, update, delete on public.secciones to authenticated;
 
 insert into public.secciones (id, nombre, emoji, orden) values
- ('ramilletes','Ramilletes','💐',10),
- ('arreglos','Arreglos florales','🌷',20),
- ('cajas','Flores en caja','🎁',30),
- ('centros','Centros de mesa','🕯️',40),
- ('eventos','Galería de eventos','📸',50)
+ ('ramilletes','Ramilletes','',10),
+ ('arreglos','Arreglos florales','',20),
+ ('cajas','Flores en caja','',30),
+ ('centros','Centros de mesa','',40),
+ ('eventos','Galería de eventos','',50)
 on conflict (id) do nothing;
 
 -- ===== Productos =====

@@ -18,6 +18,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - `supabase/esquema.sql`: crea todo de una vez (admins, secciones, productos, fotos, pedidos con `crear_pedido`, cotizaciones con `crear_cotizacion`).
 
 ## Decisiones
+- Sin emojis en ninguna parte (la dueña siente que le quitan seriedad). Sin foto, los productos muestran una flor dibujada en línea; en el panel, la inicial.
 - Colores y tipografías provisionales (rosa #b8476a, verde hoja #3f6b4f, crema #fbf7f3; Fraunces y DM Sans) hasta tener los de la marca.
 - Precios en USD. El delivery se confirma aparte por WhatsApp; los datos de pago también se envían por WhatsApp (la web solo pregunta cómo prefiere pagar).
 - El pedido incluye mensaje para la tarjeta y notas.

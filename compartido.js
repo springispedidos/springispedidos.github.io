@@ -12,9 +12,9 @@ const SUPABASE = {
 // Secciones de respaldo. Las reales se editan en el panel (admin.html → Secciones).
 // La sección «eventos» es especial: sus fotos no se venden, se muestran en la galería de Eventos.
 let CATS = [
-  {id:"ramilletes", n:"Ramilletes", e:"💐"},
-  {id:"arreglos",   n:"Arreglos florales", e:"🌷"},
-  {id:"cajas",      n:"Flores en caja", e:"🎁"},
-  {id:"centros",    n:"Centros de mesa", e:"🕯️"},
-  {id:"eventos",    n:"Galería de eventos", e:"📸"}
+  {id:"ramilletes", n:"Ramilletes"},
+  {id:"arreglos",   n:"Arreglos florales"},
+  {id:"cajas",      n:"Flores en caja"},
+  {id:"centros",    n:"Centros de mesa"},
+  {id:"eventos",    n:"Galería de eventos"}
 ];

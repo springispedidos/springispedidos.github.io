@@ -40,7 +40,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],selec
 .lista{display:flex;flex-direction:column;gap:8px}
 .item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
 .item.oculto{opacity:.6}
-.mini{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.6rem;overflow:hidden}
+.mini{width:56px;height:56px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-family:Fraunces,Georgia,serif;font-size:1.4rem;overflow:hidden}
 .mini img{width:100%;height:100%;object-fit:cover}
 .item h3{margin:0;font-size:1rem;line-height:1.25}
 .meta{color:var(--muted);font-size:.84rem;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -86,13 +86,12 @@ dialog::backdrop{background:rgba(30,20,18,.5)}
 @media (max-width:560px){.resumen{grid-template-columns:1fr 1fr}.resumen b{font-size:1.25rem}.pestanas button{padding:10px 10px}}
 .pestanas button{border:0;background:none;padding:10px 14px;font-weight:700;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
 .pestanas button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
-.sec-emoji{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.7rem}
+.sec-emoji{width:56px;height:56px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-family:Fraunces,Georgia,serif;font-size:1.5rem}
 .flechas{display:flex;gap:4px}
 .flechas .btn{min-width:38px}
 .oferta-caja{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px}
 .aviso-oferta{background:var(--soft);border-radius:10px;padding:8px 12px;font-size:.88rem;margin:10px 0 0}
 .aviso-oferta b{color:var(--accent)}
-#emoji{font-size:1.4rem;width:5.5rem;text-align:center}
 @media (max-width:560px){
   .item{grid-template-columns:48px 1fr}
   .mini{width:48px;height:48px}
@@ -121,11 +120,11 @@ dialog::backdrop{background:rgba(30,20,18,.5)}
     <label for="nombre">Nombre</label><input type="text" id="nombre" required maxlength="120">
     <label for="descripcion">Descripción</label><textarea id="descripcion" rows="3" maxlength="400"></textarea>
     <label for="categoria">Sección</label><select id="categoria"></select>
-    <p class="aviso-oferta oculta" id="avisoEventos">📸 Esta sección es la <b>galería de eventos</b>: la foto se muestra en la parte de Eventos de la web, sin precio, con el botón «Quiero algo así» para pedir cotización.</p>
+    <p class="aviso-oferta oculta" id="avisoEventos">Esta sección es la <b>galería de eventos</b>: la foto se muestra en la parte de Eventos de la web, sin precio, con el botón «Quiero algo así» para pedir cotización.</p>
     <div id="bloquePrecio">
     <label for="precio">Precio en USD</label><input type="text" id="precio" inputmode="decimal" placeholder="Vacío = por confirmar">
     <div class="oferta-caja">
-      <label class="check" style="margin:0"><input type="checkbox" id="enOferta"> <b>🏷️ Etiquetar como oferta</b></label>
+      <label class="check" style="margin:0"><input type="checkbox" id="enOferta"> <b>Etiquetar como oferta</b></label>
       <div id="bloqueOferta" class="oculta">
         <label for="oferta">Precio en oferta (USD)</label><input type="text" id="oferta" inputmode="decimal" placeholder="Ej.: 20">
         <p class="ayuda">La tienda mostrará «Antes» con el precio normal tachado y «Hoy» con este precio.</p>
@@ -147,8 +146,6 @@ dialog::backdrop{background:rgba(30,20,18,.5)}
   <form class="dlg" id="formSec" novalidate>
     <h2 id="secTitulo">Sección</h2>
     <label for="secNombre">Nombre</label><input type="text" id="secNombre" required maxlength="40" placeholder="Ej.: Tazas personalizadas">
-    <label for="emoji">Emoji</label><input type="text" id="emoji" maxlength="8" placeholder="🎁">
-    <p class="ayuda">Aparece junto al nombre en la tienda y cuando un producto no tiene foto. En el teléfono, usa el teclado de emojis.</p>
     <p class="msg" id="secMsg" role="alert"></p>
     <div class="pie">
       <button type="button" class="btn peligro" id="secBorrar">Borrar sección</button>
@@ -158,7 +155,7 @@ dialog::backdrop{background:rgba(30,20,18,.5)}
 </dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="compartido.js?v=3"></script>
+<script src="compartido.js?v=4"></script>
 <script>
 if (!SUPABASE.url || !SUPABASE.key){
   document.getElementById("app").innerHTML = `<div class="box login"><h1>Falta conectar</h1><p>El panel todavía no está conectado a la base de datos. Hay que crear el proyecto de Springis en Supabase y poner su dirección y clave en <b>compartido.js</b>.</p></div>`;
@@ -169,7 +166,8 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const usd = n => "$" + Number(n).toFixed(2);
 const PREFIJO = SUPABASE.url + "/storage/v1/object/public/" + SUPABASE.bucket + "/";
-const cat = id => CATS.find(c => c.id === id) || {n:id, e:"🎁"};
+const cat = id => CATS.find(c => c.id === id) || {n:id};
+const inicial = t => esc(String(t || "").trim().charAt(0).toUpperCase());
 
 const MAX_FOTOS = 8;
 // fotos del editor: {url} ya guardada, o {blob, url} nueva (url = vista previa local)
@@ -223,7 +221,7 @@ async function cargar(){
 }
 // Las secciones de Supabase pasan a CATS, que usan los filtros y el selector del editor.
 function usarSecciones(){
-  CATS = secciones.map(x => ({id: x.id, n: x.nombre, e: x.emoji || "🎁"}));
+  CATS = secciones.map(x => ({id: x.id, n: x.nombre}));
   if (filtro !== "todas" && !CATS.some(c => c.id === filtro)) filtro = "todas";
   $("#categoria").innerHTML = CATS.map(c => `<option value="${c.id}">${esc(c.e)} ${esc(c.n)}</option>`).join("");
 }
@@ -237,7 +235,7 @@ function pintar(){
   $("#app").innerHTML = pestanas() + `<div class="barra"><h1 style="margin:0">Productos</h1><button class="btn" data-nuevo="1">+ Nuevo producto</button></div>
   <nav class="chips" aria-label="Filtrar por sección">${chip("todas", "Todas (" + lista.length + ")")}${CATS.map(c => chip(c.id, esc(c.e) + " " + esc(c.n) + " (" + lista.filter(p => p.categoria === c.id).length + ")")).join("")}</nav>
   <div class="lista">${ver.length ? ver.map(p => `<article class="item${p.visible ? "" : " oculto"}">
-    <div class="mini">${p.imagenes.length ? `<img src="${esc(p.imagenes[0])}" alt="" loading="lazy">` : `<span aria-hidden="true">${esc(cat(p.categoria).e)}</span>`}</div>
+    <div class="mini">${p.imagenes.length ? `<img src="${esc(p.imagenes[0])}" alt="" loading="lazy">` : `<span aria-hidden="true">${inicial(p.nombre)}</span>`}</div>
     <div><h3>${esc(p.nombre)}</h3><div class="meta"><span>${esc(cat(p.categoria).n)}</span><span>·</span><b>${precioTxt(p)}</b>${p.imagenes.length > 1 ? `<span>· ${p.imagenes.length} fotos</span>` : ""}${p.precio_oferta != null ? '<span class="tag">Oferta</span>' : ""}${p.nuevo ? '<span class="tag">NEW</span>' : ""}${p.visible ? "" : '<span class="tag">Oculto</span>'}</div></div>
     <div class="botones"><button class="btn ghost chico" data-ver="${p.id}">${p.visible ? "Ocultar" : "Mostrar"}</button><button class="btn chico" data-editar="${p.id}">Editar</button></div>
   </article>`).join("") : `<p class="vacio">No hay productos en esta sección.</p>`}</div>`;
@@ -321,7 +319,7 @@ function avisoOferta(){
   const precio = numero($("#precio").value), oferta = numero($("#oferta").value), a = $("#avisoOferta");
   const ok = $("#enOferta").checked && precio > 0 && oferta !== null && oferta >= 0 && oferta < precio;
   a.classList.toggle("oculta", !ok);
-  if (ok) a.innerHTML = `🏷️ Se mostrará con la etiqueta <b>OFERTA</b> (${Math.round((1 - oferta / precio) * 100)} % de descuento) y aparecerá también en la sección <b>Ofertas</b> de la tienda.`;
+  if (ok) a.innerHTML = `Se mostrará con la etiqueta <b>OFERTA</b> (${Math.round((1 - oferta / precio) * 100)} % de descuento) y aparecerá también en la sección <b>Ofertas</b> de la tienda.`;
 }
 function mostrarOferta(){ $("#bloqueOferta").classList.toggle("oculta", !$("#enOferta").checked); }
 $("#enOferta").onchange = () => { mostrarOferta(); if ($("#enOferta").checked) $("#oferta").focus(); avisoOferta(); };
@@ -407,7 +405,7 @@ function pintarSecciones(){
   $("#app").innerHTML = pestanas() + `<div class="barra"><h1 style="margin:0">Secciones</h1><button class="btn" data-sec-nueva="1">+ Nueva sección</button></div>
   <p class="ayuda" style="margin:0 0 12px">El orden de esta lista es el orden del catálogo. Las secciones sin productos visibles no se muestran en la tienda. La sección «Ofertas» aparece sola cuando algún producto tiene precio en oferta. «Galería de eventos» es especial: sus fotos salen en la parte de Eventos, no en el catálogo.</p>
   <div class="lista">${secciones.length ? secciones.map((x, i) => `<article class="item">
-    <div class="sec-emoji" aria-hidden="true">${esc(x.emoji || "🎁")}</div>
+    <div class="sec-emoji" aria-hidden="true">${inicial(x.nombre)}</div>
     <div><h3>${esc(x.nombre)}</h3><div class="meta"><span>${n(x.id)} producto${n(x.id) === 1 ? "" : "s"}</span></div></div>
     <div class="botones"><span class="flechas"><button class="btn ghost chico" data-sec-mover="${i}:-1" aria-label="Subir" ${i === 0 ? "disabled" : ""}>↑</button><button class="btn ghost chico" data-sec-mover="${i}:1" aria-label="Bajar" ${i === secciones.length - 1 ? "disabled" : ""}>↓</button></span><button class="btn chico" data-sec-editar="${esc(x.id)}">Editar</button></div>
   </article>`).join("") : `<p class="vacio">Todavía no hay secciones.</p>`}</div>`;
@@ -429,7 +427,6 @@ function abrirSeccion(x){
   secActual = x;
   $("#secTitulo").textContent = x ? "Editar sección" : "Nueva sección";
   $("#secNombre").value = x ? x.nombre : "";
-  $("#emoji").value = x ? x.emoji : "";
   $("#secBorrar").classList.toggle("oculta", !x);
   avisoSec(""); $("#dlgSec").showModal();
 }
@@ -437,16 +434,16 @@ const aSlug = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCas
 $("#secCancelar").onclick = () => $("#dlgSec").close();
 $("#formSec").onsubmit = async ev => {
   ev.preventDefault();
-  const nombre = $("#secNombre").value.trim(), emoji = $("#emoji").value.trim() || "🎁";
+  const nombre = $("#secNombre").value.trim();
   if (!nombre) return avisoSec("Escribe el nombre de la sección.", true);
   if (secciones.some(x => x !== secActual && x.nombre.toLowerCase() === nombre.toLowerCase())) return avisoSec("Ya existe una sección con ese nombre.", true);
   const b = $("#secGuardar"); b.disabled = true; avisoSec("Guardando…");
   let res;
-  if (secActual) res = await sb.from("secciones").update({nombre, emoji}).eq("id", secActual.id).select().single();
+  if (secActual) res = await sb.from("secciones").update({nombre}).eq("id", secActual.id).select().single();
   else {
     const base = aSlug(nombre); let id = base, k = 2;
     while (id === "ofertas" || secciones.some(x => x.id === id)) id = base + "-" + k++;
-    res = await sb.from("secciones").insert({id, nombre, emoji, orden: Math.max(0, ...secciones.map(x => x.orden)) + 10}).select().single();
+    res = await sb.from("secciones").insert({id, nombre, orden: Math.max(0, ...secciones.map(x => x.orden)) + 10}).select().single();
   }
   b.disabled = false;
   if (res.error) return avisoSec("No se pudo guardar: " + res.error.message, true);
@@ -578,7 +575,7 @@ async function guardarCot(t){
   const { error } = await sb.from("cotizaciones").update({ monto, notas_admin: notas || null }).eq("numero", c.numero);
   t.disabled = false;
   if (error){ t.textContent = "Guardar"; return alert("No se pudo guardar: " + error.message); }
-  c.monto = monto; c.notas_admin = notas || null; t.textContent = "✓ Guardado";
+  c.monto = monto; c.notas_admin = notas || null; t.textContent = "Guardado";
   setTimeout(() => { t.textContent = "Guardar"; }, 1800);
 }
 document.addEventListener("change", async ev => {

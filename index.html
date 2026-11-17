@@ -59,7 +59,8 @@ main{max-width:1100px;margin:0 auto;padding:0 16px 120px}
 .hero h1 em{color:var(--accent);font-style:italic}
 .hero p.sub{color:var(--muted);font-size:1.05rem;max-width:34em;margin:14px 0 22px}
 .hero .acc{display:flex;gap:10px;flex-wrap:wrap}
-.hero .foto{aspect-ratio:4/3.4;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 30% 30%,#fbd9e2,transparent 60%),radial-gradient(circle at 75% 70%,#dbe8dc,transparent 55%),var(--soft);display:grid;place-items:center;font-size:5.5rem}
+.hero .foto{aspect-ratio:4/3.4;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 30% 30%,#fbd9e2,transparent 60%),radial-gradient(circle at 75% 70%,#dbe8dc,transparent 55%),var(--soft);display:grid;place-items:center;color:var(--accent)}
+.hero .foto .flor{width:34%;height:34%;opacity:.6}
 .hero .foto img{width:100%;height:100%;object-fit:cover}
 .sellos{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0;padding:0;list-style:none;font-size:.86rem;color:var(--muted)}
 .sellos li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
@@ -93,7 +94,8 @@ main{max-width:1100px;margin:0 auto;padding:0 16px 120px}
 .precio.consulta{color:var(--leaf);font-size:.92rem}
 .etq{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:2px 7px;margin-bottom:6px;margin-right:4px;background:var(--soft);color:var(--accent-dark)}
 .etq.verde{background:var(--leaf-soft);color:var(--leaf)}
-.ph{position:relative;width:116px;height:116px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--soft),var(--leaf-soft));display:grid;place-items:center;font-size:2.6rem}
+.ph{position:relative;width:116px;height:116px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--soft),var(--leaf-soft));display:grid;place-items:center;color:var(--accent)}
+.flor{width:46%;height:46%;opacity:.75}
 .ph img{width:100%;height:100%;object-fit:cover}
 .mas{position:absolute;right:6px;bottom:6px;width:36px;height:36px;border-radius:50%;border:0;background:var(--surface);color:var(--accent);font-size:1.4rem;font-weight:700;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:grid;place-items:center}
 .paso{position:absolute;left:6px;right:6px;bottom:6px;display:flex;align-items:center;justify-content:space-between;background:var(--accent);color:#fff;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
@@ -110,7 +112,6 @@ main{max-width:1100px;margin:0 auto;padding:0 16px 120px}
 .tipos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:0 0 26px}
 .tipo{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px;color:inherit;text-align:left;cursor:pointer;transition:background .15s}
 .tipo:hover{background:rgba(255,255,255,.18)}
-.tipo span{font-size:1.6rem;display:block;margin-bottom:6px}
 .tipo b{display:block}
 .tipo small{color:#d3e2d5;font-size:.84rem;line-height:1.35;display:block;margin-top:2px}
 .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 26px;padding:0;list-style:none;counter-reset:p}
@@ -155,7 +156,7 @@ main{max-width:1100px;margin:0 auto;padding:0 16px 120px}
 .caja h2{font-family:var(--b);font-weight:700;font-size:1rem;margin:0 0 4px}
 .linea{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .linea:last-child{border-bottom:0}
-.linea .ph{width:56px;height:56px;border-radius:12px;font-size:1.5rem}
+.linea .ph{width:56px;height:56px;border-radius:12px}
 .linea .paso{position:static;background:var(--soft);color:var(--accent-dark);box-shadow:none;width:108px}
 .linea .paso button{color:var(--accent-dark)}
 .linea small{color:var(--muted)}
@@ -176,7 +177,8 @@ textarea{resize:vertical}
 .op input:focus-visible + span{outline:3px solid var(--accent);outline-offset:2px}
 .err{color:var(--err);font-weight:700;min-height:1.4em;margin:8px 0}
 .listo{text-align:center;padding:40px 0}
-.listo .ok{width:76px;height:76px;border-radius:50%;background:var(--leaf-soft);color:var(--leaf);display:grid;place-items:center;margin:0 auto 16px;font-size:2.2rem}
+.listo .ok{width:76px;height:76px;border-radius:50%;background:var(--leaf-soft);color:var(--leaf);display:grid;place-items:center;margin:0 auto 16px}
+.listo .ok svg{width:34px;height:34px}
 .listo .num{font-family:var(--t);font-size:2.6rem;color:var(--accent);margin:4px 0 12px}
 .listo p{color:var(--muted);max-width:30em;margin:0 auto 18px}
 .listo .acc{display:flex;flex-direction:column;gap:10px;align-items:center}
@@ -192,7 +194,8 @@ dialog.ficha::backdrop{background:rgba(30,20,18,.5)}
 .car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;aspect-ratio:1;max-height:52vh;background:linear-gradient(135deg,var(--soft),var(--leaf-soft))}
 .car::-webkit-scrollbar{display:none}
 .car > *{flex:none;width:100%;height:100%;scroll-snap-align:center;object-fit:cover}
-.car .emo{display:grid;place-items:center;font-size:6rem}
+.car .emo{display:grid;place-items:center;color:var(--accent)}
+.car .emo .flor{width:38%;height:38%}
 .puntos{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
 .puntos i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6)}
 .puntos i.on{background:#fff;width:18px;border-radius:4px}
@@ -212,7 +215,7 @@ dialog.ficha::backdrop{background:rgba(30,20,18,.5)}
 
 @media (max-width:760px){
   .hero{grid-template-columns:1fr;gap:18px;padding-top:16px}
-  .hero .foto{order:-1;aspect-ratio:16/10;font-size:4rem;border-radius:22px}
+  .hero .foto{order:-1;aspect-ratio:16/10;border-radius:22px}
   .lista{grid-template-columns:1fr}
   .pasos{grid-template-columns:1fr}
   .tipos{grid-template-columns:1fr 1fr;gap:8px}
@@ -246,7 +249,7 @@ dialog.ficha::backdrop{background:rgba(30,20,18,.5)}
   <div class="ficha-in" id="fichaIn"></div>
 </dialog>
 
-<script src="compartido.js?v=2"></script>
+<script src="compartido.js?v=3"></script>
 <script>
 /* ===== CONFIGURACIÓN: edita aquí ===== */
 const CONFIG = {
@@ -265,12 +268,12 @@ const CONFIG = {
 
 // Tipos de evento que se muestran en la sección de cotizaciones
 const EVENTOS = [
-  {e:"💍", n:"Bodas", d:"Ramo de novia, arcos florales, iglesia, salón y centros de mesa."},
-  {e:"🕊️", n:"Bautizos y comuniones", d:"Decoración delicada para la iglesia y la celebración."},
-  {e:"🎂", n:"Cumpleaños y 15 años", d:"Mesa principal, centros de mesa y detalles florales."},
-  {e:"🍼", n:"Baby showers", d:"Flores en tonos suaves y decoración de mesas."},
-  {e:"🏢", n:"Eventos corporativos", d:"Recepciones, lanzamientos y arreglos para oficinas."},
-  {e:"✨", n:"Otro evento", d:"Cuéntanos tu idea y la armamos contigo."}
+  {n:"Bodas", d:"Ramo de novia, arcos florales, iglesia, salón y centros de mesa."},
+  {n:"Bautizos y comuniones", d:"Decoración delicada para la iglesia y la celebración."},
+  {n:"Cumpleaños y 15 años", d:"Mesa principal, centros de mesa y detalles florales."},
+  {n:"Baby showers", d:"Flores en tonos suaves y decoración de mesas."},
+  {n:"Eventos corporativos", d:"Recepciones, lanzamientos y arreglos para oficinas."},
+  {n:"Otro evento", d:"Cuéntanos tu idea y la armamos contigo."}
 ];
 const SERVICIOS = ["Centros de mesa", "Ramo de novia", "Arco o pared floral", "Mesa principal", "Iglesia o ceremonia", "Flores para la torta", "Boutonnieres y corsages", "Recuerdos o detalles"];
 const PRESUPUESTOS = ["Menos de $100", "$100 a $300", "$300 a $600", "Más de $600", "Aún no lo sé"];
@@ -284,18 +287,18 @@ const FAQ = [
 ];
 
 // Lista de respaldo: los productos reales se cargan desde Supabase (panel de admin).
-// Precios de ejemplo hasta tener los reales. c = sección · p = precio (null = por confirmar) · e = emoji si no hay foto
+// Precios de ejemplo hasta tener los reales. c = sección · p = precio (null = por confirmar)
 let PRODUCTOS = [
-  {id:1, c:"ramilletes", n:"Ramillete de rosas rojas", d:"Doce rosas rojas con follaje y envoltura de papel coreano.", p:35, imgs:[], e:"🌹", nuevo:false},
-  {id:2, c:"ramilletes", n:"Ramillete primaveral", d:"Mezcla de flores de temporada en tonos pastel.", p:28, imgs:[], e:"💐", nuevo:true},
-  {id:3, c:"ramilletes", n:"Ramillete de girasoles", d:"Girasoles con margaritas y lazo de tela.", p:25, imgs:[], e:"🌻", nuevo:false},
-  {id:4, c:"ramilletes", n:"Mini ramillete", d:"Un detalle pequeño para cualquier ocasión.", p:12, imgs:[], e:"🌸", nuevo:false},
-  {id:5, c:"arreglos", n:"Arreglo en base de cerámica", d:"Rosas, hortensias y follaje en base decorativa.", p:40, imgs:[], e:"🌷", nuevo:false},
-  {id:6, c:"arreglos", n:"Arreglo de condolencia", d:"Flores blancas en arreglo sobrio.", p:null, imgs:[], e:"🤍", nuevo:false},
-  {id:7, c:"cajas", n:"Caja de rosas", d:"Rosas en caja redonda con tapa y tarjeta.", p:30, imgs:[], e:"🎁", nuevo:false},
-  {id:8, c:"cajas", n:"Caja de flores y chocolates", d:"Flores de temporada con bombones.", p:38, imgs:[], e:"🍫", nuevo:false},
-  {id:9, c:"centros", n:"Centro de mesa clásico", d:"Arreglo bajo para mesas de 8 a 10 personas. Precio por unidad.", p:18, imgs:[], e:"🕯️", nuevo:false},
-  {id:10, c:"centros", n:"Centro de mesa alto", d:"Base de cristal alta con flores colgantes. Precio por unidad.", p:null, imgs:[], e:"🥂", nuevo:false}
+  {id:1, c:"ramilletes", n:"Ramillete de rosas rojas", d:"Doce rosas rojas con follaje y envoltura de papel coreano.", p:35, imgs:[], nuevo:false},
+  {id:2, c:"ramilletes", n:"Ramillete primaveral", d:"Mezcla de flores de temporada en tonos pastel.", p:28, imgs:[], nuevo:true},
+  {id:3, c:"ramilletes", n:"Ramillete de girasoles", d:"Girasoles con margaritas y lazo de tela.", p:25, imgs:[], nuevo:false},
+  {id:4, c:"ramilletes", n:"Mini ramillete", d:"Un detalle pequeño para cualquier ocasión.", p:12, imgs:[], nuevo:false},
+  {id:5, c:"arreglos", n:"Arreglo en base de cerámica", d:"Rosas, hortensias y follaje en base decorativa.", p:40, imgs:[], nuevo:false},
+  {id:6, c:"arreglos", n:"Arreglo de condolencia", d:"Flores blancas en arreglo sobrio.", p:null, imgs:[], nuevo:false},
+  {id:7, c:"cajas", n:"Caja de rosas", d:"Rosas en caja redonda con tapa y tarjeta.", p:30, imgs:[], nuevo:false},
+  {id:8, c:"cajas", n:"Caja de flores y chocolates", d:"Flores de temporada con bombones.", p:38, imgs:[], nuevo:false},
+  {id:9, c:"centros", n:"Centro de mesa clásico", d:"Arreglo bajo para mesas de 8 a 10 personas. Precio por unidad.", p:18, imgs:[], nuevo:false},
+  {id:10, c:"centros", n:"Centro de mesa alto", d:"Base de cristal alta con flores colgantes. Precio por unidad.", p:null, imgs:[], nuevo:false}
 ];
 /* ===== fin de la configuración ===== */
 
@@ -313,12 +316,15 @@ const f = Object.assign({nombre:"", tel:"", entrega:"delivery", dir:"", fecha:""
 const q = {tipo:"", fecha:"", lugar:"", invitados:"", servicios:[], estilo:"", presupuesto:"", ref:"", refImg:"", detalles:""};
 let busqueda = "", ultimo = {url:"", num:null};
 
-const emoji = p => p.e || (CATS.find(c => c.id === p.c) || {}).e || "🌸";
+// Ilustración de línea que se muestra cuando un producto todavía no tiene foto
+const FLOR = `<svg class="flor" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 30c-4-6-4-13 0-17 4 4 4 11 0 17Z"/><path d="M32 30c-7-2-12-7-12-13 6 0 11 5 12 13Z"/><path d="M32 30c7-2 12-7 12-13-6 0-11 5-12 13Z"/><path d="M32 30v24"/><path d="M32 46c-5 0-9-3-11-8 5 0 9 3 11 8Z"/><path d="M32 42c5 0 9-3 11-8-5 0-9 3-11 8Z"/></svg>`;
+const ICONO_OK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>`;
+const ICONO_BOLSA = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>`;
 const vendibles = () => PRODUCTOS.filter(p => p.c !== "eventos");
 const items = () => vendibles().filter(p => cart[p.id] && p.p != null).map(p => ({...p, q: cart[p.id]}));
 const total = () => items().reduce((s, i) => s + i.p * i.q, 0);
 const cuenta = () => items().reduce((s, i) => s + i.q, 0);
-const fotoHTML = (p, cls = "") => p.imgs && p.imgs.length ? `<img src="${esc(p.imgs[0])}" alt="" loading="lazy"${cls}>` : `<span aria-hidden="true">${esc(emoji(p))}</span>`;
+const fotoHTML = (p, cls = "") => p.imgs && p.imgs.length ? `<img src="${esc(p.imgs[0])}" alt="" loading="lazy"${cls}>` : FLOR;
 const hoy = () => new Date().toLocaleDateString("en-CA");
 
 /* ===== Carrito ===== */
@@ -363,18 +369,18 @@ function secciones(){
   const filtrados = busqueda ? base.filter(p => norm(p.n + " " + p.d + " " + ((CATS.find(c => c.id === p.c) || {}).n || "")).includes(norm(busqueda))) : base;
   const out = [];
   const ofertas = filtrados.filter(p => p.antes != null);
-  if (ofertas.length && !busqueda) out.push({id:"ofertas", n:"Ofertas", e:"🏷️", items:ofertas});
+  if (ofertas.length && !busqueda) out.push({id:"ofertas", n:"Ofertas", items:ofertas});
   CATS.filter(c => c.id !== "eventos").forEach(c => { const it = filtrados.filter(p => p.c === c.id); if (it.length) out.push({...c, items:it}); });
   return out;
 }
 function zona(){
   const secs = secciones();
   if (!secs.length) return `<p class="vacio">${busqueda ? `No encontramos «${esc(busqueda)}». <a href="${wa("Hola, estoy buscando: " + busqueda)}" target="_blank" rel="noopener">Pregúntanos por WhatsApp</a>` : "Pronto verás aquí nuestro catálogo."}</p>`;
-  return secs.map(s => `<section class="sec" id="sec-${esc(s.id)}" data-sec="${esc(s.id)}"><h2><span aria-hidden="true">${esc(s.e)}</span> ${esc(s.n)}</h2><div class="lista">${s.items.map(tarjeta).join("")}</div></section>`).join("");
+  return secs.map(s => `<section class="sec" id="sec-${esc(s.id)}" data-sec="${esc(s.id)}"><h2>${esc(s.n)}</h2><div class="lista">${s.items.map(tarjeta).join("")}</div></section>`).join("");
 }
 function tabs(){
-  return secciones().map(s => `<button class="tab" data-ir="sec-${esc(s.id)}">${esc(s.e)} ${esc(s.n)}</button>`).join("")
-    + `<button class="tab ev" data-ir="eventos">🎉 Eventos</button>`;
+  return secciones().map(s => `<button class="tab" data-ir="sec-${esc(s.id)}">${esc(s.n)}</button>`).join("")
+    + `<button class="tab ev" data-ir="eventos">Eventos</button>`;
 }
 function galeria(){
   const fotos = PRODUCTOS.filter(p => p.c === "eventos" && p.imgs && p.imgs.length);
@@ -383,13 +389,13 @@ function galeria(){
   <div class="galeria">${fotos.map(p => `<button class="gal" data-gal="${p.id}" aria-label="${esc(p.n)}: quiero algo así"><img src="${esc(p.imgs[0])}" alt="" loading="lazy"><span>${esc(p.n)}</span></button>`).join("")}</div>`;
 }
 function vistaCatalogo(){
-  const foto = CONFIG.fotoPortada ? `<img src="${esc(CONFIG.fotoPortada)}" alt="Arreglos de ${esc(CONFIG.tienda)}">` : `<span aria-hidden="true">💐</span>`;
+  const foto = CONFIG.fotoPortada ? `<img src="${esc(CONFIG.fotoPortada)}" alt="Arreglos de ${esc(CONFIG.tienda)}">` : FLOR;
   return `<section class="hero">
     <div><p class="kick">Floristería y decoración de eventos</p>
       <h1>Flores que dicen <em>lo que sientes</em></h1>
       <p class="sub">${esc(CONFIG.resena)}</p>
       <div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo</button><a class="btn ghost" href="#cotizar">Cotizar mi evento</a></div>
-      <ul class="sellos"><li>🌿 Flores naturales</li><li>🛵 Delivery</li><li>💬 Pedido por WhatsApp</li></ul>
+      <ul class="sellos"><li>Flores naturales</li><li>Delivery</li><li>Pedido por WhatsApp</li></ul>
     </div>
     <div class="foto">${foto}</div>
   </section>
@@ -401,7 +407,7 @@ function vistaCatalogo(){
     <p class="kick">Decoración de eventos</p>
     <h2>Llevamos flores a tus momentos más importantes</h2>
     <p>Bodas, bautizos, cumpleaños y celebraciones. Cuéntanos qué necesitas y te enviamos una propuesta con precio, sin compromiso.</p>
-    <div class="tipos">${EVENTOS.map(e => `<button class="tipo" data-tipo="${esc(e.n)}"><span aria-hidden="true">${e.e}</span><b>${esc(e.n)}</b><small>${esc(e.d)}</small></button>`).join("")}</div>
+    <div class="tipos">${EVENTOS.map(e => `<button class="tipo" data-tipo="${esc(e.n)}"><b>${esc(e.n)}</b><small>${esc(e.d)}</small></button>`).join("")}</div>
     <ol class="pasos"><li><b>Cuéntanos tu evento</b><small>Fecha, lugar, invitados y lo que te imaginas.</small></li><li><b>Recibe tu propuesta</b><small>Te escribimos por WhatsApp con ideas y precio.</small></li><li><b>Aparta tu fecha</b><small>Confirmamos los detalles y nos encargamos del resto.</small></li></ol>
     ${galeria()}
     <a class="btn" href="#cotizar">Solicitar cotización</a>
@@ -423,7 +429,7 @@ function abrirFicha(id){
   const p = PRODUCTOS.find(x => x.id == id); if (!p) return;
   fichaId = p.id;
   const imgs = p.imgs && p.imgs.length ? p.imgs : null;
-  $("#fichaIn").innerHTML = `<div class="fotos"><div class="car" id="fCar">${imgs ? imgs.map((u, i) => `<img src="${esc(u)}" alt="${esc(p.n)}, foto ${i + 1}">`).join("") : `<div class="emo" aria-hidden="true">${esc(emoji(p))}</div>`}</div>
+  $("#fichaIn").innerHTML = `<div class="fotos"><div class="car" id="fCar">${imgs ? imgs.map((u, i) => `<img src="${esc(u)}" alt="${esc(p.n)}, foto ${i + 1}">`).join("") : `<div class="emo">${FLOR}</div>`}</div>
     ${imgs && imgs.length > 1 ? `<div class="puntos" id="fPuntos">${imgs.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}
     <button class="cerrar" id="fCerrar" aria-label="Cerrar">×</button></div>
   <div class="ficha-tx"><h2 id="fichaTit">${esc(p.n)}</h2>${precioHTML(p)}${p.d ? `<p>${esc(p.d)}</p>` : ""}<p class="nota">${esc(CONFIG.anticipacion)}</p></div>
@@ -442,7 +448,7 @@ $("#ficha").addEventListener("click", ev => { if (ev.target === ev.currentTarget
 /* ===== Pedido ===== */
 function vistaCarrito(){
   const it = items();
-  if (!it.length) return `<div class="panel listo"><div class="ok" aria-hidden="true">🌷</div><h1>Tu pedido está vacío</h1><p>Agrega ramilletes o arreglos desde el catálogo.</p><div class="acc"><a class="btn" href="#">Ver catálogo</a></div></div>`;
+  if (!it.length) return `<div class="panel listo"><div class="ok">${ICONO_BOLSA}</div><h1>Tu pedido está vacío</h1><p>Agrega ramilletes o arreglos desde el catálogo.</p><div class="acc"><a class="btn" href="#">Ver catálogo</a></div></div>`;
   return `<div class="panel"><button class="volver" data-volver="1">← Seguir comprando</button><h1>Tu pedido</h1><p class="sd">${esc(CONFIG.delivery)}</p>
   <div class="caja">${it.map(i => `<div class="linea"><div class="ph">${fotoHTML(i)}</div><div><b>${esc(i.n)}</b><br><small>${usd(i.p)} c/u</small></div><span data-ctl="${i.id}">${control(i.id)}</span></div>`).join("")}
     <div class="tot"><span>Total</span><span>${usd(total())}</span></div><p class="nota">El delivery se suma aparte según la zona.</p></div>
@@ -458,7 +464,7 @@ function vistaDatos(){
     <label for="nombre">Nombre y apellido</label><input type="text" id="nombre" data-f="nombre" value="${esc(f.nombre)}" autocomplete="name" required>
     <label for="tel">Teléfono / WhatsApp</label><input type="tel" id="tel" data-f="tel" value="${esc(f.tel)}" autocomplete="tel" placeholder="0424-1234567" required></div>
   <div class="caja"><h2>Entrega</h2>
-    <div class="ops" style="margin-top:8px">${opt("entrega", "delivery", "🛵 Delivery", f.entrega)}${opt("entrega", "pickup", "🏪 Lo retiro", f.entrega)}</div>
+    <div class="ops" style="margin-top:8px">${opt("entrega", "delivery", "Delivery", f.entrega)}${opt("entrega", "pickup", "Lo retiro", f.entrega)}</div>
     ${f.entrega === "delivery" ? `<label for="dir">Dirección de entrega</label><input type="text" id="dir" data-f="dir" value="${esc(f.dir)}" placeholder="Zona, calle, casa o edificio y referencia">` : ""}
     <div class="dos"><div><label for="fecha">Fecha</label><input type="date" id="fecha" data-f="fecha" min="${hoy()}" value="${esc(f.fecha)}"></div><div><label for="hora">Hora aproximada</label><input type="time" id="hora" data-f="hora" value="${esc(f.hora)}"></div></div>
     <p class="nota">${esc(CONFIG.anticipacion)}</p></div>
@@ -507,7 +513,7 @@ function vistaCotizar(){
   <form id="formCot" novalidate>
   <div class="caja"><h2>Tu evento</h2>
     ${ref}
-    <label>Tipo de evento</label><div class="ops">${EVENTOS.map(e => opt("tipo", e.n, e.e + " " + e.n, q.tipo)).join("")}</div>
+    <label>Tipo de evento</label><div class="ops">${EVENTOS.map(e => opt("tipo", e.n, e.n, q.tipo)).join("")}</div>
     <div class="dos"><div><label for="qfecha">Fecha</label><input type="date" id="qfecha" data-q="fecha" min="${hoy()}" value="${esc(q.fecha)}"></div>
     <div><label for="qinv">Invitados <small>(aprox.)</small></label><input type="number" id="qinv" data-q="invitados" min="0" max="100000" inputmode="numeric" value="${esc(q.invitados)}"></div></div>
     <label for="qlugar">Lugar o ciudad</label><input type="text" id="qlugar" data-q="lugar" value="${esc(q.lugar)}" placeholder="Ej.: Salón de fiestas en Valencia"></div>
@@ -551,7 +557,7 @@ async function enviarCot(){
 function vistaListo(){
   if (!ultimo.url) { location.hash = ""; return ""; }
   const cot = ultimo.tipo === "cot";
-  return `<div class="panel listo"><div class="ok" aria-hidden="true">${cot ? "🎉" : "💐"}</div><h1>${cot ? "¡Solicitud lista!" : "¡Pedido listo!"}</h1>
+  return `<div class="panel listo"><div class="ok">${ICONO_OK}</div><h1>${cot ? "¡Solicitud lista!" : "¡Pedido listo!"}</h1>
   ${ultimo.num ? `<div class="num">N° ${ultimo.num}</div>` : ""}
   <p>Se abrió WhatsApp con ${cot ? "los datos de tu evento" : "el detalle de tu pedido"}. Presiona enviar en el chat para que te respondamos. Si no se abrió, usa este botón.</p>
   <div class="acc"><a class="btn" href="${esc(ultimo.url)}" target="_blank" rel="noopener">Abrir WhatsApp</a><a class="btn ghost" href="#">Volver al inicio</a></div></div>`;
@@ -663,12 +669,12 @@ async function cargarProductos(){
     const pedir = async r => { const x = await fetch(SUPABASE.url + "/rest/v1/" + r, {headers:{apikey:SUPABASE.key}, cache:"no-store"}); if (!x.ok) throw new Error("HTTP " + x.status); return x.json(); };
     const [filas, secs] = await Promise.all([
       pedir("productos?select=id,categoria,nombre,descripcion,precio,precio_oferta,imagenes,nuevo&visible=eq.true&order=orden.asc,id.asc"),
-      pedir("secciones?select=id,nombre,emoji&order=orden.asc,nombre.asc")
+      pedir("secciones?select=id,nombre&order=orden.asc,nombre.asc")
     ]);
     // Mientras no haya productos cargados en el panel, se siguen viendo los de ejemplo
     if (!filas.length) return;
     PRODUCTOS = filas.map(desdeFila);
-    CATS = secs.map(x => ({id:x.id, n:x.nombre, e:x.emoji || "🌸"}));
+    CATS = secs.map(x => ({id:x.id, n:x.nombre}));
     guarda("springis-productos", PRODUCTOS); guarda("springis-secciones", CATS);
     // quita del carrito lo que ya no existe
     Object.keys(cart).forEach(id => { if (!PRODUCTOS.some(p => p.id == id && p.p != null)) delete cart[id]; });
