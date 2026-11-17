@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#265B3D">
+<meta name="theme-color" content="#65B79F">
 <meta name="color-scheme" content="light">
 <title>Springis · Floristería y decoración de eventos en Valencia</title>
 <meta name="description" content="No vendemos el lujo de las flores, regalamos emociones. Ramilletes, arreglos, flores en caja y decoración de eventos en Valencia. Pide fácil y paga a tasa euro BCV.">
@@ -16,9 +16,9 @@
    así que esas letras salen con «Young Serif», que se le parece. */
 @font-face{font-family:"Rosemartin";src:url("fuentes/Rosemartin.otf") format("opentype");font-display:swap}
 :root{
-  --turq:#65B79F;--turq-claro:#DDF0E9;--verde:#265B3D;--verde-osc:#1B4430;
+  --turq:#65B79F;--turq-osc:#4FA088;--turq-claro:#DDF0E9;--verde:#265B3D;--verde-osc:#1B4430;
   --bg:#FFFFFF;--surface:#F3FAF7;--paper:#FFFFFF;--ink:#1D2420;--muted:#5E6A63;--line:#DCE7E1;
-  --olive:var(--verde);--olive-dark:var(--verde-osc);--olive-soft:var(--turq-claro);--rose:var(--turq);--rose-soft:var(--turq-claro);--err:#A8322A;
+  --olive:var(--turq);--olive-dark:var(--turq-osc);--olive-soft:var(--turq-claro);--rose:var(--turq);--rose-soft:var(--turq-claro);--err:#A8322A;
   --t:"Rosemartin","Young Serif",Georgia,serif;--b:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box}
@@ -26,7 +26,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--b);overflow-x:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 img{display:block;max-width:100%}
-a{color:var(--olive)}
+a{color:var(--verde)}
 :focus-visible{outline:2px solid var(--olive);outline-offset:3px}
 [hidden]{display:none!important}
 h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-spacing:-.005em}
@@ -34,9 +34,12 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
 
 /* Botones */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:2px;background:var(--olive);color:#fff;padding:14px 24px;font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:2px;background:var(--olive);color:var(--ink);padding:14px 24px;font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .2s}
 .btn:hover{background:var(--olive-dark)}
 .btn.claro{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.hero:not(.con-foto) .btn:not(.claro){background:var(--ink);color:#fff}
+.hero:not(.con-foto) .btn:not(.claro):hover{background:#000}
+.hero:not(.con-foto) .kick{color:var(--ink)}
 .btn.claro:hover{background:var(--ink);color:#fff}
 .btn.blanco{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
 .btn.blanco:hover{background:#fff;color:var(--ink)}
@@ -48,7 +51,7 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .link:hover{color:var(--ink)}
 
 /* Franja de la tasa */
-.tasa-bar{background:var(--verde);color:#fff;font-size:.74rem;letter-spacing:.08em;text-align:center;padding:7px 16px}
+.tasa-bar{background:var(--turq);color:var(--ink);font-size:.74rem;letter-spacing:.08em;text-align:center;padding:7px 16px}
 .tasa-bar b{font-weight:500;color:#fff}
 
 /* Encabezado */
@@ -66,18 +69,18 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .ico{position:relative;width:42px;height:42px;border:0;background:none;cursor:pointer;display:grid;place-items:center;color:var(--ink);border-radius:50%}
 .ico:hover{background:var(--olive-soft)}
 .ico svg{width:21px;height:21px}
-.ico .n{position:absolute;top:3px;right:2px;min-width:18px;height:18px;border-radius:9px;background:var(--olive);color:#fff;font-size:.66rem;font-weight:600;display:grid;place-items:center;padding:0 4px}
+.ico .n{position:absolute;top:3px;right:2px;min-width:18px;height:18px;border-radius:9px;background:var(--olive);color:var(--ink);font-size:.66rem;font-weight:600;display:grid;place-items:center;padding:0 4px}
 .solo-movil{display:none}
 .menu-movil{display:none;border-top:1px solid var(--line);padding:8px 20px 14px}
 .menu-movil a{display:block;padding:10px 0;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);font-size:.95rem}
 .menu-movil.abierto{display:block}
 
 /* Portada */
-.hero{position:relative;min-height:min(78vh,640px);display:flex;align-items:center;overflow:hidden;background:var(--turq-claro)}
+.hero{position:relative;min-height:min(78vh,640px);display:flex;align-items:center;overflow:hidden;background:var(--turq)}
 .hero .fondo{position:absolute;inset:0}
 .hero .fondo img{width:100%;height:100%;object-fit:cover}
 .hero.con-foto .fondo::after{content:"";position:absolute;inset:0;background:rgba(15,30,22,.45)}
-.hero .dibujo{position:absolute;right:8%;top:6%;bottom:0;width:min(26vw,300px);color:var(--turq);opacity:.9}
+.hero .dibujo{position:absolute;right:8%;top:6%;bottom:0;width:min(26vw,300px);color:#fff;opacity:.9}
 .hero .dibujo svg,.historia .rama svg{width:100%;height:100%;display:block}
 .hero .texto{position:relative;max-width:520px;padding:60px 0}
 .hero h1{font-size:clamp(2.6rem,6.4vw,4.4rem)}
@@ -105,7 +108,7 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:none;border:1px solid var(--line);background:var(--paper);border-radius:2px;padding:8px 14px;font-size:.78rem;letter-spacing:.06em;cursor:pointer;white-space:nowrap;color:var(--muted)}
-.tab[aria-current="true"]{background:var(--verde);border-color:var(--verde);color:#fff}
+.tab[aria-current="true"]{background:var(--turq);border-color:var(--turq);color:var(--ink)}
 .buscar{position:relative;width:260px;flex:none}
 .buscar input{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:2px;padding:9px 34px 9px 36px;font-size:.88rem;min-height:40px}
 .buscar input:focus{outline:0;border-color:var(--olive)}
@@ -122,15 +125,15 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .precio{font-weight:500;font-size:1rem}
 .precio s{color:var(--muted);font-weight:300;font-size:.86rem;margin-right:6px}
 .precio .bs{display:block;font-size:.76rem;font-weight:300;color:var(--muted)}
-.precio.consulta{color:var(--olive);font-size:.86rem;letter-spacing:.04em}
+.precio.consulta{color:var(--verde);font-size:.86rem;letter-spacing:.04em}
 .etq{display:inline-block;font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;margin:0 4px 8px 0;background:var(--turq);color:var(--verde-osc)}
-.etq.verde{background:var(--olive-soft);color:var(--olive-dark)}
+.etq.verde{background:var(--turq-claro);color:var(--verde-osc)}
 .ph{position:relative;width:120px;height:120px;overflow:hidden;background:var(--olive-soft);display:grid;place-items:center;color:var(--olive);border-radius:2px}
 .ph img{width:100%;height:100%;object-fit:cover}
 .flor{width:44%;height:44%;color:var(--turq)}
-.mas{position:absolute;right:6px;bottom:6px;width:34px;height:34px;border-radius:50%;border:0;background:var(--paper);color:var(--olive);font-size:1.3rem;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;display:grid;place-items:center}
-.paso{position:absolute;left:6px;right:6px;bottom:6px;display:flex;align-items:center;justify-content:space-between;background:var(--olive);color:#fff;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.paso button{border:0;background:none;color:#fff;width:32px;height:32px;font-size:1.15rem;cursor:pointer}
+.mas{position:absolute;right:6px;bottom:6px;width:34px;height:34px;border-radius:50%;border:0;background:var(--turq);color:var(--ink);font-size:1.3rem;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;display:grid;place-items:center}
+.paso{position:absolute;left:6px;right:6px;bottom:6px;display:flex;align-items:center;justify-content:space-between;background:var(--olive);color:var(--ink);border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.paso button{border:0;background:none;color:var(--ink);width:32px;height:32px;font-size:1.15rem;cursor:pointer}
 .paso b{font-weight:500;font-size:.92rem}
 .vacio{text-align:center;color:var(--muted);padding:30px 10px}
 
@@ -144,16 +147,16 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .historia p{color:var(--muted);font-weight:300;margin:16px 0 0;max-width:32em}
 .historia .rama{position:absolute;right:28px;bottom:36px;width:84px;height:170px;color:var(--turq)}
 .cifras{display:flex;gap:34px;flex-wrap:wrap;margin:28px 0 30px}
-.cifras b{display:block;font-family:var(--t);font-size:2rem;font-weight:400;line-height:1;color:var(--olive)}
+.cifras b{display:block;font-family:var(--t);font-size:2rem;font-weight:400;line-height:1;color:var(--verde)}
 .cifras span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
 /* Franja de beneficios */
-.franja{background:var(--turq);color:var(--verde-osc)}
+.franja{background:var(--turq-claro);color:var(--ink)}
 .franja ul{list-style:none;margin:0;padding:34px 0;display:grid;grid-template-columns:repeat(4,1fr)}
-.franja li{text-align:center;padding:6px 18px;border-left:1px solid rgba(27,68,48,.25)}
+.franja li{text-align:center;padding:6px 18px;border-left:1px solid var(--turq)}
 .franja li:first-child{border-left:0}
-.franja svg{width:28px;height:28px;margin:0 auto 12px;color:var(--verde-osc)}
-.franja b{display:block;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--verde-osc)}
+.franja svg{width:28px;height:28px;margin:0 auto 12px;color:var(--turq-osc)}
+.franja b{display:block;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
 .franja small{font-size:.82rem;font-weight:400}
 
 /* Eventos */
@@ -164,7 +167,7 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .tipo small{display:block;color:var(--muted);font-size:.82rem;font-weight:300;margin-top:6px;line-height:1.4}
 .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0 0 36px;padding:0;list-style:none;counter-reset:p;border-top:1px solid var(--line)}
 .pasos li{counter-increment:p;padding:22px 22px 0 0}
-.pasos li::before{content:"0" counter(p);display:block;font-family:var(--t);font-size:1.8rem;color:var(--olive);margin-bottom:6px}
+.pasos li::before{content:"0" counter(p);display:block;font-family:var(--t);font-size:1.8rem;color:var(--turq-osc);margin-bottom:6px}
 .pasos b{display:block;font-weight:500}
 .pasos small{color:var(--muted);font-weight:300}
 .galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:0 0 30px}
@@ -178,23 +181,23 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .faq{border-bottom:1px solid var(--line)}
 .faq summary{cursor:pointer;padding:18px 0;list-style:none;display:flex;justify-content:space-between;gap:12px;font-family:var(--t);font-size:1.25rem;font-weight:400}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-family:var(--b);font-weight:300;color:var(--olive)}
+.faq summary::after{content:"+";font-family:var(--b);font-weight:400;color:var(--turq-osc)}
 .faq[open] summary::after{content:"−"}
 .faq p{margin:0 0 18px;color:var(--muted);font-weight:300}
 .contacto{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:30px}
 .contacto div{background:var(--paper);padding:22px}
 .contacto b{display:block;font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .contacto a,.contacto span{color:var(--ink);text-decoration:none;font-size:.98rem}
-.pie{background:var(--verde);color:#E6F2EC;font-size:.82rem;padding:40px 0;text-align:center}
+.pie{background:var(--turq);color:var(--ink);font-size:.82rem;padding:40px 0;text-align:center}
 .pie .logo{margin:0 auto 14px;justify-content:center;color:#fff;cursor:default}
 .pie .logo img{height:90px}
 .pie .logo svg{color:var(--turq)}
-.pie .logo small{color:#CFE7DD}
+.pie .logo small{color:var(--ink)}
 
 /* Barra flotante del pedido */
-.barra{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,160%);z-index:30;width:min(540px,calc(100% - 24px));display:flex;align-items:center;gap:12px;border:0;border-radius:2px;background:var(--verde);color:#fff;padding:10px 10px 10px 18px;cursor:pointer;box-shadow:0 14px 34px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,.9,.3,1.15);font-size:.88rem;letter-spacing:.04em}
+.barra{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,160%);z-index:30;width:min(540px,calc(100% - 24px));display:flex;align-items:center;gap:12px;border:0;border-radius:2px;background:var(--turq);color:var(--ink);padding:10px 10px 10px 18px;cursor:pointer;box-shadow:0 14px 34px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,.9,.3,1.15);font-size:.88rem;letter-spacing:.04em}
 .barra.ver{transform:translate(-50%,0)}
-.barra .c{border:1px solid rgba(255,255,255,.4);min-width:28px;height:28px;display:grid;place-items:center;font-size:.82rem;padding:0 6px}
+.barra .c{border:1px solid rgba(29,36,32,.35);min-width:28px;height:28px;display:grid;place-items:center;font-size:.82rem;padding:0 6px}
 .barra .t{margin-left:auto;background:#fff;color:var(--ink);padding:8px 16px;font-weight:500}
 
 /* Pantallas de pedido y cotización */
@@ -210,8 +213,8 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 .linea .ph .flor{width:50%;height:50%}
 .linea b{font-family:var(--t);font-size:1.15rem;font-weight:400}
 .linea small{color:var(--muted);font-weight:300}
-.linea .paso{position:static;background:var(--olive-soft);color:var(--olive-dark);box-shadow:none;width:104px}
-.linea .paso button{color:var(--olive-dark)}
+.linea .paso{position:static;background:var(--turq-claro);color:var(--ink);box-shadow:none;width:104px}
+.linea .paso button{color:var(--ink)}
 .tot{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 0;border-top:1px solid var(--line);margin-top:4px}
 .tot span:first-child{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .tot b{font-family:var(--t);font-size:1.7rem;font-weight:400}
@@ -227,7 +230,7 @@ textarea{resize:vertical}
 .op{position:relative;margin:0;font-weight:400}
 .op input{position:absolute;opacity:0;pointer-events:none}
 .op span{display:inline-block;padding:10px 16px;background:var(--bg);border:1px solid var(--line);border-radius:2px;cursor:pointer;font-size:.9rem}
-.op input:checked + span{background:var(--olive);border-color:var(--olive);color:#fff}
+.op input:checked + span{background:var(--turq);border-color:var(--turq);color:var(--ink)}
 .op input:focus-visible + span{outline:2px solid var(--olive);outline-offset:2px}
 .monto{background:var(--olive-soft);padding:14px 16px;margin:14px 0 0}
 .monto b{font-family:var(--t);font-size:1.6rem;font-weight:400;display:block;line-height:1.1}
@@ -238,12 +241,12 @@ textarea{resize:vertical}
 .listo{text-align:center;padding-top:70px}
 .listo .ok{width:72px;height:72px;border-radius:50%;background:var(--olive-soft);color:var(--olive);display:grid;place-items:center;margin:0 auto 18px}
 .listo .ok svg{width:30px;height:30px}
-.listo .num{font-family:var(--t);font-size:2.8rem;font-weight:400;color:var(--olive);margin:6px 0 12px}
+.listo .num{font-family:var(--t);font-size:2.8rem;font-weight:400;color:var(--verde);margin:6px 0 12px}
 .listo p{color:var(--muted);font-weight:300;max-width:30em;margin:0 auto 22px}
 .listo .acc{display:flex;flex-direction:column;gap:10px;align-items:center}
 .ref{display:flex;gap:10px;align-items:center;background:var(--olive-soft);padding:8px 12px;margin:0 0 6px}
 .ref img{width:44px;height:44px;object-fit:cover}
-.ref button{margin-left:auto;border:0;background:none;cursor:pointer;color:var(--olive);font-weight:500}
+.ref button{margin-left:auto;border:0;background:none;cursor:pointer;color:var(--verde);font-weight:500}
 
 /* Ficha del producto */
 dialog.ficha{border:0;padding:0;margin:auto;width:min(520px,100%);max-width:100%;max-height:min(92vh,860px);border-radius:3px;background:var(--paper);color:var(--ink);overflow:hidden}
@@ -263,8 +266,8 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
 .ficha-tx h2{font-size:1.9rem;margin:0 0 8px}
 .ficha-tx p{color:var(--muted);font-weight:300;margin:10px 0 0;white-space:pre-line}
 .ficha-pie{display:flex;gap:10px;align-items:center;padding:14px 22px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
-.ficha-pie .paso{position:static;background:var(--olive-soft);color:var(--olive-dark);box-shadow:none;width:118px;flex:none}
-.ficha-pie .paso button{color:var(--olive-dark)}
+.ficha-pie .paso{position:static;background:var(--turq-claro);color:var(--ink);box-shadow:none;width:118px;flex:none}
+.ficha-pie .paso button{color:var(--ink)}
 .ficha-pie .btn{flex:1}
 
 .ap{animation:sube .6s both}
@@ -343,7 +346,7 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
 const CONFIG = {
   tienda: "Springis",
   logo: "imagenes/logo-color.png",       // logo para fondos claros
-  logoBlanco: "imagenes/logo-blanco.png", // logo para fondos oscuros (pie de página)
+  logoBloque: "imagenes/logo-bloque.png", // logo con flor blanca para fondos turquesa (pie de página)
   fotoPortada: "",             // foto grande de la portada, ej. "imagenes/portada.jpg"
   fotoHistoria: "",            // foto de la sección «Nuestra historia»
   fotosCategorias: {},         // ej. {ramilletes:"imagenes/cat-ramilletes.jpg"}; sin foto se usa la del primer producto
@@ -577,7 +580,7 @@ function vistaInicio(){
       <div><b>Pagos</b><span>Pago móvil, Zelle y efectivo</span></div>
     </div>
   </div></section>
-  <footer class="pie"><div class="logo">${CONFIG.logoBlanco ? `<img src="${esc(CONFIG.logoBlanco)}" alt="${esc(CONFIG.tienda)}">` : logoHTML()}</div>«Hecho para hacerte sonreír»<br>© ${new Date().getFullYear()} Springis · Valencia, Venezuela</footer>`;
+  <footer class="pie"><div class="logo">${CONFIG.logoBloque ? `<img src="${esc(CONFIG.logoBloque)}" alt="${esc(CONFIG.tienda)}">` : logoHTML()}</div>«Hecho para hacerte sonreír»<br>© ${new Date().getFullYear()} Springis · Valencia, Venezuela</footer>`;
 }
 const logoHTML = () => CONFIG.logo ? `<img src="${esc(CONFIG.logo)}" alt="${esc(CONFIG.tienda)}">` : `${LOGO_RAMO}<span><b>${esc(CONFIG.tienda)}</b><small>Flores · Detalles · Eventos</small></span>`;
 

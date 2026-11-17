@@ -24,7 +24,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - `supabase/02-pagos.sql` (ya ejecutado): columnas modo, abonado, tasa y referencia en pedidos.
 - WhatsApp 0414-4980997, Instagram @springis.val_, Valencia.
 - Sin emojis en ninguna parte (la dueña siente que le quitan seriedad). Sin foto, los productos muestran una flor dibujada en línea; en el panel, la inicial.
-- Identidad (16/11/2026): turquesa #65B79F y turquesa claro #DDF0E9 (provisional) como principales, verde #265B3D secundario, blanco y negro. Sin degradados. Títulos en Rosemartin (`fuentes/Rosemartin.otf`, sin tildes ni ñ: esas letras salen en Young Serif); texto en Jost hasta saber la secundaria. Logo: `imagenes/logo-color.png` y `logo-blanco.png`, sacados del .ai con colores planos.
+- Identidad (16/11/2026): el turquesa debe PREDOMINAR (portada, barra de tasa, botones, carrito, pie, franja en turquesa claro); el verde #265B3D solo en detalles (logo, enlaces, cifras). Turquesa #65B79F, turquesa claro #DDF0E9 (provisional), blanco y negro; sobre turquesa las letras van en negro. Sin degradados. Títulos en Rosemartin (`fuentes/Rosemartin.otf`, sin tildes ni ñ: esas letras salen en Young Serif); texto en Jost hasta saber la secundaria. Logo: `imagenes/logo-color.png` y `logo-blanco.png`, sacados del .ai con colores planos.
 - Precios en USD. El delivery se confirma aparte por WhatsApp; los datos de pago también se envían por WhatsApp (la web solo pregunta cómo prefiere pagar).
 - El pedido incluye mensaje para la tarjeta y notas.
 - La sección `eventos` («Galería de eventos») es especial: sus fotos no se venden, salen en la parte de Eventos con el botón «Quiero algo así», que abre la cotización con esa foto como referencia.
