@@ -1,11 +1,11 @@
 /* Datos que usan la tienda (index.html) y el panel de admin (admin.html). */
 
 // Proyecto de Supabase de Springis. La clave es la «publishable» (pública): puede ir en la web.
-// Mientras url esté vacía, la tienda usa la lista de respaldo de index.html y los pedidos
-// y cotizaciones llegan solo por WhatsApp (sin número).
+// Si Supabase no responde, la tienda usa la última lista guardada o la de respaldo de index.html,
+// y los pedidos y cotizaciones llegan igual por WhatsApp (sin número).
 const SUPABASE = {
-  url: "",
-  key: "",
+  url: "https://zierdhzzdmankvgcyfjs.supabase.co",
+  key: "sb_publishable_Oxpggbn5zFQ_maHfNrI7QQ_QNA42B5u",
   bucket: "productos"
 };
 

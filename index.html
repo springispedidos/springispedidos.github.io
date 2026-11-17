@@ -246,7 +246,7 @@ dialog.ficha::backdrop{background:rgba(30,20,18,.5)}
   <div class="ficha-in" id="fichaIn"></div>
 </dialog>
 
-<script src="compartido.js?v=1"></script>
+<script src="compartido.js?v=2"></script>
 <script>
 /* ===== CONFIGURACIÓN: edita aquí ===== */
 const CONFIG = {
@@ -665,6 +665,8 @@ async function cargarProductos(){
       pedir("productos?select=id,categoria,nombre,descripcion,precio,precio_oferta,imagenes,nuevo&visible=eq.true&order=orden.asc,id.asc"),
       pedir("secciones?select=id,nombre,emoji&order=orden.asc,nombre.asc")
     ]);
+    // Mientras no haya productos cargados en el panel, se siguen viendo los de ejemplo
+    if (!filas.length) return;
     PRODUCTOS = filas.map(desdeFila);
     CATS = secs.map(x => ({id:x.id, n:x.nombre, e:x.emoji || "🌸"}));
     guarda("springis-productos", PRODUCTOS); guarda("springis-secciones", CATS);
