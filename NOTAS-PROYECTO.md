@@ -8,7 +8,8 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 ## Enlaces
 - Web: https://viphydetails.github.io/springis/
 - Panel de admin (no aparece enlazado en la web): https://viphydetails.github.io/springis/admin.html
-- Repositorio: https://github.com/Viphydetails/springis (cuenta de GitHub de Viphy)
+- Repositorio: https://github.com/Viphydetails/springis (cuenta de GitHub de Viphy, repositorio aparte)
+- Regla: Springis vive en su propio repositorio y su propio Supabase. Nunca se toca el repositorio `viphydetails.github.io` ni el Supabase de Viphy desde este proyecto.
 
 ## Archivos
 - `index.html`: toda la web para clientes. Arriba del script está `CONFIG` (WhatsApp, Instagram, ciudad, horario, logo, foto de portada, métodos de pago), los tipos de evento (`EVENTOS`), los servicios y rangos de presupuesto de la cotización, las preguntas frecuentes (`FAQ`) y la lista de productos de respaldo (`PRODUCTOS`, con precios de ejemplo).
