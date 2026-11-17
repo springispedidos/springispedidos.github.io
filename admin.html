@@ -462,7 +462,7 @@ $("#secBorrar").onclick = async () => {
 
 /* ===== Pedidos ===== */
 const ESTADOS = [
-  ["pendiente",      "Pendiente",           "#e0a100"],  // recién llegado: falta confirmar pago y delivery
+  ["pendiente",      "Pendiente",           "#e0a100"],  // recién llegado: falta verificar el pago y cotizar el delivery
   ["confirmado",     "Confirmado",          "#4a90d9"],  // pago confirmado, en cola
   ["en_preparacion", "En preparación",      "#8e6cd9"],
   ["listo",          "Listo para entregar", "#2fa36b"],
@@ -503,7 +503,8 @@ function pintarPedidos(){
       <select data-estado="${p.numero}" aria-label="Estado del pedido ${p.numero}">${ESTADOS.map(x => `<option value="${x[0]}" ${x[0] === p.estado ? "selected" : ""}>${x[1]}</option>`).join("")}</select></div>
     <div class="meta"><span>${fechaHora(p.creado)}</span><span>·</span><b>${esc(p.cliente)}</b><span>·</span><a href="${waCliente(p.telefono)}" target="_blank" rel="noopener">${esc(p.telefono)}</a></div>
     <ul>${(p.items || []).map(i => `<li>${i.q} × ${esc(i.nombre)} — ${usd(i.precio * i.q)}</li>`).join("")}</ul>
-    <div class="fila"><span><b>Total:</b> ${usd(p.total)} + delivery</span><span><b>Pago:</b> ${esc(p.metodo || "—")}</span></div>
+    <div class="fila"><span><b>Total:</b> ${usd(p.total)} + delivery</span><span><b>${p.modo === "mitad" ? "Abono 50 %" : "Pago completo"}:</b> ${usd(p.abonado || 0)}${p.tasa ? " (Bs. " + (Number(p.abonado) * Number(p.tasa)).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2}) + ")" : ""}</span>${Number(p.total) - Number(p.abonado || 0) > 0 ? `<span class="saldo">Resta antes del envío: ${usd(Number(p.total) - Number(p.abonado || 0))}</span>` : ""}</div>
+    <div class="fila"><span><b>Método:</b> ${esc(p.metodo || "—")}</span><span><b>Ref.:</b> ${esc(p.referencia || "—")}</span>${p.tasa ? `<span><b>Tasa euro:</b> ${Number(p.tasa).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2})}</span>` : ""}</div>
     <div class="fila"><span><b>Entrega:</b> ${p.entrega === "delivery" ? "Delivery — " + esc(p.direccion || "") : "Retiro"}</span><span><b>Para:</b> ${fechaCorta(p.fecha)} ${esc(p.hora || "")}</span></div>
     ${p.tarjeta ? `<div class="fila"><span><b>Tarjeta:</b> ${esc(p.tarjeta)}</span></div>` : ""}
     ${p.nota ? `<div class="fila"><span><b>Notas:</b> ${esc(p.nota)}</span></div>` : ""}

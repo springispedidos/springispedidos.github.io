@@ -18,6 +18,11 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - `supabase/esquema.sql`: crea todo de una vez (admins, secciones, productos, fotos, pedidos con `crear_pedido`, cotizaciones con `crear_cotizacion`).
 
 ## Decisiones
+- 2026-11-16: rediseño con estilo de referencia elegante (crema, verde oliva, Cormorant Garamond + Jost, portada con foto grande, categorías, historia, franja verde de beneficios). Mientras no haya fotos se ven dibujos de línea.
+- Pagos como en Viphy pero con datos propios: abono del 50 % para agendar (el resto antes del envío) o pago completo. Métodos: pago móvil (Mercantil, 11.816.381, 0412-8666669) en Bs a tasa euro BCV con botón «Copiar datos y monto», Zelle (a consultar) y efectivo. Referencia obligatoria solo en pago móvil. Delivery aparte según zona; se pide la ubicación GPS por WhatsApp.
+- Tasa euro BCV: `tasa.json`, la actualiza sola `.github/workflows/tasa.yml` (7:00 a. m. y 6:00 p. m. Caracas) con `scripts/actualizar-tasa.mjs`. Copia propia de Springis, independiente de Viphy.
+- `supabase/02-pagos.sql` (ya ejecutado): columnas modo, abonado, tasa y referencia en pedidos.
+- WhatsApp 0414-4980997, Instagram @springis.val_, Valencia.
 - Sin emojis en ninguna parte (la dueña siente que le quitan seriedad). Sin foto, los productos muestran una flor dibujada en línea; en el panel, la inicial.
 - Colores y tipografías provisionales (rosa #b8476a, verde hoja #3f6b4f, crema #fbf7f3; Fraunces y DM Sans) hasta tener los de la marca.
 - Precios en USD. El delivery se confirma aparte por WhatsApp; los datos de pago también se envían por WhatsApp (la web solo pregunta cómo prefiere pagar).
@@ -30,8 +35,8 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 ## Pendiente
 - Logo en PNG (va en `imagenes/` y en `CONFIG.logo`).
 - Usuario de Instagram, colores y tipografías de la marca.
-- Número de WhatsApp (sin él, el chat se abre sin destinatario).
-- Ciudad, horario, métodos de pago reales.
+- Fotos de portada, categorías e historia; logo PNG; paleta definitiva; textos de los 4 beneficios; horario.
+- Catálogo de la dueña (fotos ya hechas, faltan precios) para cargar en el panel.
 - Supabase conectado (proyecto «Springis», https://zierdhzzdmankvgcyfjs.supabase.co, esquema ya ejecutado). Admin «sophia» creada y con permiso; registro público desactivado.
 - Mientras no haya productos cargados en el panel, la web muestra los de ejemplo de `index.html`.
 - Fotos, nombres y precios reales (se cargan desde el panel cuando esté conectado).
