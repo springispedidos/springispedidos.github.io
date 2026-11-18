@@ -499,15 +499,17 @@ function pintarPedidos(){
   <div class="lista">${ver.length ? ver.map(p => {
     const e = estado(p.estado);
     return `<article class="ped" style="--c:${e[2]}">
-    <div class="ped-top"><h3>Pedido N° ${p.numero}</h3>
+    <div class="ped-top"><h3>Pedido #${String(p.numero).padStart(3, "0")}</h3>
       <select data-estado="${p.numero}" aria-label="Estado del pedido ${p.numero}">${ESTADOS.map(x => `<option value="${x[0]}" ${x[0] === p.estado ? "selected" : ""}>${x[1]}</option>`).join("")}</select></div>
     <div class="meta"><span>${fechaHora(p.creado)}</span><span>·</span><b>${esc(p.cliente)}</b><span>·</span><a href="${waCliente(p.telefono)}" target="_blank" rel="noopener">${esc(p.telefono)}</a></div>
-    <ul>${(p.items || []).map(i => `<li>${i.q} × ${esc(i.nombre)} — ${usd(i.precio * i.q)}</li>`).join("")}</ul>
-    <div class="fila"><span><b>Total:</b> ${usd(p.total)} + delivery</span><span><b>${p.modo === "mitad" ? "Abono 50 %" : "Pago completo"}:</b> ${usd(p.abonado || 0)}${p.tasa ? " (Bs. " + (Number(p.abonado) * Number(p.tasa)).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2}) + ")" : ""}</span>${Number(p.total) - Number(p.abonado || 0) > 0 ? `<span class="saldo">Resta antes del envío: ${usd(Number(p.total) - Number(p.abonado || 0))}</span>` : ""}</div>
+    <ul>${(p.items || []).map(i => `<li>${i.q} × ${esc(i.nombre)} — ${i.precio != null ? usd(i.precio * i.q) : "<b>precio por confirmar</b>"}</li>`).join("")}</ul>
+    ${p.por_confirmar ? `<div class="fila"><span class="saldo">Tiene productos sin precio: confirma el monto con el cliente.</span></div>` : ""}
+    <div class="fila"><span><b>Total:</b> ${usd(p.total)}${p.por_confirmar ? " + por confirmar" : ""} + delivery</span><span><b>${p.modo === "mitad" ? "Abono 50 %" : "Pago completo"}:</b> ${usd(p.abonado || 0)}${p.tasa ? " (Bs. " + (Number(p.abonado) * Number(p.tasa)).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2}) + ")" : ""}</span>${Number(p.total) - Number(p.abonado || 0) > 0 ? `<span class="saldo">Resta antes del envío: ${usd(Number(p.total) - Number(p.abonado || 0))}</span>` : ""}</div>
     <div class="fila"><span><b>Método:</b> ${esc(p.metodo || "—")}</span><span><b>Ref.:</b> ${esc(p.referencia || "—")}</span>${p.tasa ? `<span><b>Tasa euro:</b> ${Number(p.tasa).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2})}</span>` : ""}</div>
+    ${p.entrega === "delivery" && (p.recibe || p.recibe_tel) ? `<div class="fila"><span><b>Recibe:</b> ${esc(p.recibe || "—")}</span>${p.recibe_tel ? `<span><a href="${waCliente(p.recibe_tel)}" target="_blank" rel="noopener">${esc(p.recibe_tel)}</a></span>` : ""}</div>` : ""}
     <div class="fila"><span><b>Entrega:</b> ${p.entrega === "delivery" ? "Delivery — " + esc(p.direccion || "") : "Retiro"}</span><span><b>Para:</b> ${fechaCorta(p.fecha)} ${esc(p.hora || "")}</span></div>
     ${p.tarjeta ? `<div class="fila"><span><b>Tarjeta:</b> ${esc(p.tarjeta)}</span></div>` : ""}
-    ${p.nota ? `<div class="fila"><span><b>Notas:</b> ${esc(p.nota)}</span></div>` : ""}
+    ${p.nota ? `<div class="fila"><span><b>Notas adicionales:</b> ${esc(p.nota)}</span></div>` : ""}
   </article>`; }).join("") : `<p class="vacio">${pedidos.length ? "No hay pedidos con este estado." : "Todavía no hay pedidos. Aparecerán aquí cuando un cliente envíe uno desde la tienda."}</p>`}</div>`;
 }
 document.addEventListener("change", async ev => {

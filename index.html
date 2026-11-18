@@ -563,14 +563,15 @@ const ICONO_OK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const ICONO_BOLSA = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>`;
 
 let cart = lee("springis-cart", {});
-const f = Object.assign({nombre:"", tel:"", entrega:"delivery", dir:"", fecha:"", hora:"", metodo:"pagomovil", modo:"mitad", ref:"", tarjeta:"", nota:""}, lee("springis-datos", {}));
+const f = Object.assign({nombre:"", tel:"", entrega:"delivery", dir:"", recibe:"", recibeTel:"", fecha:"", hora:"", metodo:"pagomovil", modo:"mitad", ref:"", tarjeta:"", nota:""}, lee("springis-datos", {}));
 if (!CONFIG.pagos[f.metodo]) f.metodo = "pagomovil";
 const q = {tipo:"", fecha:"", lugar:"", invitados:"", servicios:[], estilo:"", presupuesto:"", ref:"", refImg:"", detalles:""};
 let busqueda = "", ultimo = {url:"", num:null};
 
 const vendibles = () => PRODUCTOS.filter(p => p.c !== "eventos");
-const items = () => vendibles().filter(p => cart[p.id] && p.p != null).map(p => ({...p, q: cart[p.id]}));
-const total = () => items().reduce((s, i) => s + i.p * i.q, 0);
+const items = () => vendibles().filter(p => cart[p.id]).map(p => ({...p, q: cart[p.id]}));
+const porConfirmar = () => items().some(i => i.p == null);   // hay productos sin precio todavía
+const total = () => items().reduce((s, i) => s + (i.p || 0) * i.q, 0);
 const cuenta = () => items().reduce((s, i) => s + i.q, 0);
 const aPagar = () => f.modo === "mitad" ? Math.round(total() * 50) / 100 : total();
 const pago = () => CONFIG.pagos[f.metodo];
@@ -578,7 +579,7 @@ const fotoHTML = p => p.imgs && p.imgs.length ? `<img src="${esc(p.imgs[0])}" al
 
 /* ===== Carrito ===== */
 function cambiar(id, d){
-  const p = PRODUCTOS.find(x => x.id == id); if (!p || p.p == null) return;
+  const p = PRODUCTOS.find(x => x.id == id); if (!p) return;
   const n = Math.max(0, Math.min(99, (cart[id] || 0) + d));
   if (n) cart[id] = n; else delete cart[id];
   guarda("springis-cart", cart);
@@ -595,7 +596,7 @@ function actualizarCarrito(){
 }
 function control(id){
   const p = PRODUCTOS.find(x => x.id == id), n = cart[id] || 0;
-  if (!p || p.p == null) return "";
+  if (!p) return "";
   return n ? `<span class="paso"><button data-menos="${p.id}" aria-label="Quitar uno">−</button><b>${n}</b><button data-mas="${p.id}" aria-label="Agregar otro">+</button></span>`
            : `<button class="mas" data-mas="${p.id}" aria-label="Agregar ${esc(p.n)}">+</button>`;
 }
@@ -725,10 +726,9 @@ function abrirFicha(id){
   const car = $("#fCar"); car.onscroll = () => { const i = Math.round(car.scrollLeft / car.clientWidth); document.querySelectorAll("#fPuntos i").forEach((el, k) => el.classList.toggle("on", k === i)); };
 }
 function pieFicha(p){
-  if (p.p == null) return `<a class="btn ancho" href="${wa("Hola, quiero consultar el precio de: " + p.n)}" target="_blank" rel="noopener">Consultar precio por WhatsApp</a>`;
   const n = cart[p.id] || 0;
-  return n ? `<span class="paso"><button data-menos="${p.id}" aria-label="Quitar uno">−</button><b>${n}</b><button data-mas="${p.id}" aria-label="Agregar otro">+</button></span><button class="btn" data-cerrar-ficha="1">Listo · ${usd(p.p * n)}</button>`
-           : `<button class="btn ancho" data-mas="${p.id}">Agregar · ${usd(p.p)}</button>`;
+  return n ? `<span class="paso"><button data-menos="${p.id}" aria-label="Quitar uno">−</button><b>${n}</b><button data-mas="${p.id}" aria-label="Agregar otro">+</button></span><a class="btn" href="#carrito" data-cerrar-ficha="1">Ver mi pedido${p.p != null ? " · " + usd(p.p * n) : ""}</a>`
+           : `<button class="btn ancho" data-mas="${p.id}">Añadir al carrito${p.p != null ? " · " + usd(p.p) : ""}</button>`;
 }
 $("#ficha").addEventListener("click", ev => { if (ev.target === ev.currentTarget || ev.target.closest("#fCerrar,[data-cerrar-ficha]")) $("#ficha").close(); });
 
@@ -737,14 +737,18 @@ function vistaCarrito(){
   const it = items();
   if (!it.length) return `<div class="panel listo"><div class="ok">${ICONO_BOLSA}</div><h1>Tu pedido está vacío</h1><p>Agrega ramilletes o arreglos desde el catálogo.</p><div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button></div></div>`;
   return `<div class="panel"><button class="volver" data-ir="catalogo">← Seguir comprando</button><h1>Tu pedido</h1><p class="sd">${esc(CONFIG.delivery)}</p>
-  <div class="caja">${it.map(i => `<div class="linea"><div class="ph">${fotoHTML(i)}</div><div><b>${esc(i.n)}</b><br><small>${usd(i.p)} c/u</small></div><span data-ctl="${i.id}">${control(i.id)}</span></div>`).join("")}
-    <div class="tot"><span>Total</span><span><b>${usd(total())}</b>${CONFIG.tasa ? `<small>${bs(total())} a tasa euro BCV</small>` : ""}</span></div><p class="nota">El delivery se suma aparte según la zona.</p></div>
+  <div class="caja">${it.map(i => `<div class="linea"><div class="ph">${fotoHTML(i)}</div><div><b>${esc(i.n)}</b><br><small>${i.p != null ? usd(i.p) + " c/u" : "Precio por confirmar"}</small></div><span data-ctl="${i.id}">${control(i.id)}</span></div>`).join("")}
+    <div class="tot"><span>Total</span><span>${porConfirmar() && !total() ? "<b>Por confirmar</b>" : `<b>${usd(total())}${porConfirmar() ? " +" : ""}</b>${CONFIG.tasa ? `<small>${bs(total())} a tasa euro BCV</small>` : ""}`}</span></div>
+    <p class="nota">${porConfirmar() ? "Algunos productos tienen precio por confirmar: te enviamos el monto final por WhatsApp. " : ""}El delivery se suma aparte según la zona.</p></div>
   <a class="btn ancho" href="#datos">Continuar ${FLECHA}</a></div>`;
 }
 const opt = (name, val, txt, sel) => `<label class="op"><input type="radio" name="${name}" value="${esc(val)}" ${sel === val ? "checked" : ""}><span>${esc(txt)}</span></label>`;
 function bloquePago(){
   const m = pago(), monto = aPagar();
   const enBs = m.enBs && CONFIG.tasa;
+  if (porConfirmar()) return `<div class="monto"><small>${f.modo === "mitad" ? "Abono del 50 % para agendar" : "Pago completo"}</small><b>Monto por confirmar</b><small>Tu pedido tiene productos con precio por confirmar. Te enviamos el monto exacto por WhatsApp antes de pagar.</small></div>
+  <div class="datos"><pre>${esc(m.datos)}</pre></div>
+  ${f.modo === "mitad" ? `<p class="nota">El 50 % restante se paga antes del envío.</p>` : ""}`;
   return `<div class="monto"><small>${f.modo === "mitad" ? "Abono del 50 % para agendar" : "Pago completo"}</small>
     <b>${enBs ? bs(monto) : usd(monto)}</b>
     <small>${enBs ? `${usd(monto)} a tasa euro BCV ${tasaTxt()}${CONFIG.tasaFecha ? " del " + CONFIG.tasaFecha : ""}` : m.enBs ? "El monto en bolívares se calcula a tasa euro BCV del día." : `En dólares${CONFIG.tasa ? " · " + bs(monto) + " a tasa euro BCV" : ""}`}</small></div>
@@ -753,42 +757,50 @@ function bloquePago(){
 }
 function vistaDatos(){
   if (!items().length){ location.hash = "carrito"; return ""; }
-  return `<div class="panel"><a class="volver" href="#carrito">← Volver al pedido</a><h1>Datos y pago</h1><p class="sd">Total: <b>${usd(total())}</b>${CONFIG.tasa ? ` (${bs(total())})` : ""} · ${cuenta()} producto${cuenta() === 1 ? "" : "s"} · más delivery</p>
+  return `<div class="panel"><a class="volver" href="#carrito">← Volver al pedido</a><h1>Datos y pago</h1><p class="sd">${porConfirmar() ? "Total por confirmar" : `Total: <b>${usd(total())}</b>${CONFIG.tasa ? ` (${bs(total())})` : ""}`} · ${cuenta()} producto${cuenta() === 1 ? "" : "s"} · más delivery</p>
   <form id="formPedido" novalidate>
-  <div class="caja"><h2>Quién pide</h2>
+  <div class="caja"><h2>Tus datos</h2>
     <label for="nombre">Nombre y apellido</label><input type="text" id="nombre" data-f="nombre" value="${esc(f.nombre)}" autocomplete="name">
     <label for="tel">Teléfono / WhatsApp</label><input type="tel" id="tel" data-f="tel" value="${esc(f.tel)}" autocomplete="tel" placeholder="0414-1234567"></div>
   <div class="caja"><h2>Entrega</h2>
     <div class="ops" style="margin-top:10px">${opt("entrega", "delivery", "Delivery", f.entrega)}${opt("entrega", "pickup", "Lo retiro", f.entrega)}</div>
     ${f.entrega === "delivery" ? `<label for="dir">Dirección de entrega</label><input type="text" id="dir" data-f="dir" value="${esc(f.dir)}" placeholder="Zona, calle, casa o edificio y referencia">
-    <p class="nota">${esc(CONFIG.delivery)}</p>` : ""}
-    <div class="dos"><div><label for="fecha">Fecha</label><input type="date" id="fecha" data-f="fecha" min="${hoy()}" value="${esc(f.fecha)}"></div><div><label for="hora">Hora aproximada</label><input type="time" id="hora" data-f="hora" value="${esc(f.hora)}"></div></div>
+    <div class="dos"><div><label for="recibe">Nombre de quien recibe</label><input type="text" id="recibe" data-f="recibe" value="${esc(f.recibe)}" autocomplete="off"></div>
+    <div><label for="recibeTel">Teléfono de quien recibe</label><input type="tel" id="recibeTel" data-f="recibeTel" value="${esc(f.recibeTel)}" placeholder="0414-1234567" autocomplete="off"></div></div>
+    <p class="nota">Anexa tu ubicación GPS en el chat de WhatsApp para cotizar tu delivery según la zona.</p>` : ""}
+    <div class="dos"><div><label for="fecha">Fecha de entrega</label><input type="date" id="fecha" data-f="fecha" min="${hoy()}" value="${esc(f.fecha)}"></div><div><label for="hora">Hora de entrega</label><input type="time" id="hora" data-f="hora" value="${esc(f.hora)}"></div></div>
     <p class="nota">${esc(CONFIG.anticipacion)}</p></div>
-  <div class="caja"><h2>Detalles</h2>
-    <label for="tarjeta">Mensaje para la tarjeta <small>(opcional)</small></label><textarea id="tarjeta" data-f="tarjeta" rows="2" maxlength="500" placeholder="Ej.: Feliz aniversario. Con cariño, Ana">${esc(f.tarjeta)}</textarea>
-    <label for="nota">Notas del pedido <small>(colores, flores, a quién se entrega)</small></label><textarea id="nota" data-f="nota" rows="2" maxlength="1000">${esc(f.nota)}</textarea></div>
+  <div class="caja"><h2>Tarjeta dedicatoria</h2>
+    <label for="tarjeta">¿Qué quieres que diga la tarjeta? <small>(opcional)</small></label><textarea id="tarjeta" data-f="tarjeta" rows="2" maxlength="500" placeholder="Ej.: Feliz aniversario. Con cariño, Ana">${esc(f.tarjeta)}</textarea></div>
   <div class="caja"><h2>Pago</h2>
     <label>¿Cómo quieres pagar?</label><div class="ops">${opt("modo", "mitad", "Abono del 50 %", f.modo)}${opt("modo", "contado", "Pago completo", f.modo)}</div>
     <label>Método de pago</label><div class="ops">${Object.entries(CONFIG.pagos).map(([k, m]) => opt("metodo", k, m.nombre, f.metodo)).join("")}</div>
     <div id="bloquePago">${bloquePago()}</div>
-    <label for="ref">Número de referencia del pago${pago().consultar ? " <small>(opcional)</small>" : ""}</label><input type="text" id="ref" data-f="ref" value="${esc(f.ref)}" inputmode="numeric" placeholder="${pago().consultar ? "Si ya pagaste, escríbelo aquí" : "Últimos dígitos de la referencia"}"></div>
+    <label for="ref">Número de referencia del pago${pago().consultar || porConfirmar() ? " <small>(opcional)</small>" : ""}</label><input type="text" id="ref" data-f="ref" value="${esc(f.ref)}" inputmode="numeric" placeholder="${pago().consultar || porConfirmar() ? "Si ya pagaste, escríbelo aquí" : "Últimos dígitos de la referencia"}"></div>
+  <div class="caja"><h2>Notas adicionales</h2>
+    <label for="nota">¿Algo más que debamos saber? <small>(opcional)</small></label><textarea id="nota" data-f="nota" rows="3" maxlength="1000" placeholder="Colores, flores preferidas, indicaciones para la entrega…">${esc(f.nota)}</textarea></div>
   <p class="err" id="err" role="alert"></p>
   <button class="btn ancho" id="enviar">Enviar pedido por WhatsApp ${FLECHA}</button></form></div>`;
 }
+const numPedido = n => "#" + String(n).padStart(3, "0");   // 1 → #001
+const hora12 = h => { if (!h) return ""; const [H, M] = h.split(":").map(Number); return `${((H + 11) % 12) + 1}:${String(M).padStart(2, "0")} ${H < 12 ? "a. m." : "p. m."}`; };
 function mensajePedido(num){
-  const m = pago(), monto = aPagar(), enBs = m.enBs && CONFIG.tasa;
-  const L = [`Hola, soy ${f.nombre.trim()}. ${num ? `Mi pedido es el *N° ${num}*.` : "Quiero hacer este pedido:"}`, "", `*Pedido${num ? " N° " + num : ""} · ${CONFIG.tienda}*`];
-  items().forEach(i => L.push(`• ${i.q} × ${i.n} — ${usd(i.p * i.q)}`));
-  L.push("", `*Total:* ${usd(total())}${CONFIG.tasa ? " (" + bs(total()) + ")" : ""} + delivery`,
-    `*Entrega:* ${f.entrega === "delivery" ? "Delivery — " + f.dir.trim() : "Retiro"}`,
-    `*Fecha:* ${f.fecha.split("-").reverse().join("/")}${f.hora ? " · " + f.hora : ""}`,
-    `*Pago:* ${m.nombre} · ${f.modo === "mitad" ? "Abono del 50 %" : "Pago completo"}`,
-    `*Monto ${f.modo === "mitad" ? "abonado" : "pagado"}:* ${usd(monto)}${enBs ? " (" + bs(monto) + " a tasa euro " + tasaTxt() + ")" : ""}`,
-    `*Referencia:* ${f.ref.trim() || (m.consultar ? "por coordinar" : "por enviar")}`,
-    `*Teléfono:* ${f.tel.trim()}`);
-  if (f.tarjeta.trim()) L.push(`*Tarjeta:* ${f.tarjeta.trim()}`);
-  if (f.nota.trim()) L.push(`*Notas:* ${f.nota.trim()}`);
-  if (f.entrega === "delivery") L.push("", "Te envío mi ubicación GPS para cotizar el delivery.");
+  const m = pago(), monto = aPagar(), enBs = m.enBs && CONFIG.tasa, pc = porConfirmar();
+  const L = [`¡Hola! Mi nombre es ${f.nombre.trim()}, ${num ? `este es mi pedido número *${numPedido(num)}*` : "quiero hacer este pedido"}:`, ""];
+  L.push("*Descripción del pedido*");
+  items().forEach(i => L.push(`• ${i.q} × ${i.n} — ${i.p != null ? usd(i.p * i.q) : "precio por confirmar"}`));
+  L.push(`*Total:* ${pc ? (total() ? usd(total()) + " + productos por confirmar" : "por confirmar") : usd(total()) + (CONFIG.tasa ? " (" + bs(total()) + ")" : "")} + delivery`, "");
+  if (f.entrega === "delivery"){
+    L.push("*Entrega:* Delivery", `*Dirección:* ${f.dir.trim()}`, "_(Anexo mi ubicación GPS en este chat para cotizar el delivery según la zona)_");
+  } else L.push("*Entrega:* Retiro en tienda");
+  L.push(`*Fecha y hora de entrega:* ${f.fecha.split("-").reverse().join("/")} · ${hora12(f.hora)}`, "");
+  L.push(`*Tarjeta dedicatoria:* ${f.tarjeta.trim() || "sin mensaje"}`, "");
+  L.push(`*Nombre del cliente:* ${f.nombre.trim()}`, `*Teléfono del cliente:* ${f.tel.trim()}`);
+  if (f.entrega === "delivery") L.push(`*Nombre de quien recibe:* ${f.recibe.trim()}`, `*Teléfono de quien recibe:* ${f.recibeTel.trim()}`);
+  L.push("", `*Pago:* ${m.nombre} · ${f.modo === "mitad" ? "Abono del 50 %" : "Pago completo"}`);
+  if (!pc) L.push(`*Monto ${f.modo === "mitad" ? "del abono" : "a pagar"}:* ${usd(monto)}${enBs ? " (" + bs(monto) + " a tasa euro " + tasaTxt() + ")" : ""}`);
+  L.push(`*Referencia:* ${f.ref.trim() || (m.consultar || pc ? "por coordinar" : "por enviar")}`);
+  L.push("", `*Notas adicionales:* ${f.nota.trim() || "ninguna"}`);
   return L.join("\n");
 }
 async function rpc(fn, p){
@@ -800,18 +812,22 @@ async function rpc(fn, p){
   } catch (e){ console.warn("No se pudo registrar en Supabase:", e.message); return null; }
 }
 async function enviarPedido(){
+  const d = f.entrega === "delivery";
   const falta = !f.nombre.trim() ? "Escribe tu nombre." : !f.tel.trim() ? "Escribe tu teléfono." :
-    (f.entrega === "delivery" && !f.dir.trim()) ? "Escribe la dirección de entrega." : !f.fecha ? "Elige la fecha de entrega." :
-    (!pago().consultar && !f.ref.trim()) ? "Escribe la referencia del pago móvil para procesar tu pedido." : "";
+    (d && !f.dir.trim()) ? "Escribe la dirección de entrega." :
+    (d && !f.recibe.trim()) ? "Escribe el nombre de quien recibe." : (d && !f.recibeTel.trim()) ? "Escribe el teléfono de quien recibe." :
+    !f.fecha ? "Elige la fecha de entrega." : !f.hora ? "Elige la hora de entrega." :
+    (!pago().consultar && !porConfirmar() && !f.ref.trim()) ? "Escribe la referencia del pago móvil para procesar tu pedido." : "";
   if (falta){ $("#err").textContent = falta; return; }
   const b = $("#enviar"); b.disabled = true; b.textContent = "Registrando tu pedido…"; $("#err").textContent = "";
   let w = null; try { w = window.open("", "_blank"); } catch (e) {}   // se abre antes de esperar para que no la bloqueen
   const num = await rpc("crear_pedido", {cliente:f.nombre, telefono:f.tel, entrega:f.entrega, direccion: f.entrega === "delivery" ? f.dir : "", fecha:f.fecha, hora:f.hora,
     metodo: pago().nombre, modo:f.modo, tasa: pago().enBs && CONFIG.tasa ? CONFIG.tasa : null, referencia:f.ref, tarjeta:f.tarjeta, nota:f.nota,
+    recibe: f.entrega === "delivery" ? f.recibe : "", recibe_tel: f.entrega === "delivery" ? f.recibeTel : "",
     items: items().map(i => ({id:i.id, q:i.q}))});
   ultimo = {url: wa(mensajePedido(num)), num, tipo:"pedido"};
   if (w && !w.closed) w.location.href = ultimo.url; else window.open(ultimo.url, "_blank");
-  cart = {}; guarda("springis-cart", cart); f.tarjeta = ""; f.nota = ""; f.ref = ""; guardarDatos();
+  cart = {}; guarda("springis-cart", cart); f.tarjeta = ""; f.nota = ""; f.ref = ""; f.recibe = ""; f.recibeTel = ""; guardarDatos();
   location.hash = "listo";
 }
 const guardarDatos = () => guarda("springis-datos", {nombre:f.nombre, tel:f.tel, entrega:f.entrega, dir:f.dir, metodo:f.metodo, modo:f.modo});
@@ -873,7 +889,7 @@ function vistaListo(){
   if (!ultimo.url){ location.hash = ""; return ""; }
   const cot = ultimo.tipo === "cot";
   return `<div class="panel listo"><div class="ok">${ICONO_OK}</div><h1>${cot ? "Solicitud lista" : "Pedido listo"}</h1>
-  ${ultimo.num ? `<div class="num">N° ${ultimo.num}</div>` : ""}
+  ${ultimo.num ? `<div class="num">${cot ? "N° " + ultimo.num : "Pedido " + numPedido(ultimo.num)}</div>` : ""}
   <p>Se abrió WhatsApp con ${cot ? "los datos de tu evento" : "el detalle de tu pedido"}. Presiona enviar en el chat para que te respondamos${cot ? "" : " y envíanos tu ubicación GPS si es delivery"}. Si no se abrió, usa este botón.</p>
   <div class="acc"><a class="btn" href="${esc(ultimo.url)}" target="_blank" rel="noopener">Abrir WhatsApp</a><a class="btn claro" href="#">Volver al inicio</a></div></div>`;
 }
@@ -1061,7 +1077,7 @@ async function cargarProductos(){
     PRODUCTOS = filas.map(desdeFila);
     CATS = secs.map(x => ({id:x.id, n:x.nombre}));
     guarda("springis-productos", PRODUCTOS); guarda("springis-secciones", CATS);
-    Object.keys(cart).forEach(id => { if (!PRODUCTOS.some(p => p.id == id && p.p != null)) delete cart[id]; });
+    Object.keys(cart).forEach(id => { if (!PRODUCTOS.some(p => p.id == id)) delete cart[id]; });
     guarda("springis-cart", cart);
     if (ruta() === ""){ const y = window.scrollY; pintar(); window.scrollTo(0, y); }
     else if (ruta() === "carrito") pintar();
