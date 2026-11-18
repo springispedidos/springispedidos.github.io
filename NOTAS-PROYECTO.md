@@ -25,6 +25,8 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - `supabase/02-pagos.sql` (ya ejecutado): columnas modo, abonado, tasa y referencia en pedidos.
 - WhatsApp 0414-4980997, Instagram @springis.val_, Valencia.
 - Transiciones (17/11/2026): entrada escalonada de la portada y la rama que se dibuja sola; secciones y tarjetas aparecen al bajar (IntersectionObserver con respaldo por scroll; sin JS o con «reducir movimiento» todo se ve normal); tarjetas, categorías y botones se elevan al pasar el mouse; ficha con apertura suave; el contador del carrito salta al agregar; la cifra +5.000 cuenta desde 0.
+- Animaciones de aparición: UNA sola vez (la dueña probó repetirlas y le causaron mareo, 17/11/2026).
+- Encabezado: al bajar más de 60 px se vuelve translúcido con desenfoque (vidrio) y más delgado (58 px, logo 40 px); al pasar el mouse vuelve a ser blanco.
 - Sin emojis en ninguna parte (la dueña siente que le quitan seriedad). Sin foto, los productos muestran una flor dibujada en línea; en el panel, la inicial.
 - Identidad (16/11/2026): el turquesa debe PREDOMINAR (portada, barra de tasa, botones, carrito, pie, franja en turquesa claro); el verde #265B3D solo en detalles (logo, enlaces, cifras). Turquesa #65B79F, turquesa secundario #9EC9B7 (confirmado por la dueña), blanco y negro; sobre turquesa las letras van en negro. Sin degradados. Títulos en Anton (Google Fonts, pedido por la dueña el 17/11/2026 en lugar de Rosemartin); texto en Jost hasta saber la secundaria. Logo: `imagenes/logo-color.png` y `logo-blanco.png`, sacados del .ai con colores planos.
 - Precios en USD. El delivery se confirma aparte por WhatsApp; los datos de pago también se envían por WhatsApp (la web solo pregunta cómo prefiere pagar).

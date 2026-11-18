@@ -320,8 +320,14 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
 .tab{transition:background .25s,color .25s,border-color .25s}
 .mas{transition:transform .2s}
 .mas:hover{transform:scale(1.12)}
-.top{transition:box-shadow .3s}
-.top.sombra{box-shadow:0 6px 20px rgba(29,36,32,.08)}
+/* Encabezado: al bajar se vuelve translúcido (vidrio esmerilado) y más delgado para no estorbar */
+.top{transition:background .45s,border-color .45s,backdrop-filter .45s,-webkit-backdrop-filter .45s}
+.top-in,.logo img{transition:height .4s var(--suave)}
+.top.sombra{background:rgba(255,255,255,.42);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom-color:rgba(255,255,255,.35)}
+.top.sombra:hover,.top.sombra:focus-within{background:rgba(255,255,255,.9)}
+.top.sombra .top-in{height:58px}
+.top.sombra .logo img{height:40px}
+.bajando .tabs-wrap{top:58px}
 /* Al agregar al pedido */
 .salta{animation:salta .45s var(--suave)}
 @keyframes salta{40%{transform:scale(1.3)}}
@@ -342,6 +348,9 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .menu{display:none}
   .solo-movil{display:grid}
   .tabs-wrap{top:68px}
+  .top.sombra .top-in{height:54px}
+  .top.sombra .logo img{height:38px}
+  .bajando .tabs-wrap{top:54px}
   .cats{grid-template-columns:repeat(2,1fr);gap:16px}
   .historia{grid-template-columns:1fr}
   .historia .foto{aspect-ratio:4/3}
@@ -994,7 +1003,10 @@ function pintarZona(){
   espiar();
 }
 
-window.addEventListener("scroll", () => $("#top").classList.toggle("sombra", window.scrollY > 10), {passive:true});
+window.addEventListener("scroll", () => {
+  const b = window.scrollY > 60;
+  $("#top").classList.toggle("sombra", b); document.documentElement.classList.toggle("bajando", b);
+}, {passive:true});
 
 /* ===== Tasa euro BCV ===== */
 function pintarTasa(){
