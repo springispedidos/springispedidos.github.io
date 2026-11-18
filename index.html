@@ -95,7 +95,7 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .cat{border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit}
 .cat .img{aspect-ratio:3/4;background:var(--olive-soft);overflow:hidden;display:grid;place-items:center;color:var(--olive)}
 .cat .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.cat:hover .img img{transform:scale(1.04)}
+.cat:hover .img img{transform:scale(1.06)}
 .cat .img .flor{width:32%;height:32%}
 .cat h3{font-size:1.45rem;margin:16px 0 6px}
 
@@ -278,9 +278,64 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
   .ficha-tx h2{font-size:2.3rem}
   .ficha-pie{padding:16px 32px 22px}
 }
-.ap{animation:sube .6s both}
-@keyframes sube{from{opacity:0;transform:translateY(14px)}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+/* ===== Movimiento ===== */
+:root{--suave:cubic-bezier(.2,.7,.2,1)}
+/* Aparición al bajar: solo se oculta si el navegador puede animar (clase .anim en <html>) */
+.anim .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--suave),transform .8s var(--suave);transition-delay:var(--d,0s)}
+.anim .rv.in{opacity:1;transform:none}
+.anim .rv.ya{transition:none}
+.anim .cat.rv,.anim .prod.rv,.anim .gal.rv{transform:translateY(34px) scale(.98)}
+.anim .cat.rv.in,.anim .prod.rv.in,.anim .gal.rv.in{transform:none}
+/* Portada: entrada escalonada y la rama se dibuja sola */
+.anim .hero .texto > *{animation:entra .9s var(--suave) both}
+.anim .hero .texto > :nth-child(2){animation-delay:.12s}
+.anim .hero .texto > :nth-child(3){animation-delay:.24s}
+.anim .hero .texto > :nth-child(4){animation-delay:.36s}
+.anim .hero .dibujo path{stroke-dasharray:420;stroke-dashoffset:420;animation:dibuja 2.6s .3s ease-out forwards}
+.anim .hero .dibujo path:nth-child(n+2){animation-delay:.9s;animation-duration:1.8s}
+.anim .quieto .hero .texto > *,.anim .quieto .hero .dibujo path{animation:none;stroke-dashoffset:0}
+@keyframes entra{from{opacity:0;transform:translateY(30px)}}
+@keyframes dibuja{to{stroke-dashoffset:0}}
+.hero .dibujo{animation:mece 7s ease-in-out 3s infinite alternate;transform-origin:50% 100%}
+@keyframes mece{to{transform:rotate(-2.5deg)}}
+/* Cambio de pantalla (catálogo, pedido, cotización) */
+#app.cambio{animation:aparece .5s var(--suave)}
+@keyframes aparece{from{opacity:0;transform:translateY(12px)}}
+/* Tarjetas y botones */
+.prod{transition:border-color .3s,box-shadow .35s,transform .35s var(--suave)}
+.prod:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(29,36,32,.10)}
+.ph img{transition:transform .6s var(--suave)}
+.prod:hover .ph img{transform:scale(1.06)}
+.cat .img{transition:transform .45s var(--suave),box-shadow .45s}
+.cat:hover .img{transform:translateY(-6px);box-shadow:0 18px 34px rgba(29,36,32,.12)}
+.cat .link .flecha,.btn .flecha{transition:transform .3s var(--suave)}
+.cat:hover .link .flecha,.btn:hover .flecha{transform:translateX(5px)}
+.btn{transition:background .25s,color .25s,transform .2s,box-shadow .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(29,36,32,.14)}
+.btn:active{transform:translateY(0)}
+.tipo{transition:border-color .25s,transform .3s var(--suave),box-shadow .3s}
+.tipo:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(29,36,32,.08)}
+.franja li svg{transition:transform .4s var(--suave)}
+.franja li:hover svg{transform:translateY(-4px) scale(1.12)}
+.tab{transition:background .25s,color .25s,border-color .25s}
+.mas{transition:transform .2s}
+.mas:hover{transform:scale(1.12)}
+.top{transition:box-shadow .3s}
+.top.sombra{box-shadow:0 6px 20px rgba(29,36,32,.08)}
+/* Al agregar al pedido */
+.salta{animation:salta .45s var(--suave)}
+@keyframes salta{40%{transform:scale(1.3)}}
+.barra.pop{animation:barraPop .45s var(--suave)}
+@keyframes barraPop{40%{transform:translate(-50%,-6px) scale(1.03)}}
+/* Ficha del producto */
+dialog.ficha[open]{animation:fichaAbre .4s var(--suave)}
+dialog.ficha[open]::backdrop{animation:fondo .35s ease}
+@keyframes fichaAbre{from{opacity:0;transform:translateY(18px) scale(.97)}}
+@keyframes fondo{from{opacity:0}}
+/* Preguntas frecuentes */
+.faq[open] p{animation:aparece .4s var(--suave)}
+.faq summary::after{transition:transform .3s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}.anim .rv{opacity:1;transform:none}}
 
 @media (max-width:900px){
   .top-in{grid-template-columns:auto 1fr;height:68px}
@@ -504,6 +559,7 @@ function cambiar(id, d){
   if (n) cart[id] = n; else delete cart[id];
   guarda("springis-cart", cart);
   actualizarCarrito();
+  if (d > 0) [$("#cartN"), $("#barra")].forEach(el => { const c = el.id === "barra" ? "pop" : "salta"; el.classList.remove(c); void el.offsetWidth; el.classList.add(c); });
 }
 function actualizarCarrito(){
   const n = cuenta();
@@ -527,7 +583,7 @@ function precioHTML(p){
 }
 function tarjeta(p){
   const etq = (p.antes != null ? '<span class="etq">Oferta</span>' : "") + (p.nuevo ? '<span class="etq verde">Nuevo</span>' : "");
-  return `<article class="prod ap" data-abrir="${p.id}" role="button" tabindex="0" aria-label="${esc(p.n)}">
+  return `<article class="prod" data-abrir="${p.id}" role="button" tabindex="0" aria-label="${esc(p.n)}">
     <div>${etq ? `<div>${etq}</div>` : ""}<h4>${esc(p.n)}</h4>${p.d ? `<p class="d">${esc(p.d)}</p>` : ""}${precioHTML(p)}</div>
     <div class="ph">${fotoHTML(p)}<span data-ctl="${p.id}">${control(p.id)}</span></div>
   </article>`;
@@ -556,7 +612,7 @@ function categorias(){
   const lista = CATS.filter(c => c.id !== "eventos" && vendibles().some(p => p.c === c.id)).slice(0, 3)
     .map(c => ({id:"sec-" + c.id, n:c.n, img:fotoCategoria(c.id), link:"Ver más"}));
   lista.push({id:"eventos", n:"Eventos", img:fotoCategoria("eventos"), link:"Cotizar"});
-  return lista.map(c => `<button class="cat ap" data-ir="${esc(c.id)}"><div class="img">${c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy">` : FLOR}</div><h3>${esc(c.n)}</h3><span class="link">${c.link} ${FLECHA}</span></button>`).join("");
+  return lista.map(c => `<button class="cat" data-ir="${esc(c.id)}"><div class="img">${c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy">` : FLOR}</div><h3>${esc(c.n)}</h3><span class="link">${c.link} ${FLECHA}</span></button>`).join("");
 }
 function galeria(){
   const fotos = PRODUCTOS.filter(p => p.c === "eventos" && p.imgs && p.imgs.length);
@@ -598,7 +654,7 @@ function vistaInicio(){
       <h2>No vendemos el lujo de las flores, regalamos emociones</h2>
       <p>Somos una tienda virtual que desde 2024 se dedica a dar lo mejor y a ofrecer detalles de calidad, con amor y dedicación en cada flor que sale de Springis.</p>
       <p>Hemos estado presentes con nuestro stand en graduaciones de universidades, institutos y escuelas de Valencia, decorado bodas y eventos, y seguimos haciendo ramilletes al detal, porque cada cliente vale.</p>
-      <div class="cifras"><div><b>+5.000</b><span>Clientes atendidos</span></div><div><b>2024</b><span>Desde</span></div><div><b>Valencia</b><span>Carabobo</span></div></div>
+      <div class="cifras"><div><b data-cuenta="5000" data-pre="+">+5.000</b><span>Clientes atendidos</span></div><div><b>2024</b><span>Desde</span></div><div><b>Valencia</b><span>Carabobo</span></div></div>
       <div><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button></div>
     </div>
   </section>
@@ -801,18 +857,67 @@ function vistaListo(){
 /* ===== Navegación ===== */
 const ruta = () => location.hash.replace(/^#/, "");
 let destino = null;
+let animarSiguiente = true;   // true en la primera carga y al cambiar de pantalla
 function pintar(){
   const r = ruta();
   const html = r === "carrito" ? vistaCarrito() : r === "datos" ? vistaDatos() : r === "cotizar" ? vistaCotizar() : r === "listo" ? vistaListo() : vistaInicio();
   if (html === "") return;
-  $("#app").innerHTML = html;
+  const app = $("#app"), anim = animarSiguiente;
+  animarSiguiente = false;
+  app.innerHTML = html;
+  app.classList.toggle("quieto", !anim);
+  if (anim && ultimaRuta !== null && r !== ""){ app.classList.remove("cambio"); void app.offsetWidth; app.classList.add("cambio"); }
   actualizarBarra();
   if (r === "") espiar();
+  setTimeout(() => revelar(!anim), 0);
+}
+
+/* ===== Movimiento al bajar ===== */
+const MOVIMIENTO = "IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (MOVIMIENTO) document.documentElement.classList.add("anim");
+const REVELAR = ".bloque .kick, .titulo, .cat, .sec > h3, .prod, .historia .foto, .historia .tx > :not(.rama), .franja li, .tipo, .pasos li, .gal, .faq, .contacto > div, .panel > *";
+const vista = MOVIMIENTO ? new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add("in"); vista.unobserve(e.target);
+  e.target.querySelectorAll("[data-cuenta]").forEach(contar);
+}), {rootMargin:"0px 0px -8% 0px", threshold:.08}) : null;
+// instante = true: lo que ya está en pantalla aparece sin animar (redibujos por datos nuevos)
+function revelar(instante){
+  if (!vista) return;
+  const grupos = new Map();
+  document.querySelectorAll("#app " + REVELAR.split(", ").join(", #app ")).forEach(el => {
+    if (el.classList.contains("rv")) return;
+    const k = grupos.get(el.parentElement) || 0; grupos.set(el.parentElement, k + 1);
+    el.style.setProperty("--d", ((k % 4) * 0.09).toFixed(2) + "s");
+    el.classList.add("rv");
+    if (instante && el.getBoundingClientRect().top < innerHeight){ el.classList.add("in", "ya"); return; }
+    vista.observe(el);
+  });
+}
+// Respaldo por si el observador no avisa: al bajar, muestra lo que ya está en pantalla
+let revisando = false;
+function revisarVisibles(){
+  revisando = false;
+  document.querySelectorAll(".rv:not(.in)").forEach(el => {
+    if (el.getBoundingClientRect().top < innerHeight * 0.96){ el.classList.add("in"); if (vista) vista.unobserve(el); el.querySelectorAll("[data-cuenta]").forEach(contar); }
+  });
+}
+if (MOVIMIENTO){
+  addEventListener("scroll", () => { if (!revisando){ revisando = true; setTimeout(revisarVisibles, 120); } }, {passive:true});
+  addEventListener("load", () => setTimeout(revisarVisibles, 1200));
+}
+// Cuenta de 0 al número (ej. +5.000 clientes)
+function contar(el){
+  const fin = +el.dataset.cuenta, pre = el.dataset.pre || "", t0 = performance.now(), dur = 1600;
+  const paso = t => { const k = Math.min(1, (t - t0) / dur), v = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+    el.textContent = pre + v.toLocaleString("es-VE"); if (k < 1) requestAnimationFrame(paso); };
+  requestAnimationFrame(paso);
 }
 function actualizarBarra(){ $("#barra").classList.toggle("ver", cuenta() > 0 && ruta() === ""); }
 let ultimaRuta = null;
 window.addEventListener("hashchange", () => {
   const r = ruta(), antes = ultimaRuta; ultimaRuta = r;
+  animarSiguiente = true;
   pintar();
   if (r === "" && destino){ const id = destino; destino = null; requestAnimationFrame(() => irA(id, true)); }
   else if (!(r === "" && antes === null)) window.scrollTo(0, 0);
@@ -888,6 +993,8 @@ function pintarZona(){
   if (!busqueda && l) l.remove();
   espiar();
 }
+
+window.addEventListener("scroll", () => $("#top").classList.toggle("sombra", window.scrollY > 10), {passive:true});
 
 /* ===== Tasa euro BCV ===== */
 function pintarTasa(){
