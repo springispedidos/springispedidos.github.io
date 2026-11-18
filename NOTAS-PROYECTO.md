@@ -12,6 +12,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - Regla: Springis vive en su propio repositorio y su propio Supabase. Nunca se toca el repositorio `viphydetails.github.io` ni el Supabase de Viphy desde este proyecto.
 
 ## Archivos
+- `supabase/03-catalogo.sql` (ya ejecutado el 17/11/2026): secciones Rosas, Girasoles, Primaverales, Bolsitas, Cajitas y box, Otras opciones (+ Galería de eventos) y 49 productos sin precio. Fotos en `imagenes/productos/` (sacadas del PDF sin recomprimir; «5 girasoles decorados» recortada de la página). `imagenes/historia.jpg` es la foto de la portada del catálogo.
 - `index.html`: toda la web para clientes. Arriba del script está `CONFIG` (WhatsApp, Instagram, ciudad, horario, logo, foto de portada, métodos de pago), los tipos de evento (`EVENTOS`), los servicios y rangos de presupuesto de la cotización, las preguntas frecuentes (`FAQ`) y la lista de productos de respaldo (`PRODUCTOS`, con precios de ejemplo).
 - `admin.html`: panel con pestañas Productos, Secciones, Pedidos y Cotizaciones. Sale «Falta conectar» mientras Supabase no esté configurado.
 - `compartido.js`: datos de Supabase (vacíos por ahora) y secciones de respaldo. Si se cambia, sube el número en `compartido.js?v=N` dentro de index.html y admin.html.
@@ -36,7 +37,8 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - Logo en PNG (va en `imagenes/` y en `CONFIG.logo`).
 - Usuario de Instagram, colores y tipografías de la marca.
 - Fotos de portada, categorías e historia; tipografía secundaria; textos de los 4 beneficios; horario.
-- Catálogo de la dueña (fotos ya hechas, faltan precios) para cargar en el panel.
+- Precios de los 49 productos del catálogo (se ponen en el panel; sin precio salen «Precio por confirmar»).
+- Fotos originales en mejor calidad: las del PDF del catálogo solo llegan a 300×400 px.
 - Supabase conectado (proyecto «Springis», https://zierdhzzdmankvgcyfjs.supabase.co, esquema ya ejecutado). Admin «sophia» creada y con permiso; registro público desactivado.
 - Mientras no haya productos cargados en el panel, la web muestra los de ejemplo de `index.html`.
 - Fotos, nombres y precios reales (se cargan desde el panel cuando esté conectado).
