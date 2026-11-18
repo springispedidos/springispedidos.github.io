@@ -249,7 +249,7 @@ textarea{resize:vertical}
 /* Ficha del producto */
 dialog.ficha{border:0;padding:0;margin:auto;width:min(520px,100%);max-width:100%;max-height:min(92vh,860px);border-radius:3px;background:var(--paper);color:var(--ink);overflow:hidden}
 dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
-.ficha-in{display:flex;flex-direction:column;max-height:inherit}
+.ficha-in{position:relative;display:flex;flex-direction:column;max-height:inherit}
 .fotos{position:relative;flex:none}
 .car{display:flex;width:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;aspect-ratio:3/4;max-height:62vh;background:var(--surface)}
 .car::-webkit-scrollbar{display:none}
@@ -259,7 +259,7 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
 .puntos{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
 .puntos i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6)}
 .puntos i.on{background:#fff}
-.cerrar{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.95);cursor:pointer;font-size:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.cerrar{position:absolute;z-index:2;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.95);cursor:pointer;font-size:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .ficha-tx{padding:20px 22px 8px;overflow-y:auto}
 .ficha-tx h2{font-size:1.9rem;margin:0 0 8px}
 .ficha-tx p{color:var(--muted);font-weight:300;margin:10px 0 0;white-space:pre-line}
@@ -268,6 +268,16 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
 .ficha-pie .paso button{color:var(--ink)}
 .ficha-pie .btn{flex:1}
 
+/* En pantallas anchas la ficha va en dos columnas: la foto ocupa su recuadro exacto (3:4), sin bandas ni recortes */
+@media (min-width:761px){
+  dialog.ficha{width:min(920px,94vw);max-height:min(88vh,820px)}
+  .ficha-in{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto}
+  .fotos{grid-row:1 / 3}
+  .car{width:auto;height:min(88vh,820px);max-height:none;aspect-ratio:3/4}
+  .ficha-tx{padding:56px 32px 16px;align-self:start}
+  .ficha-tx h2{font-size:2.3rem}
+  .ficha-pie{padding:16px 32px 22px}
+}
 .ap{animation:sube .6s both}
 @keyframes sube{from{opacity:0;transform:translateY(14px)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
@@ -305,7 +315,7 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
   .galeria{grid-template-columns:repeat(2,1fr)}
   .contacto{grid-template-columns:1fr}
   dialog.ficha{margin:auto 0 0;width:100%;max-height:94vh}
-  .car{max-height:56vh}
+  .car{max-height:64vh}
   .dos{grid-template-columns:1fr}
 }
 </style>
@@ -628,7 +638,7 @@ function abrirFicha(id){
   const imgs = p.imgs && p.imgs.length ? p.imgs : null;
   $("#fichaIn").innerHTML = `<div class="fotos"><div class="car" id="fCar">${imgs ? imgs.map((u, i) => `<img src="${esc(u)}" alt="${esc(p.n)}, foto ${i + 1}">`).join("") : `<div class="emo">${FLOR}</div>`}</div>
     ${imgs && imgs.length > 1 ? `<div class="puntos" id="fPuntos">${imgs.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}
-    <button class="cerrar" id="fCerrar" aria-label="Cerrar">×</button></div>
+    </div><button class="cerrar" id="fCerrar" aria-label="Cerrar">×</button>
   <div class="ficha-tx"><h2 id="fichaTit">${esc(p.n)}</h2>${precioHTML(p)}${p.d ? `<p>${esc(p.d)}</p>` : ""}<p class="nota">${esc(CONFIG.anticipacion)}</p></div>
   <div class="ficha-pie" id="fPie">${pieFicha(p)}</div>`;
   const d = $("#ficha"); if (!d.open) d.showModal();
