@@ -16,7 +16,7 @@
    así que esas letras salen con «Young Serif», que se le parece. */
 @font-face{font-family:"Rosemartin";src:url("fuentes/Rosemartin.otf") format("opentype");font-display:swap}
 :root{
-  --turq:#65B79F;--turq-osc:#4FA088;--turq-claro:#DDF0E9;--verde:#265B3D;--verde-osc:#1B4430;
+  --turq:#65B79F;--turq-osc:#4FA088;--turq-claro:#9EC9B7;--verde:#265B3D;--verde-osc:#1B4430;
   --bg:#FFFFFF;--surface:#F3FAF7;--paper:#FFFFFF;--ink:#1D2420;--muted:#5E6A63;--line:#DCE7E1;
   --olive:var(--turq);--olive-dark:var(--turq-osc);--olive-soft:var(--turq-claro);--rose:var(--turq);--rose-soft:var(--turq-claro);--err:#A8322A;
   --t:"Rosemartin","Young Serif",Georgia,serif;--b:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -152,11 +152,11 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.1;margin:0;letter-sp
 
 /* Franja de beneficios */
 .franja{background:var(--turq-claro);color:var(--ink)}
-.franja ul{list-style:none;margin:0;padding:34px 0;display:grid;grid-template-columns:repeat(4,1fr)}
-.franja li{text-align:center;padding:6px 18px;border-left:1px solid var(--turq)}
+.franja ul{list-style:none;margin:0 auto;padding:44px 20px;max-width:1080px;display:grid;grid-template-columns:repeat(4,1fr);align-items:center}
+.franja li{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px 18px;border-left:1px solid rgba(255,255,255,.7)}
 .franja li:first-child{border-left:0}
-.franja svg{width:28px;height:28px;margin:0 auto 12px;color:var(--turq-osc)}
-.franja b{display:block;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.franja svg{width:28px;height:28px;margin:0 0 12px;color:var(--ink)}
+.franja b{display:block;margin-bottom:4px;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
 .franja small{font-size:.82rem;font-weight:400}
 
 /* Eventos */
