@@ -35,9 +35,9 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:2px;background:var(--olive);color:var(--ink);padding:14px 24px;font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .2s}
 .btn:hover{background:var(--olive-dark)}
 .btn.claro{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.hero .btn:not(.claro){background:var(--ink);color:#fff}
-.hero .btn:not(.claro):hover{background:#000}
-.hero .kick{color:var(--ink)}
+.hero:not(.con-foto) .btn:not(.claro){background:var(--ink);color:#fff}
+.hero:not(.con-foto) .btn:not(.claro):hover{background:#000}
+.hero:not(.con-foto) .kick{color:var(--ink)}
 .btn.claro:hover{background:var(--ink);color:#fff}
 .btn.blanco{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
 .btn.blanco:hover{background:#fff;color:var(--ink)}
@@ -77,11 +77,16 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .hero{position:relative;min-height:min(78vh,640px);display:flex;align-items:center;overflow:hidden;background:var(--turq)}
 .hero .fondo{position:absolute;inset:0}
 .hero .fondo img{width:100%;height:100%;object-fit:cover}
-/* Con foto: bloque turquesa con el texto a la izquierda y la foto completa a la derecha (sin oscurecer las caras) */
-.hero.con-foto{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:stretch}
-.hero.con-foto .fondo{position:relative;grid-column:2;grid-row:1;min-height:100%}
-.hero.con-foto .fondo img{position:absolute;inset:0;object-position:50% 40%}
-.hero.con-foto > .wrap{grid-column:1;grid-row:1;display:flex;align-items:center;max-width:none;padding-left:max(20px,calc((100vw - 1160px) / 2 + 20px));padding-right:40px}
+/* Con foto: la foto completa de fondo (el alto sigue la proporción de la foto) y las letras en blanco al frente */
+.hero.con-foto{aspect-ratio:2000/1116;min-height:0;color:#fff;align-items:flex-end}
+.hero.con-foto .texto{padding:40px 0 clamp(36px,6vw,80px)}
+.hero.con-foto .fondo::after{content:"";position:absolute;inset:0;background:rgba(10,22,16,.28)}
+.hero.con-foto .texto{max-width:470px;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.hero.con-foto h1{color:#fff}
+.hero.con-foto .kick{color:#fff}
+.hero.con-foto .btn:not(.blanco){background:var(--turq);color:var(--ink);text-shadow:none}
+.hero.con-foto .btn:not(.blanco):hover{background:#fff}
+.hero.con-foto .btn.blanco{text-shadow:none}
 .hero .dibujo{position:absolute;right:8%;top:6%;bottom:0;width:min(26vw,300px);color:#fff;opacity:.9}
 .hero .dibujo svg,.historia .rama svg{width:100%;height:100%;display:block}
 .hero .texto{position:relative;max-width:520px;padding:60px 0}
@@ -370,9 +375,15 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .logo svg{width:30px;height:36px}
   .hero{min-height:auto}
   .hero .texto{padding:56px 0 64px}
-  .hero.con-foto{grid-template-columns:1fr}
-  .hero.con-foto .fondo{grid-column:1;grid-row:1;aspect-ratio:16/10;min-height:0}
-  .hero.con-foto > .wrap{grid-column:1;grid-row:2;padding:0 20px}
+  /* Teléfono: la foto completa arriba con el título en blanco encima; el resto debajo, sobre turquesa */
+  .hero.con-foto{display:block;aspect-ratio:auto;min-height:0;background:var(--turq)}
+  .hero.con-foto .fondo{position:relative;aspect-ratio:2000/1116}
+  .hero.con-foto .fondo::after{background:rgba(10,22,16,.32)}
+  .hero.con-foto .texto{padding:0 0 40px;margin-top:-118px}
+  .hero.con-foto h1{font-size:2.5rem}
+  .hero.con-foto p.sub{color:var(--ink);text-shadow:none;margin-top:30px}
+  .hero.con-foto .btn:not(.blanco){background:var(--ink);color:#fff}
+  .hero.con-foto .btn.blanco{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
   .hero .dibujo{right:-40px;top:20%;width:180px;opacity:.2}
   .lista{grid-template-columns:1fr}
   .prod{grid-template-columns:1fr 100px;padding:14px}
@@ -641,7 +652,7 @@ function vistaInicio(){
       <p class="kick">Hecho para hacerte sonreír</p>
       <h1>Regalamos emociones</h1>
       <p class="sub">No vendemos el lujo de las flores. Ramilletes, arreglos y decoración de eventos hechos con amor en Valencia.</p>
-      <div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button><a class="btn claro" href="#cotizar">Cotizar evento</a></div>
+      <div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button><a class="btn ${conFoto ? "blanco" : "claro"}" href="#cotizar">Cotizar evento</a></div>
     </div></div>
   </section>
 
