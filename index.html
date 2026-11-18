@@ -35,9 +35,9 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:2px;background:var(--olive);color:var(--ink);padding:14px 24px;font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .2s}
 .btn:hover{background:var(--olive-dark)}
 .btn.claro{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.hero:not(.con-foto) .btn:not(.claro){background:var(--ink);color:#fff}
-.hero:not(.con-foto) .btn:not(.claro):hover{background:#000}
-.hero:not(.con-foto) .kick{color:var(--ink)}
+.hero .btn:not(.claro){background:var(--ink);color:#fff}
+.hero .btn:not(.claro):hover{background:#000}
+.hero .kick{color:var(--ink)}
 .btn.claro:hover{background:var(--ink);color:#fff}
 .btn.blanco{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
 .btn.blanco:hover{background:#fff;color:var(--ink)}
@@ -77,15 +77,17 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .hero{position:relative;min-height:min(78vh,640px);display:flex;align-items:center;overflow:hidden;background:var(--turq)}
 .hero .fondo{position:absolute;inset:0}
 .hero .fondo img{width:100%;height:100%;object-fit:cover}
-.hero.con-foto .fondo::after{content:"";position:absolute;inset:0;background:rgba(15,30,22,.45)}
+/* Con foto: bloque turquesa con el texto a la izquierda y la foto completa a la derecha (sin oscurecer las caras) */
+.hero.con-foto{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:stretch}
+.hero.con-foto .fondo{position:relative;grid-column:2;grid-row:1;min-height:100%}
+.hero.con-foto .fondo img{position:absolute;inset:0;object-position:50% 40%}
+.hero.con-foto > .wrap{grid-column:1;grid-row:1;display:flex;align-items:center;max-width:none;padding-left:max(20px,calc((100vw - 1160px) / 2 + 20px));padding-right:40px}
 .hero .dibujo{position:absolute;right:8%;top:6%;bottom:0;width:min(26vw,300px);color:#fff;opacity:.9}
 .hero .dibujo svg,.historia .rama svg{width:100%;height:100%;display:block}
 .hero .texto{position:relative;max-width:520px;padding:60px 0}
 .hero h1{font-size:clamp(2.6rem,6.4vw,4.4rem)}
 .hero p.sub{font-size:1.02rem;font-weight:300;margin:18px 0 30px;max-width:30em}
 .hero .acc{display:flex;gap:12px;flex-wrap:wrap}
-.hero.con-foto{color:#fff}
-.hero.con-foto .kick{color:rgba(255,255,255,.85)}
 
 /* Secciones */
 .bloque{padding:80px 0}
@@ -368,7 +370,9 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .logo svg{width:30px;height:36px}
   .hero{min-height:auto}
   .hero .texto{padding:56px 0 64px}
-  .hero.con-foto .fondo::after{background:rgba(15,30,22,.5)}
+  .hero.con-foto{grid-template-columns:1fr}
+  .hero.con-foto .fondo{grid-column:1;grid-row:1;aspect-ratio:16/10;min-height:0}
+  .hero.con-foto > .wrap{grid-column:1;grid-row:2;padding:0 20px}
   .hero .dibujo{right:-40px;top:20%;width:180px;opacity:.2}
   .lista{grid-template-columns:1fr}
   .prod{grid-template-columns:1fr 100px;padding:14px}
@@ -420,7 +424,7 @@ const CONFIG = {
   tienda: "Springis",
   logo: "imagenes/logo-color.png",       // logo para fondos claros
   logoBloque: "imagenes/logo-bloque.png", // logo con flor blanca para fondos turquesa (pie de página)
-  fotoPortada: "",             // foto grande de la portada, ej. "imagenes/portada.jpg"
+  fotoPortada: "imagenes/portada.jpg", // foto principal: el equipo de Springis
   fotoHistoria: "imagenes/historia.jpg", // foto de la sección «Nuestra historia»
   fotosCategorias: {},         // ej. {ramilletes:"imagenes/cat-ramilletes.jpg"}; sin foto se usa la del primer producto
   whatsapp: "584144980997",    // 0414-4980997
@@ -631,13 +635,13 @@ function galeria(){
 function vistaInicio(){
   const conFoto = !!CONFIG.fotoPortada;
   return `<section class="hero${conFoto ? " con-foto" : ""}" id="arriba">
-    <div class="fondo">${conFoto ? `<img src="${esc(CONFIG.fotoPortada)}" alt="">` : ""}</div>
+    <div class="fondo">${conFoto ? `<img src="${esc(CONFIG.fotoPortada)}" alt="El equipo de Springis con sus camisas turquesa y rosas en la mano" fetchpriority="high">` : ""}</div>
     ${conFoto ? "" : `<div class="dibujo">${RAMA}</div>`}
     <div class="wrap" style="width:100%"><div class="texto">
       <p class="kick">Hecho para hacerte sonreír</p>
       <h1>Regalamos emociones</h1>
       <p class="sub">No vendemos el lujo de las flores. Ramilletes, arreglos y decoración de eventos hechos con amor en Valencia.</p>
-      <div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button><a class="btn ${conFoto ? "blanco" : "claro"}" href="#cotizar">Cotizar evento</a></div>
+      <div class="acc"><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button><a class="btn claro" href="#cotizar">Cotizar evento</a></div>
     </div></div>
   </section>
 

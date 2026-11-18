@@ -27,6 +27,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - Transiciones (17/11/2026): entrada escalonada de la portada y la rama que se dibuja sola; secciones y tarjetas aparecen al bajar (IntersectionObserver con respaldo por scroll; sin JS o con «reducir movimiento» todo se ve normal); tarjetas, categorías y botones se elevan al pasar el mouse; ficha con apertura suave; el contador del carrito salta al agregar; la cifra +5.000 cuenta desde 0.
 - Animaciones de aparición: UNA sola vez (la dueña probó repetirlas y le causaron mareo, 17/11/2026).
 - Encabezado: al bajar más de 60 px se vuelve translúcido con desenfoque (vidrio) y más delgado (58 px, logo 40 px); al pasar el mouse vuelve a ser blanco.
+- Portada (17/11/2026): foto del equipo (`imagenes/portada.jpg`, copia en diseno-redes/marcas/springis/fotos/equipo-portada.jpg). En computadora va en dos partes: texto sobre bloque turquesa a la izquierda y la foto a la derecha, sin oscurecer las caras; en el teléfono la foto va arriba y el texto debajo.
 - Sin emojis en ninguna parte (la dueña siente que le quitan seriedad). Sin foto, los productos muestran una flor dibujada en línea; en el panel, la inicial.
 - Identidad (16/11/2026): el turquesa debe PREDOMINAR (portada, barra de tasa, botones, carrito, pie, franja en turquesa claro); el verde #265B3D solo en detalles (logo, enlaces, cifras). Turquesa #65B79F, turquesa secundario #9EC9B7 (confirmado por la dueña), blanco y negro; sobre turquesa las letras van en negro. Sin degradados. Títulos en Anton (Google Fonts, pedido por la dueña el 17/11/2026 en lugar de Rosemartin); texto en Jost hasta saber la secundaria. Logo: `imagenes/logo-color.png` y `logo-blanco.png`, sacados del .ai con colores planos.
 - Precios en USD. El delivery se confirma aparte por WhatsApp; los datos de pago también se envían por WhatsApp (la web solo pregunta cómo prefiere pagar).
@@ -39,7 +40,7 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 ## Pendiente
 - Logo en PNG (va en `imagenes/` y en `CONFIG.logo`).
 - Usuario de Instagram, colores y tipografías de la marca.
-- Fotos de portada, categorías e historia; tipografía secundaria; textos de los 4 beneficios; horario.
+- Fotos de categorías (opcional); tipografía secundaria; textos de los 4 beneficios; horario.
 - Precios de los 49 productos del catálogo (se ponen en el panel; sin precio salen «Precio por confirmar»).
 - Fotos originales en mejor calidad: las del PDF del catálogo solo llegan a 300×400 px.
 - Supabase conectado (proyecto «Springis», https://zierdhzzdmankvgcyfjs.supabase.co, esquema ya ejecutado). Admin «sophia» creada y con permiso; registro público desactivado.
