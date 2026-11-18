@@ -283,19 +283,15 @@ dialog.ficha::backdrop{background:rgba(15,30,22,.5)}
 /* Aparición al bajar: solo se oculta si el navegador puede animar (clase .anim en <html>) */
 .anim .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--suave),transform .8s var(--suave);transition-delay:var(--d,0s)}
 .anim .rv.in{opacity:1;transform:none}
+.anim .hero.rv{opacity:1;transform:none;transition:none}
 .anim .rv.ya{transition:none}
 .anim .cat.rv,.anim .prod.rv,.anim .gal.rv{transform:translateY(34px) scale(.98)}
 .anim .cat.rv.in,.anim .prod.rv.in,.anim .gal.rv.in{transform:none}
-/* Portada: entrada escalonada y la rama se dibuja sola */
-.anim .hero .texto > *{animation:entra .9s var(--suave) both}
-.anim .hero .texto > :nth-child(2){animation-delay:.12s}
-.anim .hero .texto > :nth-child(3){animation-delay:.24s}
-.anim .hero .texto > :nth-child(4){animation-delay:.36s}
-.anim .hero .dibujo path{stroke-dasharray:420;stroke-dashoffset:420;animation:dibuja 2.6s .3s ease-out forwards}
-.anim .hero .dibujo path:nth-child(n+2){animation-delay:.9s;animation-duration:1.8s}
-.anim .quieto .hero .texto > *,.anim .quieto .hero .dibujo path{animation:none;stroke-dashoffset:0}
-@keyframes entra{from{opacity:0;transform:translateY(30px)}}
-@keyframes dibuja{to{stroke-dashoffset:0}}
+/* Portada: entrada escalonada y la rama se dibuja sola (se repite cada vez que vuelves arriba) */
+.anim .hero .dibujo path{stroke-dasharray:420;stroke-dashoffset:420;transition:stroke-dashoffset 2.4s ease-out .3s}
+.anim .hero .dibujo path:nth-child(n+2){transition-duration:1.6s;transition-delay:.9s}
+.anim .hero.in .dibujo path{stroke-dashoffset:0}
+.anim .hero.ya .dibujo path{transition:none}
 .hero .dibujo{animation:mece 7s ease-in-out 3s infinite alternate;transform-origin:50% 100%}
 @keyframes mece{to{transform:rotate(-2.5deg)}}
 /* Cambio de pantalla (catálogo, pedido, cotización) */
@@ -875,12 +871,14 @@ function pintar(){
 /* ===== Movimiento al bajar ===== */
 const MOVIMIENTO = "IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (MOVIMIENTO) document.documentElement.classList.add("anim");
-const REVELAR = ".bloque .kick, .titulo, .cat, .sec > h3, .prod, .historia .foto, .historia .tx > :not(.rama), .franja li, .tipo, .pasos li, .gal, .faq, .contacto > div, .panel > *";
+const REVELAR = ".hero, .hero .texto > *, .bloque .kick, .titulo, .cat, .sec > h3, .prod, .historia .foto, .historia .tx > :not(.rama), .franja li, .tipo, .pasos li, .gal, .faq, .contacto > div, .panel > *";
+// Se anima cada vez que entra en pantalla y se «resetea» cuando sale por completo
 const vista = MOVIMIENTO ? new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return;
-  e.target.classList.add("in"); vista.unobserve(e.target);
-  e.target.querySelectorAll("[data-cuenta]").forEach(contar);
-}), {rootMargin:"0px 0px -8% 0px", threshold:.08}) : null;
+  const el = e.target;
+  if (e.intersectionRatio >= .08){
+    if (!el.classList.contains("in")){ el.classList.add("in"); el.querySelectorAll("[data-cuenta]").forEach(contar); }
+  } else if (!e.isIntersecting){ el.classList.remove("in", "ya"); }
+}), {threshold:[0, .08]}) : null;
 // instante = true: lo que ya está en pantalla aparece sin animar (redibujos por datos nuevos)
 function revelar(instante){
   if (!vista) return;
@@ -890,7 +888,7 @@ function revelar(instante){
     const k = grupos.get(el.parentElement) || 0; grupos.set(el.parentElement, k + 1);
     el.style.setProperty("--d", ((k % 4) * 0.09).toFixed(2) + "s");
     el.classList.add("rv");
-    if (instante && el.getBoundingClientRect().top < innerHeight){ el.classList.add("in", "ya"); return; }
+    if (instante){ const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add("in", "ya"); }
     vista.observe(el);
   });
 }
@@ -899,7 +897,8 @@ let revisando = false;
 function revisarVisibles(){
   revisando = false;
   document.querySelectorAll(".rv:not(.in)").forEach(el => {
-    if (el.getBoundingClientRect().top < innerHeight * 0.96){ el.classList.add("in"); if (vista) vista.unobserve(el); el.querySelectorAll("[data-cuenta]").forEach(contar); }
+    const r = el.getBoundingClientRect();
+    if (r.top < innerHeight * 0.96 && r.bottom > 0){ el.classList.add("in"); el.querySelectorAll("[data-cuenta]").forEach(contar); }
   });
 }
 if (MOVIMIENTO){
