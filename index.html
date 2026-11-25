@@ -179,6 +179,11 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .gal{position:relative;border:0;padding:0;overflow:hidden;aspect-ratio:1;background:var(--olive-soft);cursor:pointer;color:#fff}
 .gal img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .gal:hover img{transform:scale(1.04)}
+.clientes{background:var(--surface)}
+.fotos-cli{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:960px;margin:34px auto 0}
+.cli{margin:0;aspect-ratio:3/4;overflow:hidden;background:var(--turq-claro)}
+.cli img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--suave)}
+.cli:hover img{transform:scale(1.03)}
 .gal span{position:absolute;inset:auto 0 0;padding:30px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.55));font-size:.8rem;letter-spacing:.06em;text-align:left}
 
 /* Preguntas y contacto */
@@ -392,6 +397,9 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .tipos{grid-template-columns:1fr 1fr}
   .tipo small{display:none}
   .galeria{grid-template-columns:repeat(2,1fr)}
+  .fotos-cli{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:28px -20px 0;padding:0 20px;scrollbar-width:none}
+  .fotos-cli::-webkit-scrollbar{display:none}
+  .cli{flex:0 0 72%;scroll-snap-align:center}
   .contacto{grid-template-columns:1fr}
   dialog.ficha{margin:auto 0 0;width:100%;max-height:94vh}
   .car{max-height:64vh}
@@ -437,6 +445,7 @@ const CONFIG = {
   logoBloque: "imagenes/logo-bloque.png", // logo con flor blanca para fondos turquesa (pie de página)
   fotoPortada: "imagenes/portada.jpg", // foto principal: el equipo de Springis
   fotoHistoria: "imagenes/historia.jpg", // foto de la sección «Nuestra historia»
+  fotosClientes: ["imagenes/clientes/cliente-1.jpg", "imagenes/clientes/cliente-2.jpg", "imagenes/clientes/cliente-3.jpg"], // sección «Clientes felices»; para agregar más, sube la foto a imagenes/clientes/ y añádela aquí
   fotosCategorias: {},         // ej. {ramilletes:"imagenes/cat-ramilletes.jpg"}; sin foto se usa la del primer producto
   whatsapp: "584144980997",    // 0414-4980997
   instagram: "springis.val_",
@@ -644,6 +653,14 @@ function galeria(){
   if (!fotos.length) return "";
   return `<p class="kick">Algunos eventos que hemos decorado</p><div class="galeria">${fotos.map(p => `<button class="gal" data-gal="${p.id}" aria-label="${esc(p.n)}: quiero algo así"><img src="${esc(p.imgs[0])}" alt="" loading="lazy"><span>${esc(p.n)}</span></button>`).join("")}</div>`;
 }
+function clientes(){
+  const fotos = CONFIG.fotosClientes || [];
+  if (!fotos.length) return "";
+  return `<section class="bloque clientes" id="clientes"><div class="wrap">
+    <div class="centro"><p class="kick">Clientes felices</p><h2 class="titulo">Sus sonrisas son nuestra mejor reseña</h2></div>
+    <div class="fotos-cli">${fotos.map(f => `<figure class="cli"><img src="${esc(f)}" alt="Cliente de Springis con su ramo" loading="lazy"></figure>`).join("")}</div>
+  </div></section>`;
+}
 function vistaInicio(){
   const conFoto = !!CONFIG.fotoPortada;
   return `<section class="hero${conFoto ? " con-foto" : ""}" id="arriba">
@@ -685,6 +702,8 @@ function vistaInicio(){
   </section>
 
   <section class="franja"><ul class="wrap">${BENEFICIOS.map(b => `<li>${ICONOS[b.i] || ""}<b>${esc(b.t)}</b><small>${esc(b.d)}</small></li>`).join("")}</ul></section>
+
+  ${clientes()}
 
   <section class="bloque" id="eventos" data-sec="eventos"><div class="wrap">
     <div class="centro"><p class="kick">Decoración de eventos</p><h2 class="titulo">Llevamos flores a tus momentos más importantes</h2>
@@ -915,7 +934,7 @@ function pintar(){
 /* ===== Movimiento al bajar ===== */
 const MOVIMIENTO = "IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (MOVIMIENTO) document.documentElement.classList.add("anim");
-const REVELAR = ".bloque .kick, .titulo, .cat, .sec > h3, .prod, .historia .foto, .historia .tx > :not(.rama), .franja li, .tipo, .pasos li, .gal, .faq, .contacto > div, .panel > *";
+const REVELAR = ".bloque .kick, .titulo, .cat, .sec > h3, .prod, .historia .foto, .historia .tx > :not(.rama), .franja li, .tipo, .pasos li, .gal, .cli, .faq, .contacto > div, .panel > *";
 const vista = MOVIMIENTO ? new IntersectionObserver(es => es.forEach(e => {
   if (!e.isIntersecting) return;
   e.target.classList.add("in"); vista.unobserve(e.target);

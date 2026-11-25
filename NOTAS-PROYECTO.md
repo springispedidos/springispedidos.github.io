@@ -43,7 +43,8 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - Usuario de Instagram, colores y tipografías de la marca.
 - Fotos de categorías (opcional); tipografía secundaria; textos de los 4 beneficios; horario.
 - Precios de los 49 productos del catálogo (se ponen en el panel; sin precio salen «Precio por confirmar»).
-- Fotos originales (24/11/2026): 25 productos ya tienen la foto original (1200×1600, sin GPS); `supabase/05-fotos-originales.sql` (ejecutado) añadió segundas fotos a 3 productos y 5 productos nuevos (54 en total). Quedan con foto del PDF los que no vinieron en esa carpeta. Pendiente decidir si se publican 3 fotos de clientes (graduadas y chico con ramo).
+- Fotos originales (24/11/2026): 25 productos ya tienen la foto original (1200×1600, sin GPS); `supabase/05-fotos-originales.sql` (ejecutado) añadió segundas fotos a 3 productos y 5 productos nuevos (54 en total). Quedan con foto del PDF los que no vinieron en esa carpeta.
+- Sección «Clientes felices» (24/11/2026): entre la franja de beneficios y Eventos; 3 fotos en `imagenes/clientes/`, lista en `CONFIG.fotosClientes` (para agregar más, se sube la foto y se añade ahí). En el teléfono se deslizan de lado.
 - Supabase conectado (proyecto «Springis», https://zierdhzzdmankvgcyfjs.supabase.co, esquema ya ejecutado). Admin «sophia» creada y con permiso; registro público desactivado.
 - Mientras no haya productos cargados en el panel, la web muestra los de ejemplo de `index.html`.
 - Fotos, nombres y precios reales (se cargan desde el panel cuando esté conectado).
