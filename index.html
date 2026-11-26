@@ -204,6 +204,7 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .collage .fc:nth-child(4){grid-column:3;grid-row:2}
 .collage .fc:nth-child(5){grid-column:4;grid-row:2}
 .collage .fc:nth-child(n+6){display:none}
+.deco .trab{margin:0 0 14px;font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
 .deco .pie-col{margin:14px 0 0;font-size:.85rem;opacity:.85}
 .finder{max-width:640px;margin:30px auto 0}
 .finder form{display:flex;border:1px solid var(--ink);background:var(--paper)}
@@ -506,34 +507,35 @@ const CONFIG = {
   instagram: "springis.val_",
   ciudad: "Valencia, Carabobo",
   horario: "",
-  anticipacion: "Te recomendamos pedir con al menos 24 horas de anticipación.",
+  anticipacion: "Consúltanos por WhatsApp y te diremos la disponibilidad del modelo que quieres.",
   delivery: "El delivery se cobra aparte según la zona (envía al chat tu ubicación GPS para una mejor cotización).",
   tasa: 0, tasaFecha: "",      // se llenan solos desde tasa.json (tasa euro del BCV)
   pagos: {
     pagomovil: {nombre:"Pago móvil", enBs:true, datos:"Pago móvil\nBanco: Mercantil\nCédula: 11.816.381\nTeléfono: 0412-8666669"},
     zelle:     {nombre:"Zelle", consultar:true, datos:"Zelle\nEscríbenos por WhatsApp y te pasamos los datos para el pago."},
-    efectivo:  {nombre:"Efectivo", consultar:true, datos:"Efectivo\nCoordinamos contigo por WhatsApp el pago en efectivo."}
+    efectivo:  {nombre:"Efectivo", consultar:true, datos:"Efectivo\nCoordinamos contigo por WhatsApp el pago en efectivo."},
+    binance:   {nombre:"Binance", consultar:true, datos:"Binance\nEscríbenos por WhatsApp y te pasamos los datos para el pago."}
   }
 };
 
 // Franja verde de beneficios (provisional hasta tener los textos definitivos)
 const BENEFICIOS = [
-  {i:"hoja",  t:"Flores frescas",   d:"Seleccionadas con cuidado"},
-  {i:"moto",  t:"Delivery",         d:"En Valencia, según la zona"},
-  {i:"mano",  t:"Hecho con amor",   d:"Cada detalle es especial"},
-  {i:"gorro", t:"Eventos y stands", d:"Graduaciones, bodas y más"}
+  {i:"hoja",  t:"Las mejores flores", d:"Tenemos las mejores flores para ti"},
+  {i:"moto",  t:"Delivery",           d:"Con precio adicional según la zona. Escríbenos y te cotizamos"},
+  {i:"mano",  t:"Hecho con amor",     d:"Porque para nosotros cada cliente es importante"},
+  {i:"gorro", t:"Eventos",            d:"Graduaciones, bodas y más"}
 ];
 
 // Tipos de evento que se muestran en la sección de cotizaciones
 const EVENTOS = [
   {n:"Bodas", d:"Ramo de novia, arcos florales, iglesia, salón y centros de mesa."},
-  {n:"Graduaciones", d:"Stand de ramilletes para tu acto o institución."},
+  {n:"Graduaciones", d:"Arreglos y decoración floral para tu acto de grado."},
   {n:"Bautizos y comuniones", d:"Decoración delicada para la iglesia y la celebración."},
   {n:"Cumpleaños y 15 años", d:"Mesa principal, centros de mesa y detalles florales."},
   {n:"Eventos corporativos", d:"Recepciones, lanzamientos y arreglos para oficinas."},
   {n:"Otro evento", d:"Cuéntanos tu idea y la armamos contigo."}
 ];
-const SERVICIOS = ["Centros de mesa", "Ramo de novia", "Arco o pared floral", "Mesa principal", "Iglesia o ceremonia", "Stand de ramilletes", "Flores para la torta", "Boutonnieres y corsages"];
+const SERVICIOS = ["Centros de mesa", "Ramo de novia", "Arco o pared floral", "Mesa principal", "Iglesia o ceremonia", "Flores para la torta", "Boutonnieres y corsages"];
 const PRESUPUESTOS = ["Menos de $100", "$100 a $300", "$300 a $600", "Más de $600", "Aún no lo sé"];
 
 // Buscador: atajos que se muestran debajo del campo y palabras que se buscan juntas
@@ -546,11 +548,11 @@ function coincide(texto, consulta){
 }
 
 const FAQ = [
-  ["¿Cómo pago mi pedido?", "Puedes abonar el 50 % para agendarlo y pagar el resto antes del envío, o pagarlo completo. Aceptamos pago móvil en bolívares a tasa euro del BCV, Zelle y efectivo."],
-  ["¿Cuánto cuesta el delivery?", "Depende de la zona de Valencia. Envíanos tu ubicación GPS por WhatsApp y te damos el costo exacto."],
-  ["¿Con cuánta anticipación debo pedir?", "Para ramilletes y arreglos, idealmente 24 horas antes. Para eventos y graduaciones, escríbenos con al menos 2 o 3 semanas para apartar la fecha."],
-  ["¿Puedo personalizar un ramillete?", "Claro. Escríbenos los colores o flores que prefieres en las notas del pedido y te confirmamos disponibilidad."],
-  ["¿Cómo se cotiza un evento?", "Llena el formulario de cotización con la fecha, el lugar y lo que necesitas. Te escribimos por WhatsApp con una propuesta y el precio."]
+  ["¿Cómo pago mi pedido?", "Puedes abonar el 50 % para agendarlo y pagar el resto antes del envío, o pagarlo completo. Aceptamos pago móvil en bolívares a tasa euro del BCV, Zelle, efectivo y Binance."],
+  ["¿Cuánto cuesta el delivery?", "Depende de la zona de Valencia. Envíanos tu ubicación GPS exacta por WhatsApp y te damos el precio exacto."],
+  ["¿Con cuánta anticipación debo pedir?", "Para ramilletes y arreglos, consúltanos por WhatsApp y te diremos la disponibilidad del modelo que quieres. Para eventos y graduaciones, escríbenos con al menos 2 o 3 semanas de anticipación para apartar la fecha."],
+  ["¿Puedo personalizar un ramillete?", "¡Por supuesto! Tu pedido es personalizable. Si tienes alguna referencia, envíanosla por WhatsApp, conversamos y te cotizamos lo antes posible."],
+  ["¿Cómo se cotiza un evento?", "Llena el formulario de cotización con la fecha, el lugar y lo que necesitas. Al terminar, se abre WhatsApp con todos tus datos listos para enviarnos, y te preparamos una propuesta según lo que necesitas."]
 ];
 
 // Lista de respaldo (catálogo del 17/11/2026): los productos reales se cargan desde Supabase (panel de admin).
@@ -723,9 +725,9 @@ function decoracion(){
     <div class="cab"><div>
       <p class="kick">Decoración de eventos</p>
       <h2>Bodas, graduaciones, bautizos y más</h2>
-      <p class="sub">Decoramos tus momentos más importantes con flores frescas. Cuéntanos tu idea y te enviamos una propuesta sin compromiso.</p>
+      <p class="sub">Decoramos tus momentos más importantes con las mejores flores. Escríbenos, hablemos de tu idea y te enviamos una propuesta sin compromiso.</p>
     </div><div class="acc"><a class="btn" href="#cotizar">Cotizar evento ${FLECHA}</a><button class="btn blanco" data-ir="eventos">Ver más</button></div></div>
-    ${fotos.length ? `<div class="collage">${fotos.slice(0, 5).map((x, i) => `<button class="fc" data-deco="${i}" aria-label="${esc(x.t)}: quiero algo así"><img src="${esc(x.f)}" alt="${esc(x.t)} decorado por Springis" loading="lazy"><span>${esc(x.t)} · Quiero algo así</span></button>`).join("")}</div>
+    ${fotos.length ? `<p class="trab">Estos son algunos de los trabajos que hemos hecho</p><div class="collage">${fotos.slice(0, 5).map((x, i) => `<button class="fc" data-deco="${i}" aria-label="${esc(x.t)}: quiero algo así"><img src="${esc(x.f)}" alt="${esc(x.t)} decorado por Springis" loading="lazy"><span>${esc(x.t)} · Quiero algo así</span></button>`).join("")}</div>
     <p class="pie-col">Toca una foto para pedir algo parecido.</p>` : ""}
   </div></section>`;
 }
@@ -733,7 +735,7 @@ function clientes(){
   const fotos = CONFIG.fotosClientes || [];
   if (!fotos.length) return "";
   return `<section class="bloque clientes" id="clientes"><div class="wrap">
-    <div class="centro"><p class="kick">Clientes felices</p><h2 class="titulo">Sus sonrisas son nuestra mejor reseña</h2></div>
+    <div class="centro"><p class="kick">Clientes felices</p><h2 class="titulo">Sus sonrisas hablan por sí solas de nuestro buen trabajo</h2></div>
     <div class="fotos-cli">${fotos.map(f => `<figure class="cli"><img src="${esc(f)}" alt="Cliente de Springis con su ramo" loading="lazy"></figure>`).join("")}</div>
   </div></section>`;
 }
@@ -780,7 +782,7 @@ function vistaInicio(){
       <p class="kick">Nuestra historia</p>
       <h2>No vendemos el lujo de las flores, regalamos emociones</h2>
       <p>Somos una tienda virtual que desde 2024 se dedica a dar lo mejor y a ofrecer detalles de calidad, con amor y dedicación en cada flor que sale de Springis.</p>
-      <p>Hemos estado presentes con nuestro stand en graduaciones de universidades, institutos y escuelas de Valencia, decorado bodas y eventos, y seguimos haciendo ramilletes al detal, porque cada cliente vale.</p>
+      <p>Hemos estado presentes en graduaciones de universidades, institutos y escuelas de Valencia, decorado bodas y eventos, y seguimos haciendo ramilletes al detal, porque cada cliente vale.</p>
       <div class="cifras"><div><b data-cuenta="5000" data-pre="+">+5.000</b><span>Clientes atendidos</span></div><div><b>2024</b><span>Desde</span></div><div><b>Valencia</b><span>Carabobo</span></div></div>
       <div><button class="btn" data-ir="catalogo">Ver catálogo ${FLECHA}</button></div>
     </div>
@@ -792,7 +794,7 @@ function vistaInicio(){
     <div class="centro"><p class="kick">Decoración de eventos</p><h2 class="titulo">Llevamos flores a tus momentos más importantes</h2>
     <p class="nota" style="max-width:36em;margin:14px auto 0;font-size:1rem">Bodas, graduaciones, bautizos y celebraciones. Cuéntanos qué necesitas y te enviamos una propuesta con precio, sin compromiso.</p></div>
     <div class="tipos">${EVENTOS.map(e => `<button class="tipo" data-tipo="${esc(e.n)}"><b>${esc(e.n)}</b><small>${esc(e.d)}</small></button>`).join("")}</div>
-    <ol class="pasos"><li><b>Cuéntanos tu evento</b><small>Fecha, lugar, invitados y lo que te imaginas.</small></li><li><b>Recibe tu propuesta</b><small>Te escribimos por WhatsApp con ideas y precio.</small></li><li><b>Aparta tu fecha</b><small>Confirmamos los detalles y nos encargamos del resto.</small></li></ol>
+    <ol class="pasos"><li><b>Cuéntanos tu evento</b><small>Fecha, lugar, invitados y lo que te imaginas.</small></li><li><b>Recibe tu propuesta</b><small>Con todos los detalles de tu evento, te preparamos una propuesta adaptada a lo que necesitas.</small></li><li><b>Aparta tu fecha</b><small>Confirma los detalles con nosotros y nos encargamos de lo demás.</small></li></ol>
     ${galeria()}
     <div class="centro"><a class="btn" href="#cotizar">Solicitar cotización ${FLECHA}</a></div>
   </div></section>
@@ -808,7 +810,7 @@ function vistaInicio(){
       <div><b>WhatsApp</b><a href="${wa("Hola, quiero información.")}" target="_blank" rel="noopener">0414-4980997</a></div>
       <div><b>Instagram</b><a href="https://www.instagram.com/${esc(CONFIG.instagram)}/" target="_blank" rel="noopener">@${esc(CONFIG.instagram)}</a></div>
       <div><b>Ubicación</b><span>${esc(CONFIG.ciudad)}</span></div>
-      <div><b>Pagos</b><span>Pago móvil, Zelle y efectivo</span></div>
+      <div><b>Pagos</b><span>Pago móvil, Zelle, efectivo y Binance</span></div>
     </div>
   </div></section>
   <footer class="pie"><div class="logo">${CONFIG.logoBloque ? `<img src="${esc(CONFIG.logoBloque)}" alt="${esc(CONFIG.tienda)}">` : logoHTML()}</div>«Hecho para hacerte sonreír»<br>© ${new Date().getFullYear()} Springis · Valencia, Venezuela</footer>`;
@@ -963,14 +965,14 @@ function vistaCotizar(){
   <button class="btn ancho" id="enviarCot">Enviar solicitud por WhatsApp ${FLECHA}</button></form></div>`;
 }
 function mensajeCot(num){
-  const L = [`Hola, soy ${f.nombre.trim()}. Quiero cotizar un evento.${num ? ` Mi solicitud es la *N° ${num}*.` : ""}`, "", `*Cotización${num ? " N° " + num : ""} · ${CONFIG.tienda}*`, `*Evento:* ${q.tipo}`];
+  const L = [`¡Hola! Mi nombre es ${f.nombre.trim()} y quiero una cotización de evento.${num ? ` Mi solicitud es la *N° ${num}*.` : ""}`, "", `*Cotización${num ? " N° " + num : ""} · ${CONFIG.tienda}*`, `*Evento:* ${q.tipo}`];
   if (q.fecha) L.push(`*Fecha:* ${q.fecha.split("-").reverse().join("/")}`);
   if (q.lugar.trim()) L.push(`*Lugar:* ${q.lugar.trim()}`);
   if (q.invitados) L.push(`*Invitados:* ${q.invitados}`);
   if (q.servicios.length) L.push(`*Necesito:* ${q.servicios.join(", ")}`);
   if (q.estilo.trim()) L.push(`*Colores o estilo:* ${q.estilo.trim()}`);
   if (q.presupuesto) L.push(`*Presupuesto:* ${q.presupuesto}`);
-  if (q.ref) L.push(`*Me gustó:* ${q.ref}`);
+  if (q.ref) L.push(`*Me gustó:* ${q.ref}${q.refImg ? " (" + new URL(q.refImg, location.href).href + ")" : ""}`);
   if (q.detalles.trim()) L.push(`*Detalles:* ${q.detalles.trim()}`);
   L.push(`*Teléfono:* ${f.tel.trim()}`);
   return L.join("\n");
@@ -992,7 +994,7 @@ function vistaListo(){
   const cot = ultimo.tipo === "cot";
   return `<div class="panel listo"><div class="ok">${ICONO_OK}</div><h1>${cot ? "Solicitud lista" : "Pedido listo"}</h1>
   ${ultimo.num ? `<div class="num">${cot ? "N° " + ultimo.num : "Pedido " + numPedido(ultimo.num)}</div>` : ""}
-  <p>Se abrió WhatsApp con ${cot ? "los datos de tu evento" : "el detalle de tu pedido"}. Presiona enviar en el chat para que te respondamos${cot ? "" : " y envíanos tu ubicación GPS si es delivery"}. Si no se abrió, usa este botón.</p>
+  <p>Se abrió WhatsApp con ${cot ? "los datos de tu evento" : "el detalle de tu pedido"}. <b>Importante:</b> presiona <b>Enviar</b> en el chat; así nos llega tu ${cot ? "solicitud" : "pedido"} y te respondemos${cot ? "" : " y envíanos tu ubicación GPS si es delivery"}. Si no se abrió, usa este botón.</p>
   <div class="acc"><a class="btn" href="${esc(ultimo.url)}" target="_blank" rel="noopener">Abrir WhatsApp</a><a class="btn claro" href="#">Volver al inicio</a></div></div>`;
 }
 

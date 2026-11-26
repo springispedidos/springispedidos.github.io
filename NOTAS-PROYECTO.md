@@ -38,6 +38,8 @@ Floristería y tienda virtual: ramilletes, arreglos, flores en caja, centros de 
 - Panel: se entra con usuario y contraseña. Por dentro cada usuario es «usuario@springis.invalid» (dominio reservado, no recibe correos). Para crear uno: Supabase → Authentication → Users → Add user con ese correo y Auto Confirm, y luego `insert into public.admins (email) values ('usuario@springis.invalid');`. La contraseña olvidada se cambia desde Supabase (no hay correo de recuperación).
 - Si Supabase falla o no está configurado, pedidos y cotizaciones igual llegan por WhatsApp, solo que sin número.
 
+- Textos (25/11/2026, revisados por la dueña): evitar frases que «suenan a IA». Springis NO hace stands (se quitó de beneficios, eventos y servicios). Binance agregado como método de pago (a consultar). No se promete «24 horas»: para ramilletes se consulta disponibilidad del modelo por WhatsApp. Pedidos y cotizaciones SIEMPRE terminan en WhatsApp con todo el detalle («¡Hola! Mi nombre es…»), para que ninguna solicitud quede sin atender; la cotización incluye el enlace de la foto de referencia.
+
 ## Pendiente
 - Logo en PNG (va en `imagenes/` y en `CONFIG.logo`).
 - Usuario de Instagram, colores y tipografías de la marca.
