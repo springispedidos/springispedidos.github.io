@@ -196,7 +196,7 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .deco h2{font-size:clamp(2rem,4.6vw,3.2rem);max-width:12em;margin:0}
 .deco p.sub{max-width:30em;margin:14px 0 24px;font-weight:300}
 .deco .acc{display:flex;gap:12px;flex-wrap:wrap}
-.deco:not(.con-foto) .btn{background:var(--ink);color:#fff}
+.deco:not(.con-foto) .btn{background:#fff;color:var(--ink)}
 .deco:not(.con-foto) .btn.blanco{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .finder{max-width:640px;margin:30px auto 0}
 .finder form{display:flex;border:1px solid var(--ink);background:var(--paper)}
@@ -390,7 +390,8 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .bajando .tabs-wrap{top:54px}
   .cats{grid-template-columns:repeat(2,1fr);gap:16px}
   .historia{grid-template-columns:1fr}
-  .historia .foto{aspect-ratio:4/3}
+  .historia .foto{aspect-ratio:auto;display:block}
+  .historia .foto img{height:auto}
   .historia .rama{display:none}
   .franja ul{grid-template-columns:repeat(2,1fr);row-gap:22px}
   .franja li:nth-child(3){border-left:0}
@@ -405,14 +406,17 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .logo svg{width:30px;height:36px}
   .hero{min-height:auto}
   .hero .texto{padding:56px 0 64px}
-  /* Teléfono: la foto completa arriba con el título en blanco encima; el resto debajo, sobre turquesa */
-  .hero.con-foto{display:block;aspect-ratio:auto;min-height:0;background:var(--turq)}
+  /* Teléfono: la foto COMPLETA arriba, sin nada encima (no se tapan las caras); el texto debajo, sobre turquesa */
+  .hero.con-foto{display:block;aspect-ratio:auto;min-height:0;background:var(--turq);color:var(--ink)}
   .hero.con-foto .fondo{position:relative;aspect-ratio:2000/1116}
-  .hero.con-foto .fondo::after{background:rgba(10,22,16,.32)}
-  .hero.con-foto .texto{padding:0 0 40px;margin-top:-118px}
-  .hero.con-foto h1{font-size:2.5rem}
-  .hero.con-foto p.sub{color:var(--ink);text-shadow:none;margin-top:30px}
-  .hero.con-foto .btn:not(.blanco){background:var(--ink);color:#fff}
+  .hero.con-foto .fondo::after{display:none}
+  .hero.con-foto .texto{padding:30px 0 40px;max-width:none;text-shadow:none}
+  .hero.con-foto h1{font-size:2.6rem;color:var(--ink)}
+  .hero.con-foto .kick{color:var(--ink)}
+  .hero.con-foto p.sub{color:var(--ink);margin:14px 0 24px}
+  .hero.con-foto .acc{flex-wrap:nowrap;gap:10px}
+  .hero.con-foto .acc .btn{flex:1 1 0;justify-content:center;padding-left:10px;padding-right:10px;font-size:.7rem;letter-spacing:.12em}
+  .hero.con-foto .btn:not(.blanco){background:#fff;color:var(--ink)}
   .hero.con-foto .btn.blanco{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
   .hero .dibujo{right:-40px;top:20%;width:180px;opacity:.2}
   .lista{grid-template-columns:1fr}
@@ -422,17 +426,14 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .tipos{grid-template-columns:1fr 1fr}
   .tipo small{display:none}
   .galeria{grid-template-columns:repeat(2,1fr)}
-  .deco{min-height:420px}
+  .deco{min-height:0}
   .deco .tx{padding:40px 0}
   .deco .dibujo{display:none}
   .finder button[type=submit] span{display:none}
   .finder button[type=submit]{padding:0 16px}
-  .chips{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin:16px -20px 0;padding:0 20px;scrollbar-width:none}
-  .chips::-webkit-scrollbar{display:none}
-  .chip{flex:none}
-  .fotos-cli{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:28px -20px 0;padding:0 20px;scrollbar-width:none}
-  .fotos-cli::-webkit-scrollbar{display:none}
-  .cli{flex:0 0 72%;scroll-snap-align:center}
+  .chips{gap:6px}
+  .chip{padding:7px 12px;font-size:.78rem}
+  .fotos-cli{gap:8px;margin-top:26px}
   .contacto{grid-template-columns:1fr}
   dialog.ficha{margin:auto 0 0;width:100%;max-height:94vh}
   .car{max-height:64vh}
