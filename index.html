@@ -184,6 +184,31 @@ h1,h2,h3{font-family:var(--t);font-weight:400;line-height:1.08;margin:0;letter-s
 .cli{margin:0;aspect-ratio:3/4;overflow:hidden;background:var(--turq-claro)}
 .cli img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--suave)}
 .cli:hover img{transform:scale(1.03)}
+.deco{position:relative;display:grid;align-items:end;min-height:clamp(320px,42vw,520px);background:var(--turq);color:#fff;overflow:hidden}
+.deco .fondo{position:absolute;inset:0}
+.deco .fondo img{width:100%;height:100%;object-fit:cover;display:block}
+.deco.con-foto .fondo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,22,16,.55),rgba(10,22,16,.08) 70%)}
+.deco .dibujo{position:absolute;right:6%;top:50%;width:min(240px,30vw);transform:translateY(-50%);color:#fff;opacity:.35}
+.deco .dibujo svg{width:100%;height:auto;display:block}
+.deco .tx{position:relative;padding:56px 0}
+.deco:not(.con-foto){color:var(--ink)}
+.deco .kick{color:inherit;opacity:.85}
+.deco h2{font-size:clamp(2rem,4.6vw,3.2rem);max-width:12em;margin:0}
+.deco p.sub{max-width:30em;margin:14px 0 24px;font-weight:300}
+.deco .acc{display:flex;gap:12px;flex-wrap:wrap}
+.deco:not(.con-foto) .btn{background:var(--ink);color:#fff}
+.deco:not(.con-foto) .btn.blanco{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.finder{max-width:640px;margin:30px auto 0}
+.finder form{display:flex;border:1px solid var(--ink);background:var(--paper)}
+.finder input{flex:1;min-width:0;border:0;background:none;padding:14px 16px;font-size:1rem;min-height:54px}
+.finder input:focus{outline:0}
+.finder input::-webkit-search-cancel-button{display:none}
+.finder button[type=submit]{border:0;background:var(--turq);color:var(--ink);padding:0 22px;font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px}
+.finder button[type=submit] svg{width:18px;height:18px}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 16px;font:inherit;font-size:.82rem;cursor:pointer;color:var(--ink);transition:background .2s,border-color .2s}
+.chip:hover{background:var(--turq-claro);border-color:var(--turq)}
+.cats-tit{font-size:1.5rem;margin:56px 0 0}
 .gal span{position:absolute;inset:auto 0 0;padding:30px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.55));font-size:.8rem;letter-spacing:.06em;text-align:left}
 
 /* Preguntas y contacto */
@@ -397,6 +422,14 @@ dialog.ficha[open]::backdrop{animation:fondo .35s ease}
   .tipos{grid-template-columns:1fr 1fr}
   .tipo small{display:none}
   .galeria{grid-template-columns:repeat(2,1fr)}
+  .deco{min-height:420px}
+  .deco .tx{padding:40px 0}
+  .deco .dibujo{display:none}
+  .finder button[type=submit] span{display:none}
+  .finder button[type=submit]{padding:0 16px}
+  .chips{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin:16px -20px 0;padding:0 20px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none}
   .fotos-cli{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:28px -20px 0;padding:0 20px;scrollbar-width:none}
   .fotos-cli::-webkit-scrollbar{display:none}
   .cli{flex:0 0 72%;scroll-snap-align:center}
@@ -445,6 +478,7 @@ const CONFIG = {
   logoBloque: "imagenes/logo-bloque.png", // logo con flor blanca para fondos turquesa (pie de página)
   fotoPortada: "imagenes/portada.jpg", // foto principal: el equipo de Springis
   fotoHistoria: "imagenes/historia.jpg", // foto de la sección «Nuestra historia»
+  fotoDecoracion: "", // foto HORIZONTAL grande de una decoración (franja bajo «Clientes felices»); vacía = franja turquesa con dibujo
   fotosClientes: ["imagenes/clientes/cliente-1.jpg", "imagenes/clientes/cliente-2.jpg", "imagenes/clientes/cliente-3.jpg"], // sección «Clientes felices»; para agregar más, sube la foto a imagenes/clientes/ y añádela aquí
   fotosCategorias: {},         // ej. {ramilletes:"imagenes/cat-ramilletes.jpg"}; sin foto se usa la del primer producto
   whatsapp: "584144980997",    // 0414-4980997
@@ -480,6 +514,15 @@ const EVENTOS = [
 ];
 const SERVICIOS = ["Centros de mesa", "Ramo de novia", "Arco o pared floral", "Mesa principal", "Iglesia o ceremonia", "Stand de ramilletes", "Flores para la torta", "Boutonnieres y corsages"];
 const PRESUPUESTOS = ["Menos de $100", "$100 a $300", "$300 a $600", "Más de $600", "Aún no lo sé"];
+
+// Buscador: atajos que se muestran debajo del campo y palabras que se buscan juntas
+const SUGERENCIAS = ["Rosas", "Girasoles", "Primaverales", "Con chocolate", "Con billetes", "En caja", "Bolsitas", "Claveles", "Lirios"];
+const SINONIMOS = {chocolate:["chocolate","ferrero"], caja:["caja","box","cajita"], cajita:["caja","box","cajita"], box:["caja","box","cajita"], girasoles:["girasol"], girasol:["girasol"], rosas:["rosa"], rosa:["rosa"], claveles:["clavel","clavellina"], lirios:["lirio"], bolsitas:["bolsita","sobre"], bolsita:["bolsita","sobre"], primaverales:["primaver"], primaveral:["primaver"], billetes:["billete"]};
+const VACIAS = ["con","en","de","la","el","los","las","un","una","y","para","que"];
+function coincide(texto, consulta){
+  const t = norm(texto), ps = norm(consulta).split(/\s+/).filter(w => w && !VACIAS.includes(w));
+  return ps.every(w => (SINONIMOS[w] || [w]).some(x => t.includes(x)));
+}
 
 const FAQ = [
   ["¿Cómo pago mi pedido?", "Puedes abonar el 50 % para agendarlo y pagar el resto antes del envío, o pagarlo completo. Aceptamos pago móvil en bolívares a tasa euro del BCV, Zelle y efectivo."],
@@ -624,7 +667,7 @@ function tarjeta(p){
 }
 function secciones(){
   const base = vendibles();
-  const filtrados = busqueda ? base.filter(p => norm(p.n + " " + p.d + " " + ((CATS.find(c => c.id === p.c) || {}).n || "")).includes(norm(busqueda))) : base;
+  const filtrados = busqueda ? base.filter(p => coincide(p.n + " " + p.d + " " + ((CATS.find(c => c.id === p.c) || {}).n || ""), busqueda)) : base;
   const out = [];
   const ofertas = filtrados.filter(p => p.antes != null);
   if (ofertas.length && !busqueda) out.push({id:"ofertas", n:"Ofertas", items:ofertas});
@@ -653,6 +696,19 @@ function galeria(){
   if (!fotos.length) return "";
   return `<p class="kick">Algunos eventos que hemos decorado</p><div class="galeria">${fotos.map(p => `<button class="gal" data-gal="${p.id}" aria-label="${esc(p.n)}: quiero algo así"><img src="${esc(p.imgs[0])}" alt="" loading="lazy"><span>${esc(p.n)}</span></button>`).join("")}</div>`;
 }
+function decoracion(){
+  const f = CONFIG.fotoDecoracion;
+  return `<section class="deco${f ? " con-foto" : ""}" id="decoraciones">
+    <div class="fondo">${f ? `<img src="${esc(f)}" alt="Decoración de un evento hecha por Springis" loading="lazy">` : ""}</div>
+    ${f ? "" : `<div class="dibujo">${RAMA}</div>`}
+    <div class="wrap" style="width:100%"><div class="tx">
+      <p class="kick">Decoración de eventos</p>
+      <h2>Bodas, graduaciones, bautizos y más</h2>
+      <p class="sub">Decoramos tus momentos más importantes con flores frescas. Cuéntanos tu idea y te enviamos una propuesta sin compromiso.</p>
+      <div class="acc"><a class="btn${f ? "" : ""}" href="#cotizar">Cotizar evento ${FLECHA}</a><button class="btn blanco" data-ir="eventos">Ver más</button></div>
+    </div></div>
+  </section>`;
+}
 function clientes(){
   const fotos = CONFIG.fotosClientes || [];
   if (!fotos.length) return "";
@@ -674,9 +730,18 @@ function vistaInicio(){
     </div></div>
   </section>
 
-  <section class="bloque centro"><div class="wrap">
-    <p class="kick">Compra por categoría</p>
-    <h2 class="titulo">Flores para cada momento</h2>
+  ${clientes()}
+
+  ${decoracion()}
+
+  <section class="bloque centro" id="buscador"><div class="wrap">
+    <p class="kick">Encuentra tu arreglo</p>
+    <h2 class="titulo">¿Qué estás buscando?</h2>
+    <div class="finder">
+      <form id="formBuscar" role="search"><input type="search" id="buscar2" placeholder="Rosas, girasoles, con chocolate..." aria-label="¿Qué tipo de arreglo buscas?" autocomplete="off" enterkeyhint="search"><button type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Buscar</span></button></form>
+      <div class="chips">${SUGERENCIAS.map(x => `<button class="chip" data-buscar="${esc(x)}">${esc(x)}</button>`).join("")}</div>
+    </div>
+    <h3 class="cats-tit">O mira por categoría</h3>
     <div class="cats">${categorias()}</div>
   </div></section>
 
@@ -702,8 +767,6 @@ function vistaInicio(){
   </section>
 
   <section class="franja"><ul class="wrap">${BENEFICIOS.map(b => `<li>${ICONOS[b.i] || ""}<b>${esc(b.t)}</b><small>${esc(b.d)}</small></li>`).join("")}</ul></section>
-
-  ${clientes()}
 
   <section class="bloque" id="eventos" data-sec="eventos"><div class="wrap">
     <div class="centro"><p class="kick">Decoración de eventos</p><h2 class="titulo">Llevamos flores a tus momentos más importantes</h2>
@@ -1006,8 +1069,9 @@ function marcarTab(id){
 
 /* ===== Eventos de la página ===== */
 document.addEventListener("click", ev => {
-  const t = ev.target.closest("[data-mas],[data-menos],[data-abrir],[data-ir],[data-tipo],[data-gal],[data-copiar],#limpiar,#quitarRef,#inicio,#cartBtn,#barra,#lupa,#menuBtn");
+  const t = ev.target.closest("[data-buscar],[data-mas],[data-menos],[data-abrir],[data-ir],[data-tipo],[data-gal],[data-copiar],#limpiar,#quitarRef,#inicio,#cartBtn,#barra,#lupa,#menuBtn");
   if (!t) return;
+  if (t.dataset.buscar){ buscarDesde(t.dataset.buscar); return; }
   if (t.dataset.mas){ ev.stopPropagation(); cambiar(t.dataset.mas, 1); if ($("#ficha").open) $("#fPie").innerHTML = pieFicha(PRODUCTOS.find(p => p.id == t.dataset.mas)); return; }
   if (t.dataset.menos){ ev.stopPropagation(); cambiar(t.dataset.menos, -1); if ($("#ficha").open) $("#fPie").innerHTML = pieFicha(PRODUCTOS.find(p => p.id == t.dataset.menos)); return; }
   if (t.dataset.abrir) return abrirFicha(t.dataset.abrir);
@@ -1042,9 +1106,16 @@ document.addEventListener("change", ev => {
 });
 document.addEventListener("submit", ev => {
   ev.preventDefault();
+  if (ev.target.id === "formBuscar"){ buscarDesde($("#buscar2").value); return; }
   if (ev.target.id === "formPedido") enviarPedido();
   if (ev.target.id === "formCot") enviarCot();
 });
+function buscarDesde(texto){
+  busqueda = String(texto || "").trim();
+  const b = $("#buscar"); if (b) b.value = busqueda;
+  const b2 = $("#buscar2"); if (b2){ b2.value = busqueda; b2.blur(); }
+  pintarZona(); irA("catalogo");
+}
 function pintarZona(){
   $("#zona").innerHTML = zona(); $("#tabs").innerHTML = tabs();
   const b = $(".buscar"), l = $("#limpiar");
